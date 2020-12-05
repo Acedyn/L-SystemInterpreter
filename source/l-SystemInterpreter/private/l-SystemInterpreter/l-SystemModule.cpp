@@ -1,17 +1,20 @@
-#include "L-SystemInterpreter/l-SystemModule.h"
+#include "l-SystemInterpreter/l-SystemModule.h"
+#include "l-SystemInterpreter/l-SystemCondition.h"
 
-LSystemModule::LSystemModule(char _name, std::vector<char> _formalParameters)
-{
-    name = _name;
-    formalParameters = _formalParameters;
-}
+LSystemModule::LSystemModule(char _name, const char* _formalParameters) :
+    name(_name),
+    formalParameters(_formalParameters) {  }
 
-bool LSystemModule::testCondition()
-{
-    return true;
-}
-
-bool LSystemModule::testSideCondition(LSystemModule sideModule)
+bool LSystemModule::matchCondition(LSystemCondition _lSystemCondition)
 {
     return true;
+}
+
+bool LSystemModule::operator==(const LSystemModule& _other) const
+{
+    if(name == _other.name && formalParameters == _other.formalParameters)
+    {
+        return true;
+    }
+    return false;
 }

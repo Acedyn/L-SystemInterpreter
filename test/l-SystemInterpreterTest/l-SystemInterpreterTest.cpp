@@ -1,9 +1,13 @@
 #include "l-SystemInterpreterTest.h"
+#include "l-SystemInterpreter/l-SystemModule.h"
 
 #include <iostream>
 
 int main()
 {
-    std::cout << "test successfull" << std::endl;
+    LSystemModule lSystemModule('A', "xyz");
+    std::cout << "Module : " << lSystemModule.name << " formalParameters : " << lSystemModule.formalParameters << std::endl;
+
+    std::cout << "\ntest successfull" << std::endl;
     std::cin.get();
 }

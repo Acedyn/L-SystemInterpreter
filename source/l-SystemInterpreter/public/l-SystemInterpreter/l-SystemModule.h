@@ -1,17 +1,17 @@
 #pragma once
 
+#include <string>
 #include <vector>
 
 class LSystemModule
 {
 public:
-    LSystemModule(char _name, std::vector<char> _formalParameters);
+    LSystemModule(char _name, const char* _formalParameters);
+    ~LSystemModule() {  }
     
-    bool testCondition();
-    bool testSideCondition(LSystemModule sideModule);
+    bool matchCondition(class LSystemCondition _lSystemCondition);
+    bool operator==(const LSystemModule& _other) const;
 
-private:
     char name;
-    std::vector<char> formalParameters;
-    
+    const char* formalParameters;
 };
