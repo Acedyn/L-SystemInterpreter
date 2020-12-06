@@ -1,17 +1,29 @@
 #pragma once
 
-#include <string>
 #include <vector>
 
 class LSystemModule
 {
 public:
-    LSystemModule(char _name, const char* _formalParameters);
-    ~LSystemModule() {  }
+    // Constructors / desctructors
+    LSystemModule(char _name);
+    LSystemModule(char _name, std::vector<char> _formalParameters);
+    LSystemModule(char _name, std::vector<float> _parameterValues);
+    LSystemModule(char _name, std::vector<char> _formalParameters, std::vector<float> _parameterValues);
+    ~LSystemModule() { }
     
-    bool matchCondition(class LSystemCondition _lSystemCondition);
+    // Operators
     bool operator==(const LSystemModule& _other) const;
 
+    // Setters / getters
+    void setFormalParameters(std::vector<char> _formalParameters);
+    void setParametersValues(std::vector<float> _parameterValues);
+    std::vector<char> getFormalParameters() { return formalParameters; }
+    std::vector<float> getParameterValues() { return parameterValues; }
+
+private:
+    // Private variables
     char name;
-    const char* formalParameters;
+    std::vector<char> formalParameters;
+    std::vector<float> parameterValues;
 };

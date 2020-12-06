@@ -1,18 +1,41 @@
 #include "l-SystemInterpreter/l-SystemCondition.h"
+#include "l-SystemInterpreter/l-SystemModule.h"
 
-LSystemCondition::LSystemCondition(const char* _condition) :
-    condition(_condition) {  }
-
-bool LSystemCondition::matchModule()
+////////////////////////////////////////
+// Constructors / desctructors
+////////////////////////////////////////
+LSystemCondition::LSystemCondition(std::string _expression)
 {
-    return true;
+    setExpression(_expression);
 }
 
+
+////////////////////////////////////////
+// Operators
+////////////////////////////////////////
 bool LSystemCondition::operator==(const LSystemCondition& _other) const
 {
-    if(condition == _other.condition)
+    if(expression == _other.getExpression())
     {
         return true;
     }
     return false;
+}
+
+
+////////////////////////////////////////
+// Getters / setters
+////////////////////////////////////////
+void LSystemCondition::setExpression(std::string _expression)
+{
+    expression = _expression;
+}
+
+
+////////////////////////////////////////
+// Public functions
+////////////////////////////////////////
+bool parseExpression(LSystemModule _module)
+{
+    return true;
 }

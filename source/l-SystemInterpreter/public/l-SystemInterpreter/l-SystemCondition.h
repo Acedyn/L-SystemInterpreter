@@ -1,14 +1,26 @@
 #pragma once
 
+#include <string>
+
 class LSystemCondition
 {
 public:
-    LSystemCondition(const char* _condition);
+    // Constructors / desctructors
+    LSystemCondition(std::string _expression);
     ~LSystemCondition() { }
 
-    bool matchModule();
-
+    // Operators
     bool operator==(const LSystemCondition& _other) const;
-    
-    const char* condition;
+
+    // Getters / setters
+    void setExpression(std::string _expression);
+    std::string getExpression() const { return expression; }
+
+    // Public functions
+    bool parseExpression(class LSystemModule _module);
+
+
+private:
+    // Private variables
+    std::string expression;
 };
