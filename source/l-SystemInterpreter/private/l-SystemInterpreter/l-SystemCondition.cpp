@@ -65,6 +65,12 @@ float LSystemCondition::parseNumber()
     return result;
 }
 
+float LSystemCondition::parseParameter()
+{
+    float result = 0;
+    return result;
+}
+
 float LSystemCondition::parseOperatorLvl1()
 {
     float result = parseNumber();
