@@ -20,6 +20,7 @@ public:
     void setParametersValues(std::vector<float> _parameterValues);
     std::vector<char> getFormalParameters() { return formalParameters; }
     std::vector<float> getParameterValues() { return parameterValues; }
+    char getName() { return name; }
 
 private:
     // Private variables
