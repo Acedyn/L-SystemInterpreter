@@ -3,6 +3,7 @@
 #include "l-SystemInterpreter/l-SystemCondition.h"
 #include "l-SystemInterpreter/l-SystemRule.h"
 #include "l-SystemInterpreter/l-SystemWord.h"
+#include "l-SystemInterpreter/l-System.h"
 
 #include <iostream>
 
@@ -13,6 +14,8 @@ int main()
     lSystemCondition.parseExpression(lSystemModuleRule);
     LSystemRule lSystemRule(&lSystemModuleRule);
     LSystemWord lSystemWord("F(5884, 5)A^+=P(4,4410),R");
+    LSystem lSystem(&lSystemWord);
+
 
     std::cout << "\ntest successfull" << std::endl;
     std::cin.get();

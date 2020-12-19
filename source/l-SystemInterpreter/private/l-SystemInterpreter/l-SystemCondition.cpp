@@ -43,7 +43,6 @@ bool LSystemCondition::parseExpression(LSystemModule _module)
     if(expression.empty()) { return false; }
     expressionIterator = expression.begin();
     float result = parseOperatorLvl4();
-    std::cout << result << std::endl;
     return true;
 }
 

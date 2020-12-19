@@ -34,30 +34,20 @@ void LSystemWord::appendCommand(char _command)
 ////////////////////////////////////////
 void LSystemWord::parseWord(std::string _word)
 {
-    std::cout << "Parsing word" << std::endl;
     // Loop over all the characters
     for(std::string::iterator wordIterator = _word.begin(); wordIterator != _word.end(); wordIterator++)
     {
         // If the character is a module
         if(isalpha(*wordIterator))
         {
-            std::cout << "Parsing module" << std::endl;
             LSystemModule newModule = parseModule(wordIterator);
             appendModule(&newModule);
-            std::cout << newModule.getName();
             std::vector<float> newModuleParameterValues = newModule.getParameterValues();
-            for(float newModuleParameter : newModuleParameterValues)
-            {
-                std::cout << " " << newModuleParameter << ",";
-            }
-            std::cout << " parsed" << std::endl;
         }
         // If the character is a command
         else
         {
-            std::cout << "Parsing command" << std::endl;
             appendCommand(*wordIterator);
-            std::cout << *wordIterator << " parsed" << std::endl;
         }
     }
 }
