@@ -48,7 +48,7 @@ void LSystemWord::parseWord(std::string _word)
             std::vector<float> newModuleParameterValues = newModule.getParameterValues();
             for(float newModuleParameter : newModuleParameterValues)
             {
-                std::cout << " " << newModuleParameter;
+                std::cout << " " << newModuleParameter << ",";
             }
             std::cout << " parsed" << std::endl;
         }
@@ -62,18 +62,20 @@ void LSystemWord::parseWord(std::string _word)
     }
 }
 
-LSystemModule LSystemWord::parseModule(std::string::iterator& _character)
+LSystemModule LSystemWord::parseModule(std::string::iterator& _characterIterator)
 {
     // The name of the module
-    char name = *_character;
+    char name = *_characterIterator;
     // The parameters values of the module
     std::vector<float> parameterValues;
 
+    // Iterate the character to see if the module does have parameters
+    _characterIterator++;
     // If the module doesn't have parameters
-    if(*(_character++) != '(')
+    if(*_characterIterator != '(')
     {
         // Cancel the last iteration
-        _character--;
+        _characterIterator--;
         // Return module with just a name
         return LSystemModule(name);
     }
@@ -82,20 +84,24 @@ LSystemModule LSystemWord::parseModule(std::string::iterator& _character)
     {
         float parameterValue = 0;
         // Loop over all the caracters until the end of the parameters
-        while(*(_character++) != ')')
+        while(*(_characterIterator++) != ')')
         {
             // If the caracter is a number
-            if(!isdigit(*_character)) 
+            if(isdigit(*_characterIterator)) 
             {
-                parameterValue = (parameterValue * 10) + (static_cast<int>(*_character) - 48);
+                parameterValue = (parameterValue * 10) + (static_cast<float>(*_characterIterator) - 48);
             }
             // If the caracter is a comma wich mark a new parameter
-            else if(*_character == ',')
+            else if(*_characterIterator == ',')
             {
                 parameterValues.emplace_back(parameterValue);
                 parameterValue = 0;
             }
         }
+        parameterValues.emplace_back(parameterValue);
     }
+    // Cancel the last iteration;
+    _characterIterator--;
+    // Return the final module
     return LSystemModule(name, parameterValues);
 }
