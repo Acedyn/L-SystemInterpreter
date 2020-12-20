@@ -1,30 +1,15 @@
 #include "l-SystemInterpreter/l-SystemRule.h"
 #include "l-SystemInterpreter/l-SystemCondition.h"
 #include "l-SystemInterpreter/l-SystemModule.h"
+#include "l-SystemInterpreter/l-SystemWord.h"
 
 ////////////////////////////////////////
 // Constructors / desctructors
 ////////////////////////////////////////
-LSystemRule::LSystemRule(LSystemModule* _mainModule)
+LSystemRule::LSystemRule(LSystemModule* _mainModule, LSystemWord* _derivativeWord, LSystemCondition* _mainCondition, float _probabilityFactor)
 {
     mainModule = _mainModule;
-}
-
-LSystemRule::LSystemRule(LSystemModule* _mainModule, LSystemCondition* _mainCondition)
-{
-    mainModule = _mainModule;
-    setMainCondition(_mainCondition);
-}
-
-LSystemRule::LSystemRule(LSystemModule* _mainModule, float _probabilityFactor)
-{
-    mainModule = _mainModule;
-    setProbabilityFactor(_probabilityFactor);
-}
-
-LSystemRule::LSystemRule(LSystemModule* _mainModule, LSystemCondition* _mainCondition, float _probabilityFactor)
-{
-    mainModule = _mainModule;
+    setDerivativeWord(_derivativeWord);
     setMainCondition(_mainCondition);
     setProbabilityFactor(_probabilityFactor);
 }
@@ -51,4 +36,9 @@ void LSystemRule::setLeftConditionModule(LSystemModule* _leftConditionModule)
 void LSystemRule::setRightConditionModule(LSystemModule* _rightConditionModule)
 {
     rightConditionModule = _rightConditionModule;
+}
+
+void LSystemRule::setDerivativeWord(LSystemWord* _derivativeWord)
+{
+    derivativeWord = _derivativeWord;
 }

@@ -17,6 +17,6 @@ int main()
     LSystem lSystem(&lSystemWord);
 
 
-    std::cout << "\ntest successfull" << std::endl;
+    std::cout << "\ntest completed" << std::endl;
     std::cin.get();
 }

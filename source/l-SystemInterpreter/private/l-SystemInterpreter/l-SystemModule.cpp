@@ -1,6 +1,7 @@
 #include "l-SystemInterpreter/l-SystemModule.h"
 #include "l-SystemInterpreter/l-SystemCondition.h"
 
+#include <iostream>
 #include <ctype.h>
 
 ////////////////////////////////////////
@@ -63,6 +64,11 @@ void LSystemModule::setFormalParameters(std::vector<char> _formalParameters)
     {
         isValidParameters = false;
     }
+    // If there is no values, we initialize the values to null
+    else if(isValidParameters)
+    {
+        parameterValues = std::vector<float>(0.0f, _formalParameters.size());
+    }
 
     if(isValidParameters) { formalParameters = _formalParameters; }
 }
@@ -75,6 +81,17 @@ void LSystemModule::setParametersValues(std::vector<float> _parameterValues)
     if(!(formalParameters.empty()) && formalParameters.size() != _parameterValues.size())
     {
         isValidValues = false;
+    }
+    // If there is no parameters set we initialize them
+    else if(formalParameters.empty())
+    {
+        formalParameters.reserve(_parameterValues.size());
+        char parameterName = 'a';
+        for(float _parameterValue : _parameterValues)
+        {
+            formalParameters.emplace_back(parameterName);
+            parameterName++;
+        }
     }
 
     if(isValidValues) { parameterValues = _parameterValues; }
