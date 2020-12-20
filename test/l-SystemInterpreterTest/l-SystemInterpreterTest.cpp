@@ -16,6 +16,18 @@ int main()
     LSystemWord lSystemWord("F(5884, 5)A^+=P(4,4410),R");
     LSystem lSystem(&lSystemWord);
 
+    std::vector<LSystemModule> wordModules = lSystemWord.getModules();
+    for(LSystemModule wordModule : wordModules)
+    {
+        std::cout << wordModule.getName() << " ";
+        std::vector<float> moduleParameters = wordModule.getParameterValues();
+        for(float moduleParameter : moduleParameters)
+        {
+            std::cout << moduleParameter << " ";
+        }
+        std::cout << std::endl;
+    }
+
 
     std::cout << "\ntest completed" << std::endl;
     std::cin.get();

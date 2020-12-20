@@ -22,18 +22,12 @@ public:
 
     // Getters / setters / append
     void appendModule(LSystemModule _module);
-    void appendCommand(char _command);
-    std::vector<wordComponent> getComponents() { return components; }
     std::vector<LSystemModule> getModules() { return modules; }
-    std::vector<char> getCommands() { return commands; }
 
 private:
     // Private functions
     void parseWord(std::string _word);
-    LSystemModule parseModule(std::string::iterator& _character);
 
     // Private variables
-    std::vector<wordComponent> components;
     std::vector<LSystemModule> modules;
-    std::vector<char> commands;
 };

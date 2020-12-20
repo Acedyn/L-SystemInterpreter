@@ -13,9 +13,6 @@ LSystemWord::LSystemWord(std::string _word)
 }
 LSystemWord::LSystemWord(LSystemWord& _lSystemWord)
 {
-    // We copy the input word's member variables
-    components = _lSystemWord.getComponents();
-    commands = _lSystemWord.getCommands();
     // For the modules we need to copy them one by one to make sure we have two separate copies
     for(LSystemModule _module : _lSystemWord.getModules())
     {
@@ -29,14 +26,7 @@ LSystemWord::LSystemWord(LSystemWord& _lSystemWord)
 ////////////////////////////////////////
 void LSystemWord::appendModule(LSystemModule _module)
 {
-    components.emplace_back(wordComponent::MODULE);
     modules.emplace_back(_module);
-}
-
-void LSystemWord::appendCommand(char _command)
-{
-    components.emplace_back(wordComponent::COMMAND);
-    commands.emplace_back(_command);
 }
 
 
@@ -45,64 +35,46 @@ void LSystemWord::appendCommand(char _command)
 ////////////////////////////////////////
 void LSystemWord::parseWord(std::string _word)
 {
-    // Loop over all the characters
-    for(std::string::iterator wordIterator = _word.begin(); wordIterator != _word.end(); wordIterator++)
+    // Loop over all the modules of the word
+    for(std::string::iterator _wordIterator = _word.begin(); _wordIterator != _word.end(); _wordIterator++)
     {
-        // If the character is a module
-        if(isalpha(*wordIterator))
+        // The name of the module
+        char name = *_wordIterator;
+        // The parameters values of the module
+        std::vector<float> parameterValues;
+
+        // Iterate the character to see if the module does have parameters
+        _wordIterator++;
+        // If the module doesn't have parameters
+        if(*_wordIterator != '(')
         {
-            LSystemModule newModule = parseModule(wordIterator);
-            appendModule(newModule);
-            std::vector<float> newModuleParameterValues = newModule.getParameterValues();
+            // Store a module with just a name
+            appendModule(LSystemModule(name));
         }
-        // If the character is a command
+        // If the module does have parameters
         else
         {
-            appendCommand(*wordIterator);
-        }
-    }
-}
-
-LSystemModule LSystemWord::parseModule(std::string::iterator& _characterIterator)
-{
-    // The name of the module
-    char name = *_characterIterator;
-    // The parameters values of the module
-    std::vector<float> parameterValues;
-
-    // Iterate the character to see if the module does have parameters
-    _characterIterator++;
-    // If the module doesn't have parameters
-    if(*_characterIterator != '(')
-    {
-        // Cancel the last iteration
-        _characterIterator--;
-        // Return module with just a name
-        return LSystemModule(name);
-    }
-    // If the module does have parameters
-    else
-    {
-        float parameterValue = 0;
-        // Loop over all the caracters until the end of the parameters
-        while(*(_characterIterator++) != ')')
-        {
-            // If the caracter is a number
-            if(isdigit(*_characterIterator)) 
+            float parameterValue = 0;
+            // Loop over all the caracters until the end of the parameters
+            while(*(_wordIterator++) != ')')
             {
-                parameterValue = (parameterValue * 10) + (static_cast<float>(*_characterIterator) - 48);
+                // If the caracter is a number
+                if(isdigit(*_wordIterator)) 
+                {
+                    parameterValue = (parameterValue * 10) + (static_cast<float>(*_wordIterator) - 48);
+                }
+                // If the caracter is a comma wich mark a new parameter
+                else if(*_wordIterator == ',')
+                {
+                    parameterValues.emplace_back(parameterValue);
+                    parameterValue = 0;
+                }
             }
-            // If the caracter is a comma wich mark a new parameter
-            else if(*_characterIterator == ',')
-            {
-                parameterValues.emplace_back(parameterValue);
-                parameterValue = 0;
-            }
+            parameterValues.emplace_back(parameterValue);
         }
-        parameterValues.emplace_back(parameterValue);
+        // Undo the last iteration
+        _wordIterator--;
+        // Store the module
+        appendModule(LSystemModule(name, parameterValues));
     }
-    // Cancel the last iteration;
-    _characterIterator--;
-    // Return the final module
-    return LSystemModule(name, parameterValues);
 }
