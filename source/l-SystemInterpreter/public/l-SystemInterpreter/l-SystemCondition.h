@@ -6,6 +6,7 @@ class LSystemCondition
 {
 public:
     // Constructors / desctructors
+    LSystemCondition() {  }
     LSystemCondition(std::string _expression);
     ~LSystemCondition() { }
 

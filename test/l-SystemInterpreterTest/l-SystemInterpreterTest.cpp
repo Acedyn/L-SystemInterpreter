@@ -12,7 +12,7 @@ int main()
     LSystemModule lSystemModuleRule('A', std::vector<char>{'x', 'y', 'z'});
     LSystemCondition lSystemCondition(std::string("2+54*3-29+8^3"));
     lSystemCondition.parseExpression(lSystemModuleRule);
-    LSystemRule lSystemRule(&lSystemModuleRule);
+    LSystemRule lSystemRule(lSystemModuleRule);
     LSystemWord lSystemWord("F(5884, 5)A^+=P(4,4410),R");
     LSystem lSystem(&lSystemWord);
 

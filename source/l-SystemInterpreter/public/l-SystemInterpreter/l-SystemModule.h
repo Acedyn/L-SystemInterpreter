@@ -6,10 +6,10 @@ class LSystemModule
 {
 public:
     // Constructors / desctructors
-    LSystemModule(char _name);
+    LSystemModule() : name('\0') {  }
+    LSystemModule(char _name) : name('\0') {  }
     LSystemModule(char _name, std::vector<char> _formalParameters);
     LSystemModule(char _name, std::vector<float> _parameterValues);
-    LSystemModule(char _name, std::vector<char> _formalParameters, std::vector<float> _parameterValues);
     ~LSystemModule() { }
     
     // Operators

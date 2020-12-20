@@ -7,8 +7,6 @@
 ////////////////////////////////////////
 // Constructors / desctructors
 ////////////////////////////////////////
-LSystemModule::LSystemModule(char _name) : name(_name) { }
-
 LSystemModule::LSystemModule(char _name, std::vector<char> _formalParameters) :
     name(_name)
 {
@@ -18,13 +16,6 @@ LSystemModule::LSystemModule(char _name, std::vector<char> _formalParameters) :
 LSystemModule::LSystemModule(char _name, std::vector<float> _parameterValues) :
     name(_name)
 {
-    setParametersValues(_parameterValues);
-}
-
-LSystemModule::LSystemModule(char _name, std::vector<char> _formalParameters, std::vector<float> _parameterValues) :
-    name(_name)
-{
-    setFormalParameters(_formalParameters);
     setParametersValues(_parameterValues);
 }
 

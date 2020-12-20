@@ -18,6 +18,7 @@ public:
     // Constructors / desctructors
     LSystemWord(std::string _word);
     LSystemWord(LSystemWord& _lSystemWord);
+    ~LSystemWord() {  }
 
     // Getters / setters / append
     void appendModule(LSystemModule _module);

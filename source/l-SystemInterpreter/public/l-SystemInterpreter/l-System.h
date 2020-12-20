@@ -9,6 +9,7 @@ public:
     // Constructors / desctructors
     LSystem(class LSystemWord* _axiom);
     LSystem(class LSystemWord* axiom, std::vector<class LSystemRule*> _rules);
+    ~LSystem() {  }
 
     // Setters / getters
     void appendRule(class LSystemRule* _rule);
