@@ -1,5 +1,4 @@
 #include "l-SystemInterpreter/l-SystemWord.h"
-#include "l-SystemInterpreter/l-SystemModule.h"
 
 #include <iostream>
 #include "ctype.h"
@@ -9,14 +8,26 @@
 ////////////////////////////////////////
 LSystemWord::LSystemWord(std::string _word)
 {
+    // We parse the input string into modules of commands
     parseWord(_word);
+}
+LSystemWord::LSystemWord(LSystemWord& _lSystemWord)
+{
+    // We copy the input word's member variables
+    components = _lSystemWord.getComponents();
+    commands = _lSystemWord.getCommands();
+    // For the modules we need to copy them one by one to make sure we have two separate copies
+    for(LSystemModule _module : _lSystemWord.getModules())
+    {
+        modules.emplace_back(_module);
+    }
 }
 
 
 ////////////////////////////////////////
 // Getters / setters / append
 ////////////////////////////////////////
-void LSystemWord::appendModule(LSystemModule* _module)
+void LSystemWord::appendModule(LSystemModule _module)
 {
     components.emplace_back(wordComponent::MODULE);
     modules.emplace_back(_module);
@@ -41,7 +52,7 @@ void LSystemWord::parseWord(std::string _word)
         if(isalpha(*wordIterator))
         {
             LSystemModule newModule = parseModule(wordIterator);
-            appendModule(&newModule);
+            appendModule(newModule);
             std::vector<float> newModuleParameterValues = newModule.getParameterValues();
         }
         // If the character is a command

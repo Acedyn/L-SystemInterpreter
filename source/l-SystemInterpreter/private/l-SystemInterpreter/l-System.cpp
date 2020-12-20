@@ -10,7 +10,10 @@ LSystem::LSystem(LSystemWord* _axiom) : axiom(_axiom) {  }
 
 LSystem::LSystem(LSystemWord* _axiom, std::vector<LSystemRule*> _rules) : 
     axiom(_axiom),
-    rules(_rules) {  }
+    rules(_rules) 
+{  
+    outputWord = new LSystemWord(*_axiom);
+}
 
 
 ////////////////////////////////////////

@@ -1,4 +1,5 @@
 #pragma once
+#include "l-SystemInterpreter/l-SystemModule.h"
 
 #include <string>
 #include <vector>
@@ -16,18 +17,22 @@ public:
 
     // Constructors / desctructors
     LSystemWord(std::string _word);
+    LSystemWord(LSystemWord& _lSystemWord);
 
     // Getters / setters / append
-    void appendModule(class LSystemModule* _module);
+    void appendModule(LSystemModule _module);
     void appendCommand(char _command);
+    std::vector<wordComponent> getComponents() { return components; }
+    std::vector<LSystemModule> getModules() { return modules; }
+    std::vector<char> getCommands() { return commands; }
 
 private:
     // Private functions
     void parseWord(std::string _word);
-    class LSystemModule parseModule(std::string::iterator& _character);
+    LSystemModule parseModule(std::string::iterator& _character);
 
     // Private variables
     std::vector<wordComponent> components;
-    std::vector<class LSystemModule*> modules;
+    std::vector<LSystemModule> modules;
     std::vector<char> commands;
 };
