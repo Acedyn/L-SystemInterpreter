@@ -26,3 +26,9 @@ if(MINGW)
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/binaries/l-SystemInterpreterTest/mingw")
 endif(MINGW)
 
+if(UNIX)
+    set_target_properties(l-SystemInterpreterTest
+    PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/binaries/l-SystemInterpreterTest/unix")
+endif(UNIX)
+
