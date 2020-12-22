@@ -71,10 +71,10 @@ void LSystemWord::parseWord(std::string _word)
                 }
             }
             parameterValues.emplace_back(parameterValue);
+        // Store the module
+        appendModule(LSystemModule(name, parameterValues));
         }
         // Undo the last iteration
         _wordIterator--;
-        // Store the module
-        appendModule(LSystemModule(name, parameterValues));
     }
 }

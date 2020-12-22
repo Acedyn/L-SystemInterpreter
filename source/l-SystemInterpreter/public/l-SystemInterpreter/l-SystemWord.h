@@ -4,6 +4,9 @@
 #include <string>
 #include <vector>
 
+#include <iostream>
+
+// Iterator for LSystemWord
 class LSystemWordIterator
 {
 public:
@@ -33,7 +36,20 @@ public:
         lSystemModule--;
         return _iterator;
     }
+    bool operator==(LSystemWordIterator _lSystemWordIterator)
+    {
+        return lSystemModule == *_lSystemWordIterator;
+    }
+    bool operator!=(LSystemWordIterator _lSystemWordIterator)
+    {
+        return lSystemModule != *_lSystemWordIterator;
+    }
+    LSystemModule* operator*()
+    {
+        return lSystemModule;
+    }
     
+
 
 private:
     LSystemModule* lSystemModule; 
