@@ -10,13 +10,17 @@
 int main()
 {
     LSystemModule lSystemModuleRule('F', std::vector<char>{'x', 'y'});
+    LSystemModule rule2MainModule('A');
     LSystemCondition lSystemCondition(std::string("2+54*3-29+8^3"));
     lSystemCondition.parseExpression(lSystemModuleRule);
     LSystemRule lSystemRule(lSystemModuleRule);
+    LSystemRule rule2(rule2MainModule);
+    rule2.setDerivativeWord(new LSystemWord("AR^++"));
     lSystemRule.setDerivativeWord(new LSystemWord(std::string("P(5)F(3, 6)")));
     LSystemWord lSystemWord("F(5884, 5)A^+=P(4,4410),R");
     LSystem lSystem(&lSystemWord);
     lSystem.appendRule(&lSystemRule);
+    lSystem.appendRule(&rule2);
     lSystem.iterate();
 
     LSystemWord* outputWord = lSystem.getOutputWord();
