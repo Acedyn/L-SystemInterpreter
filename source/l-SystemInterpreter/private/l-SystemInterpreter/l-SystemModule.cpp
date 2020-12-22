@@ -25,7 +25,16 @@ LSystemModule::LSystemModule(char _name, std::vector<float> _parameterValues) :
 ////////////////////////////////////////
 bool LSystemModule::operator==(const LSystemModule& _other) const
 {
-    if(name == _other.name && formalParameters == _other.formalParameters)
+    if(name == _other.name && formalParameters.size() == _other.formalParameters.size())
+    {
+        return true;
+    }
+    return false;
+}
+
+bool LSystemModule::operator!=(const LSystemModule& _other) const
+{
+    if(name != _other.name || formalParameters.size() != _other.formalParameters.size())
     {
         return true;
     }
@@ -77,7 +86,7 @@ void LSystemModule::setParametersValues(std::vector<float> _parameterValues)
     else if(formalParameters.empty())
     {
         formalParameters.reserve(_parameterValues.size());
-        char parameterName = 'a';
+        char parameterName = '\0';
         for(float _parameterValue : _parameterValues)
         {
             formalParameters.emplace_back(parameterName);

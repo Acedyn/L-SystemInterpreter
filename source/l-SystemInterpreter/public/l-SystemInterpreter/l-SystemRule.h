@@ -15,6 +15,8 @@ public:
     void setLeftConditionModule(LSystemModule _leftConditionModule);
     void setRightConditionModule(LSystemModule _rightConditionModule);
     void setDerivativeWord(class LSystemWord* _derivativeWord);
+    LSystemModule getMainModule() { return mainModule; }
+    LSystemWord* getDerivativeWord() { return derivativeWord; }
     
 private:
     // Private variables

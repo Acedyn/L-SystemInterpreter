@@ -14,6 +14,7 @@ public:
     
     // Operators
     bool operator==(const LSystemModule& _other) const;
+    bool operator!=(const LSystemModule& _other) const;
 
     // Setters / getters
     void setFormalParameters(std::vector<char> _formalParameters);

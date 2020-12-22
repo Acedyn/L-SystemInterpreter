@@ -4,8 +4,6 @@
 #include <string>
 #include <vector>
 
-#include <iostream>
-
 // Iterator for LSystemWord
 class LSystemWordIterator
 {
@@ -70,12 +68,14 @@ public:
     using Iterator = LSystemWordIterator;
 
     // Constructors / desctructors
+    LSystemWord() {  }
     LSystemWord(std::string _word);
     LSystemWord(LSystemWord& _lSystemWord);
     ~LSystemWord() {  }
 
     // Getters / setters / append
     void appendModule(LSystemModule _module);
+    void appendWord(LSystemWord _word);
     std::vector<LSystemModule> getModules() { return modules; }
 
     // Iterator

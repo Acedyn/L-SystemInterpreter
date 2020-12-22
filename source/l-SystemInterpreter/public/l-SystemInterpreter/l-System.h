@@ -13,6 +13,7 @@ public:
 
     // Setters / getters
     void appendRule(class LSystemRule* _rule);
+    class LSystemWord* getAxiom() { return axiom; }
     class LSystemWord* getOutputWord() { return outputWord; }
 
     // Public functions

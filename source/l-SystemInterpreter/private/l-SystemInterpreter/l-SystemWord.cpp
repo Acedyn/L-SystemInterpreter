@@ -29,6 +29,14 @@ void LSystemWord::appendModule(LSystemModule _module)
     modules.emplace_back(_module);
 }
 
+void LSystemWord::appendWord(LSystemWord _word)
+{
+    for(LSystemWord::Iterator _wordIterator = _word.begin(); _wordIterator != _word.end(); _wordIterator++)
+    {
+        this->appendModule(*(*_wordIterator));
+    }
+}
+
 
 ////////////////////////////////////////
 // Private functions
