@@ -16,7 +16,8 @@ int main()
     LSystemRule lSystemRule(lSystemModuleRule);
     LSystemRule rule2(rule2MainModule);
     rule2.setDerivativeWord(new LSystemWord("AR^++"));
-    lSystemRule.setDerivativeWord(new LSystemWord(std::string("P(5)F(3, 6)")));
+    rule2.setRightConditionModule(LSystemModule('P', std::vector<char>{'z'}));
+    lSystemRule.setDerivativeWord(new LSystemWord(std::string("F(3, 6)P(5)")));
     LSystemWord lSystemWord("F(5884, 5)A^+=P(4,4410),R");
     LSystem lSystem(&lSystemWord);
     lSystem.appendRule(&lSystemRule);
@@ -24,6 +25,14 @@ int main()
     lSystem.iterate();
 
     LSystemWord* outputWord = lSystem.getOutputWord();
+    for(LSystemWord::Iterator _outWordIterator = outputWord->begin(); _outWordIterator != outputWord->end(); _outWordIterator++)
+    {
+        std::cout << "Output module : " << (*_outWordIterator)->getName() << std::endl;
+    }
+    std::cout << std::endl;
+
+    lSystem.iterate();
+    outputWord = lSystem.getOutputWord();
     for(LSystemWord::Iterator _outWordIterator = outputWord->begin(); _outWordIterator != outputWord->end(); _outWordIterator++)
     {
         std::cout << "Output module : " << (*_outWordIterator)->getName() << std::endl;

@@ -16,6 +16,9 @@ public:
     void setRightConditionModule(LSystemModule _rightConditionModule);
     void setDerivativeWord(class LSystemWord* _derivativeWord);
     LSystemModule getMainModule() { return mainModule; }
+    float getProbabilityFactor() { return probalitityFactor; }
+    LSystemModule getLeftConditionModule() { return leftConditionModule; }
+    LSystemModule getRightConditionModule() { return rightConditionModule; }
     LSystemWord* getDerivativeWord() { return derivativeWord; }
     
 private:
