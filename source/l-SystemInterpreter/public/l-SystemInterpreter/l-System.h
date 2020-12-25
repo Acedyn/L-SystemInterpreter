@@ -18,6 +18,9 @@ public:
 
     // Public functions
     void iterate();
+    
+    // Public variables
+    int seed = 0;
 
 private:
     class LSystemWord* axiom;
