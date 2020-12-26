@@ -2,16 +2,16 @@
 
 #include <string>
 
-class LSystemCondition
+class LSystemExpression
 {
 public:
     // Constructors / desctructors
-    LSystemCondition() {  }
-    LSystemCondition(std::string _expression);
-    ~LSystemCondition() { }
+    LSystemExpression() {  }
+    LSystemExpression(std::string _expression);
+    ~LSystemExpression() { }
 
     // Operators
-    bool operator==(const LSystemCondition& _other) const;
+    bool operator==(const LSystemExpression& _other) const;
 
     // Getters / setters
     void setExpression(std::string _expression);

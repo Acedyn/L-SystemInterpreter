@@ -1,6 +1,6 @@
 #include "l-SystemInterpreterTest.h"
 #include "l-SystemInterpreter/l-SystemModule.h"
-#include "l-SystemInterpreter/l-SystemCondition.h"
+#include "l-SystemInterpreter/l-SystemExpression.h"
 #include "l-SystemInterpreter/l-SystemRule.h"
 #include "l-SystemInterpreter/l-SystemWord.h"
 #include "l-SystemInterpreter/l-System.h"
@@ -11,7 +11,7 @@ int main()
 {
     LSystemModule lSystemModuleRule('F', std::vector<char>{'x', 'y'});
     LSystemModule rule2MainModule('A');
-    LSystemCondition lSystemCondition(std::string("2+54*3-29+8^3"));
+    LSystemExpression lSystemCondition(std::string("2+54*3-29+8^3"));
     lSystemCondition.parseExpression(lSystemModuleRule);
     LSystemRule lSystemRule(lSystemModuleRule);
     lSystemRule.setProbabilityFactor(2.0f);

@@ -4,7 +4,7 @@
 ////////////////////////////////////////
 // Constructors / desctructors
 ////////////////////////////////////////
-LSystemRule::LSystemRule(LSystemModule _mainModule, LSystemWord* _derivativeWord, LSystemCondition _mainCondition, float _probabilityFactor) :
+LSystemRule::LSystemRule(LSystemModule _mainModule, LSystemWord* _derivativeWord, LSystemExpression _mainCondition, float _probabilityFactor) :
     mainModule(_mainModule),
     leftConditionModule(LSystemModule('\0')),
     rightConditionModule(LSystemModule('\0')),
@@ -18,7 +18,7 @@ LSystemRule::LSystemRule(LSystemModule _mainModule, LSystemWord* _derivativeWord
 ////////////////////////////////////////
 // Setters / getters
 ////////////////////////////////////////
-void LSystemRule::setMainCondition(LSystemCondition _mainCondition)
+void LSystemRule::setMainCondition(LSystemExpression _mainCondition)
 {
     mainCondition = _mainCondition;
 }

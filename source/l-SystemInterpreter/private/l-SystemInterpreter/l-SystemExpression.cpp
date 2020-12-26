@@ -1,4 +1,4 @@
-#include "l-SystemInterpreter/l-SystemCondition.h"
+#include "l-SystemInterpreter/l-SystemExpression.h"
 #include "l-SystemInterpreter/l-SystemModule.h"
 
 #include <iostream>
@@ -7,7 +7,7 @@
 ////////////////////////////////////////
 // Constructors / desctructors
 ////////////////////////////////////////
-LSystemCondition::LSystemCondition(std::string _expression)
+LSystemExpression::LSystemExpression(std::string _expression)
 {
     setExpression(_expression);
 }
@@ -16,7 +16,7 @@ LSystemCondition::LSystemCondition(std::string _expression)
 ////////////////////////////////////////
 // Operators
 ////////////////////////////////////////
-bool LSystemCondition::operator==(const LSystemCondition& _other) const
+bool LSystemExpression::operator==(const LSystemExpression& _other) const
 {
     if(expression == _other.getExpression())
     {
@@ -29,7 +29,7 @@ bool LSystemCondition::operator==(const LSystemCondition& _other) const
 ////////////////////////////////////////
 // Getters / setters
 ////////////////////////////////////////
-void LSystemCondition::setExpression(std::string _expression)
+void LSystemExpression::setExpression(std::string _expression)
 {
     expression = _expression;
 }
@@ -38,7 +38,7 @@ void LSystemCondition::setExpression(std::string _expression)
 ////////////////////////////////////////
 // Public functions
 ////////////////////////////////////////
-bool LSystemCondition::parseExpression(LSystemModule _module)
+bool LSystemExpression::parseExpression(LSystemModule _module)
 {
     if(expression.empty()) { return false; }
     expressionIterator = expression.begin();
@@ -50,7 +50,7 @@ bool LSystemCondition::parseExpression(LSystemModule _module)
 ////////////////////////////////////////
 // Parsing functions
 ////////////////////////////////////////
-float LSystemCondition::parseNumber()
+float LSystemExpression::parseNumber()
 {
     float result = static_cast<float>(*expressionIterator) - 48;
     expressionIterator++;
@@ -64,19 +64,19 @@ float LSystemCondition::parseNumber()
     return result;
 }
 
-float LSystemCondition::parseParameter()
+float LSystemExpression::parseParameter()
 {
     float result = 0;
     return result;
 }
 
-float LSystemCondition::parseOperatorLvl1()
+float LSystemExpression::parseOperatorLvl1()
 {
     float result = parseNumber();
     return result;
 }
 
-float LSystemCondition::parseOperatorLvl2()
+float LSystemExpression::parseOperatorLvl2()
 {
     float result = parseOperatorLvl1();
     while (*expressionIterator == '^') 
@@ -87,7 +87,7 @@ float LSystemCondition::parseOperatorLvl2()
     return result;
 }
 
-float LSystemCondition::parseOperatorLvl3()
+float LSystemExpression::parseOperatorLvl3()
 {
     float result = parseOperatorLvl2();
     while (*expressionIterator == '*' || *expressionIterator == '/' || *expressionIterator == '%') 
@@ -111,7 +111,7 @@ float LSystemCondition::parseOperatorLvl3()
     return result;
 }
 
-float LSystemCondition::parseOperatorLvl4()
+float LSystemExpression::parseOperatorLvl4()
 {
     float result = parseOperatorLvl3();
     while (*expressionIterator == '+' || *expressionIterator == '-') 

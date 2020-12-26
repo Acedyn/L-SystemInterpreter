@@ -1,16 +1,16 @@
 # pragma once
 #include "l-SystemInterpreter/l-SystemModule.h"
-#include "l-SystemInterpreter/l-SystemCondition.h"
+#include "l-SystemInterpreter/l-SystemExpression.h"
 
 class LSystemRule
 {
 public:
     // Constructors / desctructors
-    LSystemRule(LSystemModule _mainModule, class LSystemWord* _derivativeWord = nullptr, LSystemCondition _mainCondition = LSystemCondition(), float _probabilityFactor = -1.0f);
+    LSystemRule(LSystemModule _mainModule, class LSystemWord* _derivativeWord = nullptr, LSystemExpression _mainCondition = LSystemExpression(), float _probabilityFactor = -1.0f);
     ~LSystemRule() { }
 
     // Setters / getters
-    void setMainCondition(LSystemCondition _mainCondition);
+    void setMainCondition(LSystemExpression _mainCondition);
     void setProbabilityFactor(float _probabilityFactor);
     void setLeftConditionModule(LSystemModule _leftConditionModule);
     void setRightConditionModule(LSystemModule _rightConditionModule);
@@ -24,7 +24,7 @@ public:
 private:
     // Private variables
     LSystemModule mainModule;
-    LSystemCondition mainCondition;
+    LSystemExpression mainCondition;
     LSystemModule leftConditionModule;
     LSystemModule rightConditionModule;
     class LSystemWord* derivativeWord = nullptr;
