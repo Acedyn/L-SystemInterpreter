@@ -18,7 +18,9 @@ public:
     std::string getExpression() const { return expression; }
 
     // Public functions
-    bool parseExpression(class LSystemModule _module);
+    float parseDecimalExpression(class LSystemModule _module);
+
+    bool parseBinaryExpression(class LSystemModule _module);
 
 
 private:
@@ -33,7 +35,7 @@ private:
     float parseOperatorLvl2(); // parse exponent
     float parseOperatorLvl3(); // parse multiplication, division, modulo
     float parseOperatorLvl4(); // parse addition, substraction
-    float parseOperatorLvl5(); // parse less, greater, equal, ...
+    float parseOperatorLvl5(); // parse less, greater, ...
     float parseOperatorLvl6(); // parse equality and inequality
     float parseOperatorLvl7(); // parse logial and
     float parseOperatorLvl8(); // parse logial or

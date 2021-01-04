@@ -11,8 +11,11 @@ int main()
 {
     LSystemModule lSystemModuleRule('F', std::vector<char>{'x', 'y'});
     LSystemModule rule2MainModule('A');
-    LSystemExpression lSystemCondition(std::string("2+54*3-29+8^3"));
-    lSystemCondition.parseExpression(lSystemModuleRule);
+    LSystemExpression lSystemCondition(std::string("3/5+1-16"));
+    // 3/5+1-4^2*5
+    float result = lSystemCondition.parseDecimalExpression(lSystemModuleRule);
+    std::cout << "Expression : " << lSystemCondition.getExpression() << std::endl;
+    std::cout << "Result : " << result << std::endl << std::endl;
     LSystemRule lSystemRule(lSystemModuleRule);
     lSystemRule.setProbabilityFactor(2.0f);
     LSystemRule rule2(lSystemModuleRule);
