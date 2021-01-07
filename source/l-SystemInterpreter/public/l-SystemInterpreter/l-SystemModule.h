@@ -19,8 +19,8 @@ public:
     // Setters / getters
     void setFormalParameters(std::vector<char> _formalParameters);
     void setParametersValues(std::vector<float> _parameterValues);
-    std::vector<char> getFormalParameters() { return formalParameters; }
-    std::vector<float> getParameterValues() { return parameterValues; }
+    std::vector<char>* getFormalParameters() { return &formalParameters; }
+    std::vector<float>* getParameterValues() { return &parameterValues; }
     char getName() { return name; }
 
 private:

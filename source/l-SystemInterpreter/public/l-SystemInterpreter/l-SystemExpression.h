@@ -17,6 +17,8 @@ public:
     void setExpression(std::string _expression);
     std::string getExpression() const { return expression; }
 
+    void setParameters(class LSystemModule* _parameters);
+
     // Public functions
     float parseDecimalExpression(class LSystemModule _module);
 
@@ -27,6 +29,7 @@ private:
     // Private variables
     std::string expression;
     std::string::iterator expressionIterator;
+    class LSystemModule* parameters = nullptr;
 
     // Parsing functions
     float parseNumber();       // parse numer

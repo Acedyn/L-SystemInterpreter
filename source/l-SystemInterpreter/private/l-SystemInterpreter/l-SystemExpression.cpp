@@ -34,6 +34,11 @@ void LSystemExpression::setExpression(std::string _expression)
     expression = _expression;
 }
 
+void LSystemExpression::setParameters(LSystemModule* _parameters)
+{
+    parameters = _parameters;
+}
+
 
 ////////////////////////////////////////
 // Public functions
@@ -50,7 +55,12 @@ bool LSystemExpression::parseBinaryExpression(LSystemModule _module)
 {
     if(expression.empty()) { return false; }
     expressionIterator = expression.begin();
-    return true;
+    float _result = parseOperatorLvl8();
+    if(_result != 0.0f)
+    {
+        return true;
+    }
+    return false;
 }
 
 
@@ -75,7 +85,8 @@ float LSystemExpression::parseNumber()
 // Parse variable
 float LSystemExpression::parseParameter()
 {
-    float result = 0;
+    // Store the result of the parameter, initialized with the computed left side of the operator
+    float result = parseNumber();
     return result;
 }
 
