@@ -1,27 +1,36 @@
 #include "l-SystemInterpreter/l-SystemModule.h"
 
-#include <iostream>
 #include <ctype.h>
 
 ////////////////////////////////////////
 // Constructors / desctructors
 ////////////////////////////////////////
-LSystemModule::LSystemModule(char _name, std::vector<char> _formalParameters) :
+LSystemModule::LSystemModule(char _name, std::vector<std::string> _parameters) :
     name(_name)
 {
-    setFormalParameters(_formalParameters);
+    setParameters(_parameters);
 }
 
-LSystemModule::LSystemModule(char _name, std::string _formalParameters) :
+LSystemModule::LSystemModule(char _name, std::string _parameters) :
     name(_name)
 {
-    setFormalParameters(std::vector<char>(_formalParameters.begin(), _formalParameters.end()));
-}
+    // Initialize the buffer to store the parameters's name
+    std::string _buffer;
+    for(char _character : _parameters)
+    {
+        // If the character is a letter we append it to the buffer
+        if(isalpha(_character))
+        {
+            _buffer.push_back(_character);
+        }
+        // If the character is a comma we add the buffer content to the parameters and clear it
+        else if(_character == ',')
+        {
+            addParameter(_buffer);
+            _buffer.clear();
+        }
+    }
 
-LSystemModule::LSystemModule(char _name, std::vector<float> _parameterValues) :
-    name(_name)
-{
-    setParametersValues(_parameterValues);
 }
 
 
@@ -30,74 +39,85 @@ LSystemModule::LSystemModule(char _name, std::vector<float> _parameterValues) :
 ////////////////////////////////////////
 bool LSystemModule::operator==(const LSystemModule& _other) const
 {
-    if(name == _other.name && formalParameters.size() == _other.formalParameters.size())
+    // Test if the two modules have the same name
+    if(name != _other.getName()) { return false; }
+    // Test if the two modules have as many parameters
+    if(parameters.size() != _other.getParameters().size()) { return false; }
+    // Loop over all the parameters to compare them
+    for(int i = 0; i < parameters.size(); i++)
     {
-        return true;
+        if(parameters[i] == (_other.getParameters())[i]) { return false; }
     }
-    return false;
+    return true;
 }
 
 bool LSystemModule::operator!=(const LSystemModule& _other) const
 {
-    if(name != _other.name || formalParameters.size() != _other.formalParameters.size())
+    // Test if the two modules have the same name
+    if(name == _other.getName()) { return false; }
+    // Test if the two modules have as many parameters
+    if(parameters.size() == _other.getParameters().size()) { return false; }
+    // Loop over all the parameters to compare them
+    for(int i = 0; i < parameters.size(); i++)
     {
-        return true;
+        if(parameters[i] != (_other.getParameters())[i]) { return false; }
     }
-    return false;
+    return true;
+}
+
+std::ostream& operator<<(std::ostream& stream, const LSystemModule& module)
+{
+    // Print the name of the module
+    stream << module.getName() << "(";
+
+    // Loop over all the parameters of the module
+    std::vector<std::string> _moduleParameters = module.getParameters();
+    for(int i = 0; i < _moduleParameters.size(); i++)
+    {
+        // Print the parameter name
+        stream << _moduleParameters[i];
+        // If this is not the last parameter print a comma
+        if(i != _moduleParameters.size() - 1)
+        {
+            stream << ",";
+        }
+    }
+
+    // Print the closing braquet
+    stream << ")";
+
+   return stream;
 }
 
 
 ////////////////////////////////////////
 // Setters / getters
 ////////////////////////////////////////
-void LSystemModule::setFormalParameters(std::vector<char> _formalParameters)
+void LSystemModule::addParameter(std::string _parameter)
 {
-    bool isValidParameters = true;
-
-    // Test if the given parameters are leters;
-    for(char _formalParameter : _formalParameters)
+    // Test if the string is empty
+    if(_parameter.empty()) { return; }
+    // Test if the name of the parameter does contain only letters
+    for(char _character : _parameter)
     {
-        if(!isalpha(_formalParameter))
-        {
-            isValidParameters = false;
-            break;
+        if(!isalpha(_character)) 
+        { 
+            return;
         }
     }
-
-    // If there is some values, we check if there is as much parameters as values
-    if(!(parameterValues.empty()) && parameterValues.size() != _formalParameters.size())
-    {
-        isValidParameters = false;
-    }
-    // If there is no values, we initialize the values to null
-    else if(isValidParameters)
-    {
-        parameterValues = std::vector<float>(0.0f, _formalParameters.size());
-    }
-
-    if(isValidParameters) { formalParameters = _formalParameters; }
+    parameters.emplace_back(_parameter);
 }
 
-void LSystemModule::setParametersValues(std::vector<float> _parameterValues)
+void LSystemModule::setParameters(std::vector<std::string> _parameters)
 {
-    bool isValidValues = true;
-
-    // If there is some parameters, we check if there is as much values as parameters
-    if(!(formalParameters.empty()) && formalParameters.size() != _parameterValues.size())
+    // We reserve the space for the entire input vector after empty it
+    parameters.clear();
+    parameters.reserve(_parameters.size());
+    
+    // We store the input parameters one by one to check if they are valid
+    for(std::string _parameter : _parameters)
     {
-        isValidValues = false;
+        addParameter(_parameter);
     }
-    // If there is no parameters set we initialize them
-    else if(formalParameters.empty())
-    {
-        formalParameters.reserve(_parameterValues.size());
-        char parameterName = '\0';
-        for(float _parameterValue : _parameterValues)
-        {
-            formalParameters.emplace_back(parameterName);
-            parameterName++;
-        }
-    }
-
-    if(isValidValues) { parameterValues = _parameterValues; }
 }
+
