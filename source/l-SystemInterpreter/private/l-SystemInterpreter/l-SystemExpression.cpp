@@ -87,6 +87,19 @@ float LSystemExpression::parseParameter()
 {
     // Store the result of the parameter, initialized with the computed left side of the operator
     float result = parseNumber();
+    // Iterate over all the parameters to find matches
+    std::vector<char> parameterNames = parameters->getFormalParameters();
+    std::vector<float> parameterValues = parameters->getParameterValues();
+    for(auto parametersIterator = parameterNames.begin(); parametersIterator < parameterNames.end(); parametersIterator++)
+    {
+        // If a parameter name matches the current character
+        if(*parametersIterator == *expressionIterator)
+        {
+            // We return the content of that parameter
+            result = parameterValues[parametersIterator - parameterNames.begin()];
+            std::cout << "Matching parameter : " << *parametersIterator << "Value : " << result << std::endl;
+        }
+    }
     return result;
 }
 

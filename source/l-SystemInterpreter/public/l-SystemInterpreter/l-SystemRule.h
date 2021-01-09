@@ -6,7 +6,7 @@ class LSystemRule
 {
 public:
     // Constructors / desctructors
-    LSystemRule(LSystemModule _mainModule, class LSystemWord* _derivativeWord = nullptr, LSystemExpression _mainCondition = LSystemExpression(), float _probabilityFactor = -1.0f);
+    LSystemRule(LSystemModule _mainModule, class LSystemWord* _derivativeWord, LSystemExpression _mainCondition = LSystemExpression(), float _probabilityFactor = -1.0f);
     ~LSystemRule() { }
 
     // Setters / getters

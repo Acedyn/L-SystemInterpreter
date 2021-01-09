@@ -12,6 +12,12 @@ LSystemModule::LSystemModule(char _name, std::vector<char> _formalParameters) :
     setFormalParameters(_formalParameters);
 }
 
+LSystemModule::LSystemModule(char _name, std::string _formalParameters) :
+    name(_name)
+{
+    setFormalParameters(std::vector<char>(_formalParameters.begin(), _formalParameters.end()));
+}
+
 LSystemModule::LSystemModule(char _name, std::vector<float> _parameterValues) :
     name(_name)
 {
