@@ -11,8 +11,9 @@ public:
     // Constructors / desctructors
     LSystemModule() : name('\0') {  }
     LSystemModule(char _name) : name(_name) {  }
-    LSystemModule(char _name, std::vector<std::string> _parameters);
-    LSystemModule(char _name, std::string _parameters);
+    LSystemModule(char _name, std::vector<float> _parameterValues, class LSystemParameters* _parameters = nullptr);
+    LSystemModule(char _name, std::vector<std::string> _parameterNames, class LSystemParameters* _parameters = nullptr);
+    LSystemModule(char _name, std::string _parameterString, class LSystemParameters* _parameters = nullptr);
     ~LSystemModule() { }
     
     // Operators
@@ -21,14 +22,18 @@ public:
     friend std::ostream& operator<<(std::ostream& stream, const LSystemModule& module);
 
     // Setters / getters
-    void addParameter(std::string _parameter);
-    void setParameters(std::vector<std::string> _parameters);
+    void addParameter(float _parameterValue);
+    void addParameter(std::string _parameterName);
+    void setParameters(std::vector<float> _parameterValues);
+    void setParameters(std::vector<std::string> _parameterNames);
+    void setParameters(std::string _parameterString);
     void setName(char _name) { name = _name; }
-    std::vector<std::string> getParameters() const { return parameters; }
+    std::vector<float> getParameters() const { return parameterValues; }
     char getName() const { return name; }
 
 private:
     // Private variables
     char name;
-    std::vector<std::string> parameters;
+    std::vector<float> parameterValues;
+    class LSystemParameters* parameters = nullptr;
 };

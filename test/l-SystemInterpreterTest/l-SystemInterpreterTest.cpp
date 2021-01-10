@@ -15,19 +15,21 @@ int main()
     // Testing classes individualy
     ////////////////////////////////////////
 
-    std::cout << "Testing classes : " << std::endl;
+    std::cout << "########################################" << std::endl;
+    std::cout << "TESTING classes : " << std::endl;
     
-    LSystemModule testModule('A', "a,?foo,bar,b%");
-    std::cout << testModule << std::endl;
+    LSystemModule testModule1('A', "47, 75, aed, 4a8, 7.48, 7aza");
+    std::cout << "Test module1 : " << testModule1 << std::endl;
 
-    std::cout << std::endl << "Classes test completed" << std::endl << std::endl;
+    std::cout << std::endl << "Classes test completed" << std::endl << std::endl << std::endl;
 
 
     ////////////////////////////////////////
     // Testing Anabaena Catenula model
     ////////////////////////////////////////
 
-    std::cout << "Testing Anabaena Catenula model :" << std::endl;
+    std::cout << "########################################" << std::endl;
+    std::cout << "TESTING Anabaena Catenula model :" << std::endl;
 
     // Axiom
     // LSystemWord axiom("!(0.5)F(1,2,1)");
@@ -58,7 +60,7 @@ int main()
 
     // anabaenaCatenulaModel.iterate();
 
-    std::cout << std::endl << "Anabaena Catenula model test completed" << std::endl << std::endl;
+    std::cout << std::endl << "Anabaena Catenula model test completed" << std::endl << std::endl << std::endl;
 
     std::cout << "\ntest completed" << std::endl;
     std::cin.get();

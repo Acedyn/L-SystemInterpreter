@@ -47,17 +47,17 @@ void LSystem::iterate()
 
     int _iteration = 0;
     // Loop over all the modules of the current outputWord
-    for(LSystemWord::Iterator _wordIterator = outputWord->begin(); _wordIterator != outputWord->end(); _wordIterator++)
+    for(auto _wordIterator = outputWord->begin(); _wordIterator != outputWord->end(); _wordIterator++)
     {
         // Used to store the result of the comparison of the modules
         bool _match = false;
 
         // Store the previous module
-        LSystemModule* _previousModule = _wordIterator-- == outputWord->begin() ? nullptr : *_wordIterator;
+        LSystemModule* _previousModule = _wordIterator-- == outputWord->begin() ? nullptr : &(*_wordIterator);
         // Reposition the iterator
         _wordIterator++;
         // Store the next module
-        LSystemModule* _nextModule = ++_wordIterator == outputWord->end() ? nullptr : *(_wordIterator);
+        LSystemModule* _nextModule = ++_wordIterator == outputWord->end() ? nullptr : &(*_wordIterator);
         // Reposition the iterator
         _wordIterator--;
         
@@ -72,7 +72,7 @@ void LSystem::iterate()
         float _probabilitySum = 0.0f;
         for(LSystemRule* _probabilityComputer : rules)
         {
-            if(_probabilityComputer->getMainModule() == *(*_wordIterator))
+            if(_probabilityComputer->getMainModule() == (*_wordIterator))
             {
                 _probabilitySum += _probabilityComputer->getProbabilityFactor();
             }
@@ -82,14 +82,14 @@ void LSystem::iterate()
         for(LSystemRule* _rule : rules)
         {
             // If the rule has a probabilityFactor
-            if(_rule->getProbabilityFactor() >= 0 && _rule->getMainModule() == *(*_wordIterator))
+            if(_rule->getProbabilityFactor() >= 0 && _rule->getMainModule() == (*_wordIterator))
             {
                 // Compute the ruleProbability
                 _ruleProbability += _rule->getProbabilityFactor() / _probabilitySum;
             }
 
             // If the current module doesnt matches the rule's main module
-            if(*(*_wordIterator) != _rule->getMainModule())
+            if((*_wordIterator) != _rule->getMainModule())
             {
                 // Stop testing and go to the next rule
                 continue;
@@ -132,7 +132,7 @@ void LSystem::iterate()
         }
         if(!_match)
         {
-            _newWord->appendModule(*(*_wordIterator));
+            _newWord->appendModule((*_wordIterator));
         }
         _iteration++;
     }

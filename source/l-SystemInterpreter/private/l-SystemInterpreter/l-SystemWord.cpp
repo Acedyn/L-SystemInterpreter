@@ -11,14 +11,6 @@ LSystemWord::LSystemWord(std::string _word)
     // We parse the input string into modules of commands
     parseWord(_word);
 }
-LSystemWord::LSystemWord(LSystemWord& _lSystemWord)
-{
-    // For the modules we need to copy them one by one to make sure we have two separate copies
-    for(LSystemModule _module : _lSystemWord.getModules())
-    {
-        modules.emplace_back(_module);
-    }
-}
 
 
 ////////////////////////////////////////
@@ -31,10 +23,7 @@ void LSystemWord::appendModule(LSystemModule _module)
 
 void LSystemWord::appendWord(LSystemWord _word)
 {
-    for(LSystemWord::Iterator _wordIterator = _word.begin(); _wordIterator != _word.end(); _wordIterator++)
-    {
-        this->appendModule(*(*_wordIterator));
-    }
+    modules.insert(end(), _word.begin(), _word.end());
 }
 
 
@@ -80,7 +69,7 @@ void LSystemWord::parseWord(std::string _word)
             }
             parameterValues.emplace_back(parameterValue);
         // Store the module
-        // appendModule(LSystemModule(name, parameterValues));
+        appendModule(LSystemModule(name, parameterValues));
         }
         // Undo the last iteration
         _wordIterator--;

@@ -64,6 +64,10 @@ public:
     std::vector<LSystemParameter> getParameters() const { return parameters; }
     LSystemParameter getParameter(int _index) const;
 
+    // Iterator
+    std::vector<LSystemParameter>::iterator begin() { return parameters.begin(); }
+    std::vector<LSystemParameter>::iterator end() { return parameters.end(); }
+
 private:
     std::vector<LSystemParameter> parameters;
 };
