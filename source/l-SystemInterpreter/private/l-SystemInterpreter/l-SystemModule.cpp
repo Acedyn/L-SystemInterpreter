@@ -206,4 +206,22 @@ void LSystemModule::setParameters(std::string _parameterString)
             type = ParameterType::NONE;
         }
     }
+    // Store the content of the buffer one last time
+    switch(type)
+    {
+        case ParameterType::NONE :
+            break;
+        
+        case ParameterType::VALUE :
+            addParameter(_valueBuffer + (_floatingValueBuffer / pow(10, digitCount)));
+            break;
+
+        case ParameterType::NAME :
+            addParameter(_nameBuffer);
+            break;
+    }
+    _valueBuffer = 0.0f;
+    _floatingValueBuffer = 0.0f;
+    _nameBuffer.clear();
+    type = ParameterType::NONE;
 }

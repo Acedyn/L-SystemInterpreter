@@ -1,6 +1,7 @@
 #include "l-SystemInterpreterTest.h"
 
 #include "l-SystemInterpreter/l-SystemModule.h"
+#include "l-SystemInterpreter/l-SystemParameters.h"
 // #include "l-SystemInterpreter/l-SystemWord.h"
 // #include "l-SystemInterpreter/l-SystemExpression.h"
 // #include "l-SystemInterpreter/l-SystemRule.h"
@@ -20,6 +21,10 @@ int main()
     
     LSystemModule testModule1('A', "47, 75, aed, 4a8, 7.48, 7aza");
     std::cout << "Test module1 : " << testModule1 << std::endl;
+    LSystemParameters testParameters1(std::vector<std::string>{"AD", "F", "AS"}, std::vector<float>{5.0f, 47.4f, 40.8f});
+    LSystemModule testModule2('B', "AD, AS, 5.4", &testParameters1);
+    std::cout << "Test module2 : " << testModule2 << std::endl;
+    
 
     std::cout << std::endl << "Classes test completed" << std::endl << std::endl << std::endl;
 
