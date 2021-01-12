@@ -42,7 +42,7 @@ bool LSystemModule::operator==(const LSystemModule& _other) const
     // Loop over all the parameters to compare them
     for(int i = 0; i < parameterValues.size(); i++)
     {
-        if(parameterValues[i] == (_other.getParameters())[i]) { return false; }
+        if(parameterValues[i] != (_other.getParameters())[i]) { return false; }
     }
     return true;
 }
@@ -52,22 +52,29 @@ bool LSystemModule::operator!=(const LSystemModule& _other) const
     // Test if the two modules have the same name
     if(name == _other.getName()) { return false; }
     // Test if the two modules have as many parameters
-    if(parameterValues.size() == _other.getParameters().size()) { return false; }
+    if(parameterValues.size() != _other.getParameters().size()) { return true; }
     // Loop over all the parameters to compare them
     for(int i = 0; i < parameterValues.size(); i++)
     {
-        if(parameterValues[i] != (_other.getParameters())[i]) { return false; }
+        if(parameterValues[i] == (_other.getParameters())[i]) { return false; }
     }
     return true;
 }
 
-std::ostream& operator<<(std::ostream& stream, const LSystemModule& module)
+std::ostream& operator<<(std::ostream& stream, const LSystemModule& _module)
 {
     // Print the name of the module
-    stream << module.getName() << "(";
+    stream << _module.getName();
+
+    // Get the parameters of the module
+    std::vector<float> _moduleParameters = _module.getParameters();
+
+    // If the module doesn't have parameters only return the name
+    if(_moduleParameters.empty()) { return stream; }
+    // Else start printing the parameters
+    else { std::cout << '('; }
 
     // Loop over all the parameters of the module
-    std::vector<float> _moduleParameters = module.getParameters();
     for(int i = 0; i < _moduleParameters.size(); i++)
     {
         // Print the parameter's value

@@ -10,10 +10,16 @@ class LSystemWord
 {
 public:
     // Constructors / desctructors
-    LSystemWord() { }
-    LSystemWord(std::string _word);
-    LSystemWord(std::vector<LSystemModule> _modules) : modules(_modules) { }
+    LSystemWord(class LSystemParameters* _parameters = nullptr) : parameters(_parameters) { }
+    LSystemWord(std::string _word, class LSystemParameters* _parameters = nullptr);
+    LSystemWord(std::vector<LSystemModule> _modules, class LSystemParameters* _parameters = nullptr) : 
+        modules(_modules) { }
     ~LSystemWord() { }
+
+    // Operators
+    bool operator==(const LSystemWord& _other) const;
+    bool operator!=(const LSystemWord& _other) const;
+    friend std::ostream& operator<<(std::ostream& stream, const LSystemWord& _word);
 
     // Getters / setters / append
     void appendModule(LSystemModule _module);
@@ -30,4 +36,5 @@ private:
 
     // Private variables
     std::vector<LSystemModule> modules;
+    class LSystemParameters* parameters = nullptr;
 };

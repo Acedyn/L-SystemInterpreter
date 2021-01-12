@@ -9,8 +9,10 @@ class LSystemModule
 {
 public:
     // Constructors / desctructors
-    LSystemModule() : name('\0') {  }
-    LSystemModule(char _name) : name(_name) {  }
+    LSystemModule(class LSystemParameters* _parameters = nullptr) : name('\0'), parameters(_parameters) {  }
+    LSystemModule(char _name, class LSystemParameters* _parameters = nullptr) : 
+        name(_name), 
+        parameters(_parameters) {  }
     LSystemModule(char _name, std::vector<float> _parameterValues, class LSystemParameters* _parameters = nullptr);
     LSystemModule(char _name, std::vector<std::string> _parameterNames, class LSystemParameters* _parameters = nullptr);
     LSystemModule(char _name, std::string _parameterString, class LSystemParameters* _parameters = nullptr);
@@ -19,7 +21,7 @@ public:
     // Operators
     bool operator==(const LSystemModule& _other) const;
     bool operator!=(const LSystemModule& _other) const;
-    friend std::ostream& operator<<(std::ostream& stream, const LSystemModule& module);
+    friend std::ostream& operator<<(std::ostream& stream, const LSystemModule& _module);
 
     // Setters / getters
     void addParameter(float _parameterValue);

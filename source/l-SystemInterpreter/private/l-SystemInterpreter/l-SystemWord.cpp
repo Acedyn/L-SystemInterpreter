@@ -1,15 +1,64 @@
 #include "l-SystemInterpreter/l-SystemWord.h"
 
+#include "l-SystemInterpreter/l-SystemParameters.h"
+
 #include <iostream>
 #include "ctype.h"
 
 ////////////////////////////////////////
 // Constructors / desctructors
 ////////////////////////////////////////
-LSystemWord::LSystemWord(std::string _word)
+LSystemWord::LSystemWord(std::string _word, LSystemParameters* _parameters) :
+    parameters(_parameters)
 {
     // We parse the input string into modules of commands
     parseWord(_word);
+}
+
+
+////////////////////////////////////////
+// Operators
+////////////////////////////////////////
+bool LSystemWord::operator==(const LSystemWord& _other) const
+{
+    // Test if the two modules have as many parameters
+    if(modules.size() != _other.getModules().size()) { return false; }
+    // Loop over all the parameters to compare them
+    for(int i = 0; i < modules.size(); i++)
+    {
+        if(modules[i] != (_other.getModules())[i]) { return false; }
+    }
+    return true;
+}
+
+bool LSystemWord::operator!=(const LSystemWord& _other) const
+{
+    // Test if the two modules have as many parameters
+    if(modules.size() != _other.getModules().size()) { return true; }
+    // Loop over all the parameters to compare them
+    for(int i = 0; i < modules.size(); i++)
+    {
+        if(modules[i] == (_other.getModules())[i]) { return false; }
+    }
+    return true;
+}
+
+std::ostream& operator<<(std::ostream& stream, const LSystemWord& _word)
+{
+    // Loop over all the modules of the word
+    std::vector<LSystemModule> _wordModules = _word.getModules();
+    for(int i = 0; i < _wordModules.size(); i++)
+    {
+        // Print the module
+        stream << _wordModules[i];
+        // If this is not the last module print a comma
+        if(i != _wordModules.size() - 1)
+        {
+            stream << ", ";
+        }
+    }
+
+    return stream;
 }
 
 
@@ -32,46 +81,51 @@ void LSystemWord::appendWord(LSystemWord _word)
 ////////////////////////////////////////
 void LSystemWord::parseWord(std::string _word)
 {
-    // Loop over all the modules of the word
-    for(std::string::iterator _wordIterator = _word.begin(); _wordIterator != _word.end(); _wordIterator++)
-    {
-        // The name of the module
-        char name = *_wordIterator;
-        // The parameters values of the module
-        std::vector<float> parameterValues;
+    // Initialize buffers to store the parsing data
+    char _nameBuffer = '\0';
+    std::string _parametersBuffer;
+    bool isParsingParameter = false;
 
-        // Iterate the character to see if the module does have parameters
-        _wordIterator++;
-        // If the module doesn't have parameters
-        if(*_wordIterator != '(')
+    // Loop over all the characters of the word
+    for(char _character : _word)
+    {
+        // If no name is set and we are not parsing parameters
+        if(_nameBuffer == '\0' && isParsingParameter == false)
         {
-            // Store a module with just a name
-            appendModule(LSystemModule(name));
+            // Store the current character as the name
+            _nameBuffer = _character;
         }
-        // If the module does have parameters
-        else
+        // If the character isn't '(' and we are note parsing parameter
+        else if(_character != '(' && isParsingParameter == false)
         {
-            float parameterValue = 0;
-            // Loop over all the caracters until the end of the parameters
-            while(*(_wordIterator++) != ')')
-            {
-                // If the caracter is a number
-                if(isdigit(*_wordIterator)) 
-                {
-                    parameterValue = (parameterValue * 10) + (static_cast<float>(*_wordIterator) - 48);
-                }
-                // If the caracter is a comma wich mark a new parameter
-                else if(*_wordIterator == ',')
-                {
-                    parameterValues.emplace_back(parameterValue);
-                    parameterValue = 0;
-                }
-            }
-            parameterValues.emplace_back(parameterValue);
-        // Store the module
-        appendModule(LSystemModule(name, parameterValues));
+            // Append the module with only a name
+            appendModule(LSystemModule(_nameBuffer, parameters));
+            // Clear the buffers
+            _nameBuffer = '\0';
+            _parametersBuffer.clear();
+            isParsingParameter = false;
         }
-        // Undo the last iteration
-        _wordIterator--;
+        // If the character is '(' and we are not parsing parameters
+        else if(_character == '(' && isParsingParameter == false)
+        {
+            // Switch to pasring parameters
+            isParsingParameter = true;
+        }
+        // If the character isn't ')' and we are parsing parameters
+        else if(_character != ')' && isParsingParameter == true)
+        {
+            // Append the character to the parameter buffer
+            _parametersBuffer.push_back(_character);
+        }
+        // If the character is ')' and we are parsing parameters
+        else if(_character == ')' && isParsingParameter == true)
+        {
+            // Append the module with the name and the parameters
+            appendModule(LSystemModule(_nameBuffer, _parametersBuffer, parameters));
+            // Clear the buffers
+            _nameBuffer = '\0';
+            _parametersBuffer.clear();
+            isParsingParameter = false;
+        }
     }
 }
