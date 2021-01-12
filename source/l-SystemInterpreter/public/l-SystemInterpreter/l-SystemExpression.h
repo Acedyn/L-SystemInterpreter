@@ -6,22 +6,24 @@ class LSystemExpression
 {
 public:
     // Constructors / desctructors
-    LSystemExpression() {  }
-    LSystemExpression(std::string _expression);
+    LSystemExpression(class LSystemModule* _module = nullptr, class LSystemParameters* _parameters = nullptr) :
+        module(_module),
+        parameters(_parameters) { }
+    LSystemExpression(std::string _expression, class LSystemModule* _module = nullptr, class LSystemParameters* _parameters = nullptr);
     ~LSystemExpression() { }
 
     // Operators
     bool operator==(const LSystemExpression& _other) const;
+    bool operator!=(const LSystemExpression& _other) const;
 
     // Getters / setters
     void setExpression(std::string _expression);
     std::string getExpression() const { return expression; }
-
-    void setParameters(class LSystemModule* _parameters);
+    void setModule(class LSystemModule* _module);
+    void setParameters(class LSystemParameters* _parameters);
 
     // Public functions
     float parseDecimalExpression(class LSystemModule _module);
-
     bool parseBinaryExpression(class LSystemModule _module);
 
 
@@ -29,7 +31,8 @@ private:
     // Private variables
     std::string expression;
     std::string::iterator expressionIterator;
-    class LSystemModule* parameters = nullptr;
+    class LSystemModule* module  = nullptr;
+    class LSystemParameters* parameters = nullptr;
 
     // Parsing functions
     float parseNumber();       // parse numer

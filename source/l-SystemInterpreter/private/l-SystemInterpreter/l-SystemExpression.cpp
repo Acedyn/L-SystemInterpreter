@@ -1,5 +1,7 @@
 #include "l-SystemInterpreter/l-SystemExpression.h"
+
 #include "l-SystemInterpreter/l-SystemModule.h"
+#include "l-SystemInterpreter/l-SystemParameters.h"
 
 #include <iostream>
 #include <math.h>
@@ -7,7 +9,9 @@
 ////////////////////////////////////////
 // Constructors / desctructors
 ////////////////////////////////////////
-LSystemExpression::LSystemExpression(std::string _expression)
+LSystemExpression::LSystemExpression(std::string _expression, LSystemModule* _module, LSystemParameters* _parameters) :
+    module(_module),
+    parameters(_parameters)
 {
     setExpression(_expression);
 }
@@ -18,11 +22,12 @@ LSystemExpression::LSystemExpression(std::string _expression)
 ////////////////////////////////////////
 bool LSystemExpression::operator==(const LSystemExpression& _other) const
 {
-    if(expression == _other.getExpression())
-    {
-        return true;
-    }
-    return false;
+    return expression == _other.getExpression();
+}
+
+bool LSystemExpression::operator!=(const LSystemExpression& _other) const
+{
+    return expression == _other.getExpression();
 }
 
 
@@ -34,7 +39,12 @@ void LSystemExpression::setExpression(std::string _expression)
     expression = _expression;
 }
 
-void LSystemExpression::setParameters(LSystemModule* _parameters)
+void LSystemExpression::setModule(LSystemModule* _module)
+{
+    module = _module;
+}
+
+void LSystemExpression::setParameters(LSystemParameters* _parameters)
 {
     parameters = _parameters;
 }
@@ -70,30 +80,90 @@ bool LSystemExpression::parseBinaryExpression(LSystemModule _module)
 // Parse number
 float LSystemExpression::parseNumber()
 {
-    float result = static_cast<float>(*expressionIterator) - 48;
-    expressionIterator++;
+    // Store the result of the number
+    float result = 0.0f;
+    float floatingValueResult = 0.0f;
+    
+    int digitCount = 0;
+    bool isFloatingValue = false;
+
+    // Cast the character to integer
     int number = static_cast<int>(*expressionIterator) - 48;
-    while (number >= 0 && number <= 9)
+    // Loop until the character is a number or a decimal comma
+    while ((number >= 0 && number <= 9) || *expressionIterator == '.')
     {
-        result = result * 10 + (static_cast<int>(*expressionIterator) - 48);
-        expressionIterator++;
-        number = static_cast<int>(*expressionIterator) - 48;
+        // If the character is a number
+        if(number >= 0 && number <= 9)
+        {
+            // If we are parsing numbers before the decimal comma
+            if(isFloatingValue)
+            {
+                // Append the value to the result
+                result = result * 10 + (static_cast<int>(*expressionIterator) - 48);
+                // Increment the iterator
+                expressionIterator++;
+                // Cast the character to integer
+                number = static_cast<int>(*expressionIterator) - 48;
+            }
+            // If we are parsing numbers after the decimal comma
+            else
+            {
+                // Append the value to the floating result
+                floatingValueResult = floatingValueResult * 10 + (static_cast<int>(*expressionIterator) - 48);
+                // Increment the count of numbers after the decimal comma
+                digitCount++;
+                // Increment the iterator
+                expressionIterator++;
+                // Cast the character to integer
+                number = static_cast<int>(*expressionIterator) - 48;
+            }
+        }
+        // If the character is a '.'
+        else
+        {
+            // Switch to parsing numbers after the decimal comma
+            isFloatingValue = true;
+        }
     }
-    return result;
+    // Return the parsed value
+    return result + (floatingValueResult / pow(10, digitCount));
 }
 
 // Parse variable
 float LSystemExpression::parseParameter()
 {
-    // Store the result of the parameter, initialized with the computed left side of the operator
-    float result = parseNumber();
+    // Store the result of the parameter
+    float result = 0.0f;
+
+    std::string parsedParameter;
+
+    while(isalpha(*expressionIterator))
+    {
+        parsedParameter.push_back(*expressionIterator);
+        expressionIterator++;
+    }
+
+    // Loop over all the parameters
+    for(LSystemParameter parameter : *parameters)
+    {
+        // If the name of the parameter matches the parsed Parameter's name
+        if(parsedParameter == parameter.name)
+        {
+            // Return the parameter's value
+            return parameter.value;
+        }
+    }
+
     return result;
 }
 
 // Parse unary minus (TODO)
 float LSystemExpression::parseOperatorLvl1()
 {
-    float result = parseNumber();
+    // Store the result of the operator, initialized with the parseNumber() or parseParameter()
+    float result;
+    if(isdigit(*expressionIterator)) { result = parseNumber(); }
+    else { result = parseParameter(); }
     return result;
 }
 

@@ -9,10 +9,12 @@ class LSystemModule
 {
 public:
     // Constructors / desctructors
-    LSystemModule(class LSystemParameters* _parameters = nullptr) : name('\0'), parameters(_parameters) {  }
+    LSystemModule(class LSystemParameters* _parameters = nullptr) : 
+        name('\0'), 
+        parameters(_parameters) { }
     LSystemModule(char _name, class LSystemParameters* _parameters = nullptr) : 
         name(_name), 
-        parameters(_parameters) {  }
+        parameters(_parameters) { }
     LSystemModule(char _name, std::vector<float> _parameterValues, class LSystemParameters* _parameters = nullptr);
     LSystemModule(char _name, std::vector<std::string> _parameterNames, class LSystemParameters* _parameters = nullptr);
     LSystemModule(char _name, std::string _parameterString, class LSystemParameters* _parameters = nullptr);
