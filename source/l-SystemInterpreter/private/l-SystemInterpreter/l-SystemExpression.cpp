@@ -1,6 +1,6 @@
 #include "l-SystemInterpreter/l-SystemExpression.h"
 
-#include "l-SystemInterpreter/l-SystemModule.h"
+#include "l-SystemInterpreter/l-SystemConcreteModule.h"
 #include "l-SystemInterpreter/l-SystemParameters.h"
 
 #include <iostream>
@@ -9,7 +9,7 @@
 ////////////////////////////////////////
 // Constructors / desctructors
 ////////////////////////////////////////
-LSystemExpression::LSystemExpression(std::string _expression, LSystemModule* _module, LSystemParameters* _parameters) :
+LSystemExpression::LSystemExpression(std::string _expression, LSystemConcreteModule* _module, LSystemParameters* _parameters) :
     module(_module),
     parameters(_parameters)
 {
@@ -39,7 +39,7 @@ void LSystemExpression::setExpression(std::string _expression)
     expression = _expression;
 }
 
-void LSystemExpression::setModule(LSystemModule* _module)
+void LSystemExpression::setModule(LSystemConcreteModule* _module)
 {
     module = _module;
 }
@@ -53,7 +53,7 @@ void LSystemExpression::setParameters(LSystemParameters* _parameters)
 ////////////////////////////////////////
 // Public functions
 ////////////////////////////////////////
-float LSystemExpression::parseDecimalExpression(LSystemModule _module)
+float LSystemExpression::parseDecimalExpression(LSystemConcreteModule _module)
 {
     if(expression.empty()) { return 0.0f; }
     expressionIterator = expression.begin();
@@ -61,7 +61,7 @@ float LSystemExpression::parseDecimalExpression(LSystemModule _module)
     return _result;
 }
 
-bool LSystemExpression::parseBinaryExpression(LSystemModule _module)
+bool LSystemExpression::parseBinaryExpression(LSystemConcreteModule _module)
 {
     if(expression.empty()) { return false; }
     expressionIterator = expression.begin();
