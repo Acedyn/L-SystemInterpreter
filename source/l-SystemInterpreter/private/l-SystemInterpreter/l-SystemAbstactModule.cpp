@@ -1,11 +1,11 @@
 #include "l-SystemInterpreter/l-SystemAbstactModule.h"
 
-#include "l-SystemInterpreter/l-SystemModule.h"
+#include "l-SystemInterpreter/l-SystemConcreteModule.h"
 
 ////////////////////////////////////////
 // Constructors / Destructors
 ////////////////////////////////////////
-LSystemAbstactModule::LSystemAbstactModule(char _name, std::vector<std::string> _parameterNames, LSystemModule* _module) : 
+LSystemAbstactModule::LSystemAbstactModule(char _name, std::vector<std::string> _parameterNames, LSystemConcreteModule* _module) : 
         name(_name),
         parameterNames(_parameterNames),
         module(_module) 
@@ -13,7 +13,7 @@ LSystemAbstactModule::LSystemAbstactModule(char _name, std::vector<std::string> 
     updateParameterNames();
 }
 
-LSystemAbstactModule::LSystemAbstactModule(char _name, std::string _parameterNames, LSystemModule* _module) : 
+LSystemAbstactModule::LSystemAbstactModule(char _name, std::string _parameterNames, LSystemConcreteModule* _module) : 
     name(_name),
     module(_module)
 {
@@ -93,11 +93,6 @@ std::ostream& operator<<(std::ostream& stream, const LSystemAbstactModule& _abst
 ////////////////////////////////////////
 // Setters / Getters
 ////////////////////////////////////////
-void LSystemAbstactModule::setName(char _name)
-{
-    name = _name;
-}
-
 void LSystemAbstactModule::setParameterNames(std::vector<std::string> _parameterNames)
 {
     parameterNames = _parameterNames;
@@ -141,7 +136,7 @@ void LSystemAbstactModule::setParameterNames(std::string _parameterNames)
     parameterNames = _namesBuffer;
 }
 
-void LSystemAbstactModule::setModule(LSystemModule* _module)
+void LSystemAbstactModule::setModule(LSystemConcreteModule* _module)
 {
     module = _module;
     updateParameterNames();

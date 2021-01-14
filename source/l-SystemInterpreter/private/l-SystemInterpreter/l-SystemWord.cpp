@@ -46,7 +46,7 @@ bool LSystemWord::operator!=(const LSystemWord& _other) const
 std::ostream& operator<<(std::ostream& stream, const LSystemWord& _word)
 {
     // Loop over all the modules of the word
-    std::vector<LSystemModule> _wordModules = _word.getModules();
+    std::vector<LSystemConcreteModule> _wordModules = _word.getModules();
     for(int i = 0; i < _wordModules.size(); i++)
     {
         // Print the module
@@ -65,7 +65,7 @@ std::ostream& operator<<(std::ostream& stream, const LSystemWord& _word)
 ////////////////////////////////////////
 // Getters / setters / append
 ////////////////////////////////////////
-void LSystemWord::appendModule(LSystemModule _module)
+void LSystemWord::appendModule(LSystemConcreteModule _module)
 {
     modules.emplace_back(_module);
 }
@@ -99,7 +99,7 @@ void LSystemWord::parseWord(std::string _word)
         else if(_character != '(' && isParsingParameter == false)
         {
             // Append the module with only a name
-            appendModule(LSystemModule(_nameBuffer, parameters));
+            appendModule(LSystemConcreteModule(_nameBuffer, parameters));
             // Clear the buffers
             _nameBuffer = '\0';
             _parametersBuffer.clear();
@@ -121,7 +121,7 @@ void LSystemWord::parseWord(std::string _word)
         else if(_character == ')' && isParsingParameter == true)
         {
             // Append the module with the name and the parameters
-            appendModule(LSystemModule(_nameBuffer, _parametersBuffer, parameters));
+            appendModule(LSystemConcreteModule(_nameBuffer, _parametersBuffer, parameters));
             // Clear the buffers
             _nameBuffer = '\0';
             _parametersBuffer.clear();

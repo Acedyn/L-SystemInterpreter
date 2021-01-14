@@ -1,6 +1,6 @@
 #pragma once
 
-#include "l-SystemInterpreter/l-SystemModule.h"
+#include "l-SystemInterpreter/l-SystemConcreteModule.h"
 
 #include <string>
 #include <vector>
@@ -12,7 +12,7 @@ public:
     // Constructors / desctructors
     LSystemWord(class LSystemParameters* _parameters = nullptr) : parameters(_parameters) { }
     LSystemWord(std::string _word, class LSystemParameters* _parameters = nullptr);
-    LSystemWord(std::vector<LSystemModule> _modules, class LSystemParameters* _parameters = nullptr) : 
+    LSystemWord(std::vector<LSystemConcreteModule> _modules, class LSystemParameters* _parameters = nullptr) : 
         modules(_modules) { }
     ~LSystemWord() { }
 
@@ -22,19 +22,19 @@ public:
     friend std::ostream& operator<<(std::ostream& stream, const LSystemWord& _word);
 
     // Getters / setters / append
-    void appendModule(LSystemModule _module);
+    void appendModule(LSystemConcreteModule _module);
     void appendWord(LSystemWord _word);
-    std::vector<LSystemModule> getModules() const { return modules; }
+    std::vector<LSystemConcreteModule> getModules() const { return modules; }
 
     // Iterator
-    std::vector<LSystemModule>::iterator begin() { return modules.begin(); }
-    std::vector<LSystemModule>::iterator end() { return modules.end(); }
+    std::vector<LSystemConcreteModule>::iterator begin() { return modules.begin(); }
+    std::vector<LSystemConcreteModule>::iterator end() { return modules.end(); }
 
 private:
     // Private functions
     void parseWord(std::string _word);
 
     // Private variables
-    std::vector<LSystemModule> modules;
+    std::vector<LSystemConcreteModule> modules;
     class LSystemParameters* parameters = nullptr;
 };

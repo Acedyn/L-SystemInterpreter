@@ -53,11 +53,11 @@ void LSystem::iterate()
         bool _match = false;
 
         // Store the previous module
-        LSystemModule* _previousModule = _wordIterator-- == outputWord->begin() ? nullptr : &(*_wordIterator);
+        LSystemConcreteModule* _previousModule = _wordIterator-- == outputWord->begin() ? nullptr : &(*_wordIterator);
         // Reposition the iterator
         _wordIterator++;
         // Store the next module
-        LSystemModule* _nextModule = ++_wordIterator == outputWord->end() ? nullptr : &(*_wordIterator);
+        LSystemConcreteModule* _nextModule = ++_wordIterator == outputWord->end() ? nullptr : &(*_wordIterator);
         // Reposition the iterator
         _wordIterator--;
         
