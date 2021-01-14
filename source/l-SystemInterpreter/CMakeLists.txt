@@ -33,5 +33,5 @@ if(UNIX)
     set_target_properties(l-SystemInterpreter
         PROPERTIES
         ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/binaries/l-SystemInterpreter/unix")
-endif(CMAKE_GENERATOR == "Unix Makefiles")
+endif(UNIX)
 
