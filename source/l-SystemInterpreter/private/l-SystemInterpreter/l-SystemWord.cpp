@@ -95,8 +95,8 @@ void LSystemWord::parseWord(std::string _word)
         {
             // Append the module with only a name
             appendModule(LSystemConcreteModule(_nameBuffer, parameters));
-            // Clear the buffers
-            _nameBuffer = '\0';
+            // Clear the buffers and initialize the name buffer
+            _nameBuffer = _character;
             _parametersBuffer.clear();
             isParsingParameter = false;
         }
@@ -121,6 +121,7 @@ void LSystemWord::parseWord(std::string _word)
             _nameBuffer = '\0';
             _parametersBuffer.clear();
             isParsingParameter = false;
+            
         }
     }
 }
