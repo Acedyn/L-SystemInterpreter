@@ -1,7 +1,7 @@
 #include "l-SystemInterpreter/l-SystemConcreteModule.h"
 
 #include "l-SystemInterpreter/l-SystemParameters.h"
-#include "l-SystemInterpreter/l-SystemAbstactModule.h"
+#include "l-SystemInterpreter/l-SystemAbstractModule.h"
 
 #include <ctype.h>
 #include <math.h>
@@ -57,7 +57,7 @@ bool LSystemConcreteModule::operator!=(const LSystemConcreteModule& _other) cons
     return true;
 }
 
-bool LSystemConcreteModule::operator==(const LSystemAbstactModule& _other) const
+bool LSystemConcreteModule::operator==(const LSystemAbstractModule& _other) const
 {
     // Test if the two modules have the same name
     if(name != _other.getName()) { return false; }
@@ -68,7 +68,7 @@ bool LSystemConcreteModule::operator==(const LSystemAbstactModule& _other) const
     return true;
 }
 
-bool LSystemConcreteModule::operator!=(const LSystemAbstactModule& _other) const
+bool LSystemConcreteModule::operator!=(const LSystemAbstractModule& _other) const
 {
     // Test if the two modules have the same name
     if(name == _other.getName()) { return false; }
@@ -324,7 +324,7 @@ void LSystemConcreteModule::addParameterValue(std::string _parameterName)
 ////////////////////////////////////////
 // Linked module
 ////////////////////////////////////////
-bool LSystemConcreteModule::setLinkedModule(LSystemAbstactModule* _module)
+bool LSystemConcreteModule::setLinkedModule(LSystemAbstractModule* _module)
 {
     // If the name matches
     if(*this == *_module)

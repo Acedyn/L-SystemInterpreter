@@ -3,25 +3,25 @@
 #include <iostream>
 #include <vector>
 
-class LSystemAbstactModule
+class LSystemAbstractModule
 {
 public:
     // Constructors / Destructors
-    LSystemAbstactModule(
+    LSystemAbstractModule(
             char _name = '\0', 
             std::vector<std::string> _parameterNames = {}, 
             class LSystemConcreteModule* _module = nullptr);
-    LSystemAbstactModule(
+    LSystemAbstractModule(
             char _name = '\0', 
             std::string _parameterNames = "", 
             class LSystemConcreteModule* _module = nullptr);
 
     // Operators
-    bool operator==(const LSystemAbstactModule& _other) const;
-    bool operator!=(const LSystemAbstactModule& _other) const;
+    bool operator==(const LSystemAbstractModule& _other) const;
+    bool operator!=(const LSystemAbstractModule& _other) const;
     bool operator==(const class LSystemConcreteModule& _other) const;
     bool operator!=(const class LSystemConcreteModule& _other) const;
-    friend std::ostream& operator<<(std::ostream& stream, const LSystemAbstactModule& _abstractModule);
+    friend std::ostream& operator<<(std::ostream& stream, const LSystemAbstractModule& _abstractModule);
 
     // Module'name
     void setName(char _name) { name = _name; };

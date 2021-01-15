@@ -1,5 +1,5 @@
 #include "l-SystemInterpreter/l-SystemConcreteModule.h"
-#include "l-SystemInterpreter/l-SystemAbstactModule.h"
+#include "l-SystemInterpreter/l-SystemAbstractModule.h"
 #include "l-SystemInterpreter/l-SystemParameters.h"
 #include "l-SystemInterpreter/l-SystemWord.h"
 // #include "l-SystemInterpreter/l-SystemExpression.h"
@@ -25,10 +25,10 @@ int main()
     std::cout << "Test module2 : " << testConcreteModule2 << std::endl;
     LSystemWord testWord1("C(AD, 50, 3.5)X(AS, F)%R!!D()?(0.21)", &testParameters1);
     std::cout << "Test word1 : " << testWord1 << std::endl;
-    LSystemAbstactModule testAbstactModule1('B', "s, ot, 4er!");
-    testAbstactModule1.setLinkedModule(&testConcreteModule2);
-    testAbstactModule1.setLinkedModule(&testConcreteModule1);
-    std::cout << "Test abstractModule1 : " << testAbstactModule1 << std::endl;
+    LSystemAbstractModule testAbstractModule1('B', "s, ot, 4er!");
+    testAbstractModule1.setLinkedModule(&testConcreteModule2);
+    testAbstractModule1.setLinkedModule(&testConcreteModule1);
+    std::cout << "Test abstractModule1 : " << testAbstractModule1 << std::endl;
     
 
     std::cout << std::endl << "Classes test completed" << std::endl << std::endl << std::endl;

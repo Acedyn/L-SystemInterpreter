@@ -22,8 +22,8 @@ public:
     // Operators
     bool operator==(const LSystemConcreteModule& _other) const;
     bool operator!=(const LSystemConcreteModule& _other) const;
-    bool operator==(const class LSystemAbstactModule& _other) const;
-    bool operator!=(const class LSystemAbstactModule& _other) const;
+    bool operator==(const class LSystemAbstractModule& _other) const;
+    bool operator!=(const class LSystemAbstractModule& _other) const;
     friend std::ostream& operator<<(std::ostream& stream, const LSystemConcreteModule& _module);
 
     // Module's name
@@ -43,8 +43,8 @@ public:
     void addParameterValue(float _parameterValue);
     void addParameterValue(std::string _parameterValue);
     // Linked module
-    bool setLinkedModule(class LSystemAbstactModule* _module);
-    class LSystemAbstactModule* getLinkedModule() const { return linkedModule; }
+    bool setLinkedModule(class LSystemAbstractModule* _module);
+    class LSystemAbstractModule* getLinkedModule() const { return linkedModule; }
     bool isLinked() const { return linkedModule != nullptr; }
 
 
@@ -53,7 +53,7 @@ private:
     char name;
     std::vector<float> parameterValues;
     class LSystemParameters* globalParameters = nullptr;
-    class LSystemAbstactModule* linkedModule = nullptr;
+    class LSystemAbstractModule* linkedModule = nullptr;
 
     // Matches the parameters with the linked module
     void matchParameters();
