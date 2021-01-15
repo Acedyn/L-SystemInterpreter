@@ -2,7 +2,7 @@
 #include "l-SystemInterpreter/l-SystemAbstractModule.h"
 #include "l-SystemInterpreter/l-SystemParameters.h"
 #include "l-SystemInterpreter/l-SystemWord.h"
-// #include "l-SystemInterpreter/l-SystemExpression.h"
+#include "l-SystemInterpreter/l-SystemExpression.h"
 // #include "l-SystemInterpreter/l-SystemRule.h"
 // #include "l-SystemInterpreter/l-System.h"
 
@@ -29,6 +29,12 @@ int main()
     testAbstractModule1.setLinkedModule(&testConcreteModule2);
     testAbstractModule1.setLinkedModule(&testConcreteModule1);
     std::cout << "Test abstractModule1 : " << testAbstractModule1 << std::endl;
+    LSystemExpression testExpression1("-7+8/2^2-er+AD", &testAbstractModule1, &testParameters1);
+    std::cout << "Test expression1 : " 
+        << testExpression1.getExpression() 
+        << " = " 
+        << testExpression1.parseDecimalExpression()
+        << std::endl;
     
 
     std::cout << std::endl << "Classes test completed" << std::endl << std::endl << std::endl;

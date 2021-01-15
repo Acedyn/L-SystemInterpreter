@@ -1,33 +1,78 @@
 #include "l-SystemInterpreter/l-SystemExpression.h"
 
-#include "l-SystemInterpreter/l-SystemConcreteModule.h"
+#include "l-SystemInterpreter/l-SystemAbstractModule.h"
 #include "l-SystemInterpreter/l-SystemParameters.h"
 
 #include <iostream>
 #include <math.h>
 
 ////////////////////////////////////////
-// Constructors / desctructors
-////////////////////////////////////////
-LSystemExpression::LSystemExpression(std::string _expression, LSystemConcreteModule* _module, LSystemParameters* _parameters) :
-    module(_module),
-    parameters(_parameters)
-{
-    setExpression(_expression);
-}
-
-
-////////////////////////////////////////
 // Operators
 ////////////////////////////////////////
 bool LSystemExpression::operator==(const LSystemExpression& _other) const
 {
-    return expression == _other.getExpression();
+    // Test if the expressions matches
+    if(expression != _other.getExpression()) { return false; }
+
+    // If both modules are set
+    if(module != nullptr && _other.getModule() != nullptr)
+    {
+        // Test if the modules matches
+        if(*module != *(_other.getModule())) { return false; }
+    }
+    else
+    {
+        // Test if the modules matches
+        if(module != _other.getModule()) { return false; }
+    }
+
+    // If both globalParameters are set
+    if(globalParameters != nullptr && _other.getGlobalParameters() != nullptr)
+    {
+        // Test if the parameters matches
+        if(*globalParameters != *(_other.getGlobalParameters())) { return false; }
+    }
+    else
+    {
+        // Test if the parametres matches
+        if(globalParameters != _other.getGlobalParameters()) { return false; }
+    }
+    
+    // If all the tests passes return true
+    return true;
 }
 
 bool LSystemExpression::operator!=(const LSystemExpression& _other) const
 {
-    return expression == _other.getExpression();
+    // Test if the expressions matches
+    if(expression != _other.getExpression()) { return true; }
+
+    // If both modules are set
+    if(module != nullptr && _other.getModule() != nullptr)
+    {
+        // Test if the modules matches
+        if(*module != *(_other.getModule())) { return true; }
+    }
+    else
+    {
+        // Test if the modules matches
+        if(module != _other.getModule()) { return true; }
+    }
+
+    // If both globalParameters are set
+    if(globalParameters != nullptr && _other.getGlobalParameters() != nullptr)
+    {
+        // Test if the parameters matches
+        if(*globalParameters != *(_other.getGlobalParameters())) { return true; }
+    }
+    else
+    {
+        // Test if the parametres matches
+        if(globalParameters != _other.getGlobalParameters()) { return true; }
+    }
+    
+    // If all the tests passes return false
+    return false;
 }
 
 
@@ -39,21 +84,21 @@ void LSystemExpression::setExpression(std::string _expression)
     expression = _expression;
 }
 
-void LSystemExpression::setModule(LSystemConcreteModule* _module)
+void LSystemExpression::setModule(LSystemAbstractModule* _module)
 {
     module = _module;
 }
 
-void LSystemExpression::setParameters(LSystemParameters* _parameters)
+void LSystemExpression::setGlobalParameters(LSystemParameters* _globalParameters)
 {
-    parameters = _parameters;
+    globalParameters = _globalParameters;
 }
 
 
 ////////////////////////////////////////
 // Public functions
 ////////////////////////////////////////
-float LSystemExpression::parseDecimalExpression(LSystemConcreteModule _module)
+float LSystemExpression::parseDecimalExpression()
 {
     if(expression.empty()) { return 0.0f; }
     expressionIterator = expression.begin();
@@ -61,7 +106,7 @@ float LSystemExpression::parseDecimalExpression(LSystemConcreteModule _module)
     return _result;
 }
 
-bool LSystemExpression::parseBinaryExpression(LSystemConcreteModule _module)
+bool LSystemExpression::parseBinaryExpression()
 {
     if(expression.empty()) { return false; }
     expressionIterator = expression.begin();
@@ -96,7 +141,7 @@ float LSystemExpression::parseNumber()
         if(number >= 0 && number <= 9)
         {
             // If we are parsing numbers before the decimal comma
-            if(isFloatingValue)
+            if(!isFloatingValue)
             {
                 // Append the value to the result
                 result = result * 10 + (static_cast<int>(*expressionIterator) - 48);
@@ -135,22 +180,37 @@ float LSystemExpression::parseParameter()
     // Store the result of the parameter
     float result = 0.0f;
 
-    std::string parsedParameter;
+    std::string _parsedParameter;
 
     while(isalpha(*expressionIterator))
     {
-        parsedParameter.push_back(*expressionIterator);
+        _parsedParameter.push_back(*expressionIterator);
         expressionIterator++;
     }
 
-    // Loop over all the parameters
-    for(LSystemParameter parameter : *parameters)
+    // Loop over all the global parameters
+    for(LSystemParameter _globalParameter : *globalParameters)
     {
         // If the name of the parameter matches the parsed Parameter's name
-        if(parsedParameter == parameter.name)
+        if(_parsedParameter == _globalParameter.name)
         {
             // Return the parameter's value
-            return parameter.value;
+            return _globalParameter.value;
+        }
+    }
+
+    // If the module is linked
+    if(module->isLinked())
+    {
+        // Loop over all the module's parameters
+        for(LSystemParameter _moduleParameter : module->getParameters())
+        {
+            // If the name of the parameter matches the parsed Parameter's name
+            if(_parsedParameter == _moduleParameter.name)
+            {
+                // Return the parameter's value
+                return _moduleParameter.value;
+            }
         }
     }
 
@@ -162,8 +222,11 @@ float LSystemExpression::parseOperatorLvl1()
 {
     // Store the result of the operator, initialized with the parseNumber() or parseParameter()
     float result;
+    
     if(isdigit(*expressionIterator)) { result = parseNumber(); }
-    else { result = parseParameter(); }
+    else if(isalpha(*expressionIterator)) { result = parseParameter(); }
+    else { result = 0.0f; }
+
     return result;
 }
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "l-SystemParameters.h"
+
 #include <vector>
 #include <string>
 #include <iostream>
@@ -46,6 +48,8 @@ public:
     bool setLinkedModule(class LSystemAbstractModule* _module);
     class LSystemAbstractModule* getLinkedModule() const { return linkedModule; }
     bool isLinked() const { return linkedModule != nullptr; }
+    // LSystemParameters
+    LSystemParameters getParameters() const;
 
 
 private:

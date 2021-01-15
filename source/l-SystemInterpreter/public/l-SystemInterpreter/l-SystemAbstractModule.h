@@ -1,5 +1,7 @@
 #pragma once
 
+#include "l-SystemParameters.h"
+
 #include <iostream>
 #include <vector>
 
@@ -42,6 +44,8 @@ public:
     bool setLinkedModule(class LSystemConcreteModule* _module);
     class LSystemConcreteModule* getLinkedModule() const { return linkedModule; }
     bool isLinked() const { return linkedModule != nullptr; }
+    // LSystemParameters
+    LSystemParameters getParameters() const;
 
 private:
     // Private variables

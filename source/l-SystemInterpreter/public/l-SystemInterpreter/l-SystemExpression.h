@@ -6,10 +6,31 @@ class LSystemExpression
 {
 public:
     // Constructors / desctructors
-    LSystemExpression(class LSystemConcreteModule* _module = nullptr, class LSystemParameters* _parameters = nullptr) :
+    LSystemExpression() { }
+    LSystemExpression(
+            class LSystemAbstractModule* _module, 
+            class LSystemParameters* _globalParameters = nullptr) :
         module(_module),
-        parameters(_parameters) { }
-    LSystemExpression(std::string _expression, class LSystemConcreteModule* _module = nullptr, class LSystemParameters* _parameters = nullptr);
+        globalParameters(_globalParameters) { }
+    LSystemExpression(
+            class LSystemParameters* _globalParameters,
+            class LSystemAbstractModule* _module = nullptr) : 
+        globalParameters(_globalParameters),
+        module(_module) { }
+    LSystemExpression(
+            std::string _expression, 
+            class LSystemAbstractModule* _module, 
+            class LSystemParameters* _globalParameters = nullptr) :
+        expression(_expression),
+        module(_module),
+        globalParameters(_globalParameters) { }
+    LSystemExpression(
+            std::string _expression, 
+            class LSystemParameters* _globalParameters,
+            class LSystemAbstractModule* _module = nullptr) :
+        expression(_expression),
+        globalParameters(_globalParameters),
+        module(_module) { }
     ~LSystemExpression() { }
 
     // Operators
@@ -19,20 +40,22 @@ public:
     // Getters / setters
     void setExpression(std::string _expression);
     std::string getExpression() const { return expression; }
-    void setModule(class LSystemConcreteModule* _module);
-    void setParameters(class LSystemParameters* _parameters);
+    void setModule(class LSystemAbstractModule* _module);
+    class LSystemAbstractModule* getModule() const { return module; }
+    void setGlobalParameters(class LSystemParameters* _globalParameters);
+    class LSystemParameters* getGlobalParameters() const { return globalParameters; }
 
     // Public functions
-    float parseDecimalExpression(class LSystemConcreteModule _module);
-    bool parseBinaryExpression(class LSystemConcreteModule _module);
+    float parseDecimalExpression();
+    bool parseBinaryExpression();
 
 
 private:
     // Private variables
     std::string expression;
     std::string::iterator expressionIterator;
-    class LSystemConcreteModule* module  = nullptr;
-    class LSystemParameters* parameters = nullptr;
+    class LSystemAbstractModule* module  = nullptr;
+    class LSystemParameters* globalParameters = nullptr;
 
     // Parsing functions
     float parseNumber();       // parse numer

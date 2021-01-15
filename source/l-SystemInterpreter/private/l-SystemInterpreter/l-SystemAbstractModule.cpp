@@ -255,6 +255,18 @@ bool LSystemAbstractModule::setLinkedModule(LSystemConcreteModule* _module)
 
 
 ////////////////////////////////////////
+// LSystemParameters
+////////////////////////////////////////
+LSystemParameters LSystemAbstractModule::getParameters() const
+{
+    // If the module is not linked to an other module return nothing
+    if(!isLinked()) { return LSystemParameters(); }
+
+    return LSystemParameters(getParameterNames(), getParameterValues());
+}
+
+
+////////////////////////////////////////
 // Private Functions
 ////////////////////////////////////////
 void LSystemAbstractModule::matchParameters()
