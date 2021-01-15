@@ -96,11 +96,11 @@ int main()
     // LSystem
     LSystem anabaenaCatenulaModel(axiom, {&rule1, &rule2, &rule3, &rule4});
 
-    std::cout << *(anabaenaCatenulaModel.getOutputWord());
+    std::cout << *(anabaenaCatenulaModel.getOutputWord()) << std::endl;
     for(int i = 0; i < 1; i++)
     {
         anabaenaCatenulaModel.iterate();
-        std::cout << *(anabaenaCatenulaModel.getOutputWord());
+        std::cout << *(anabaenaCatenulaModel.getOutputWord()) << std::endl;
     }
 
     std::cout << std::endl << "Anabaena Catenula model test COMPLETED" << std::endl << std::endl << std::endl;
