@@ -25,8 +25,9 @@ int main()
     std::cout << "Test module2 : " << testConcreteModule2 << std::endl;
     LSystemWord testWord1("C(AD, 50, 3.5)X(AS, F)%R!!D()?(0.21)", &testParameters1);
     std::cout << "Test word1 : " << testWord1 << std::endl;
-    LSystemAbstactModule testAbstactModule1('B', "s, ot, :a, 4er!");
-    testAbstactModule1.setModule(&testConcreteModule1);
+    LSystemAbstactModule testAbstactModule1('B', "s, ot, 4er!");
+    testAbstactModule1.setLinkedModule(&testConcreteModule2);
+    testAbstactModule1.setLinkedModule(&testConcreteModule1);
     std::cout << "Test abstractModule1 : " << testAbstactModule1 << std::endl;
     
 

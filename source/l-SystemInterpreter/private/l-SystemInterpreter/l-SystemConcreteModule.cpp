@@ -1,6 +1,7 @@
 #include "l-SystemInterpreter/l-SystemConcreteModule.h"
 
 #include "l-SystemInterpreter/l-SystemParameters.h"
+#include "l-SystemInterpreter/l-SystemAbstactModule.h"
 
 #include <ctype.h>
 #include <math.h>
@@ -10,23 +11,18 @@
 ////////////////////////////////////////
 LSystemConcreteModule::LSystemConcreteModule(char _name, std::vector<float> _parameterValues, LSystemParameters* _parameters) :
     name(_name),
-    parameters(_parameters)
+    globalParameters(_parameters)
 {
-    setParameters(_parameterValues);
-}
-
-LSystemConcreteModule::LSystemConcreteModule(char _name, std::vector<std::string> _parameterNames, LSystemParameters* _parameters) :
-    name(_name),
-    parameters(_parameters)
-{
-    setParameters(_parameterNames);
+    setParameterValues(_parameterValues);
+    matchParameters();
 }
 
 LSystemConcreteModule::LSystemConcreteModule(char _name, std::string _parameterString, LSystemParameters* _parameters) :
     name(_name),
-    parameters(_parameters)
+    globalParameters(_parameters)
 {
-    setParameters(_parameterString);
+    setParameterValues(_parameterString);
+    matchParameters();
 }
 
 
@@ -38,11 +34,11 @@ bool LSystemConcreteModule::operator==(const LSystemConcreteModule& _other) cons
     // Test if the two modules have the same name
     if(name != _other.getName()) { return false; }
     // Test if the two modules have as many parameters
-    if(parameterValues.size() != _other.getParameters().size()) { return false; }
+    if(parameterValues.size() != _other.getParameterValues().size()) { return false; }
     // Loop over all the parameters to compare them
     for(int i = 0; i < parameterValues.size(); i++)
     {
-        if(parameterValues[i] != (_other.getParameters())[i]) { return false; }
+        if(parameterValues[i] != (_other.getParameterValues())[i]) { return false; }
     }
     return true;
 }
@@ -52,12 +48,34 @@ bool LSystemConcreteModule::operator!=(const LSystemConcreteModule& _other) cons
     // Test if the two modules have the same name
     if(name == _other.getName()) { return false; }
     // Test if the two modules have as many parameters
-    if(parameterValues.size() != _other.getParameters().size()) { return true; }
+    if(parameterValues.size() != _other.getParameterValues().size()) { return true; }
     // Loop over all the parameters to compare them
     for(int i = 0; i < parameterValues.size(); i++)
     {
-        if(parameterValues[i] == (_other.getParameters())[i]) { return false; }
+        if(parameterValues[i] == (_other.getParameterValues())[i]) { return false; }
     }
+    return true;
+}
+
+bool LSystemConcreteModule::operator==(const LSystemAbstactModule& _other) const
+{
+    // Test if the two modules have the same name
+    if(name != _other.getName()) { return false; }
+    // Test if the two modules have as many parameters
+    if(parameterValues.size() != _other.getParameterNames().size()) { return false; }
+
+    // If everything is ok
+    return true;
+}
+
+bool LSystemConcreteModule::operator!=(const LSystemAbstactModule& _other) const
+{
+    // Test if the two modules have the same name
+    if(name == _other.getName()) { return false; }
+    // Test if the two modules have as many parameters
+    if(parameterValues.size() == _other.getParameterNames().size()) { return false; }
+
+    // If everything is ok
     return true;
 }
 
@@ -67,7 +85,7 @@ std::ostream& operator<<(std::ostream& stream, const LSystemConcreteModule& _mod
     stream << _module.getName();
 
     // Get the parameters of the module
-    std::vector<float> _moduleParameters = _module.getParameters();
+    std::vector<float> _moduleParameters = _module.getParameterValues();
 
     // If the module doesn't have parameters only return the name
     if(_moduleParameters.empty()) { return stream; }
@@ -77,8 +95,16 @@ std::ostream& operator<<(std::ostream& stream, const LSystemConcreteModule& _mod
     // Loop over all the parameters of the module
     for(int i = 0; i < _moduleParameters.size(); i++)
     {
+        // If the module as a linked module
+        if(_module.isLinked())
+        {
+            // Print the parameters's value
+            stream << _module.getLinkedModule()->getParameterNames()[i] << " = ";
+        }
+
         // Print the parameter's value
         stream << _moduleParameters[i];
+
         // If this is not the last parameter print a comma
         if(i != _moduleParameters.size() - 1)
         {
@@ -93,57 +119,59 @@ std::ostream& operator<<(std::ostream& stream, const LSystemConcreteModule& _mod
 
 
 ////////////////////////////////////////
-// Setters / getters
+// Parameter names
 ////////////////////////////////////////
-void LSystemConcreteModule::addParameter(float _parameterValue)
+void LSystemConcreteModule::setParameterNames(std::vector<std::string> _parameterNames)
 {
-    parameterValues.emplace_back(_parameterValue);
+    // If the module is not linked to an other module cancel the operation
+    if(!isLinked()) { return; }
+
+    linkedModule->setParameterNames(_parameterNames);
 }
 
-void LSystemConcreteModule::addParameter(std::string _parameterName)
+void LSystemConcreteModule::setParameterNames(std::string _parameterNames)
 {
-    // Test if we have parameters
-    if(parameters == nullptr) { return; }
-    // Test if the string is empty
-    if(_parameterName.empty()) { return; }
-    // Test if the name of the parameter does contain only letters
-    for(char _character : _parameterName)
-    {
-        if(!isalpha(_character)) 
-        { 
-            return;
-        }
-    }
-    // Loop over all the given parameters to find a match
-    for(auto parametersIterator = parameters->begin(); parametersIterator != parameters->end(); parametersIterator++)
-    {
-        if(_parameterName == parametersIterator->name)
-        {
-            addParameter(parametersIterator->value);
-            break;
-        }
-    }
+    // If the module is not linked to an other module cancel the operation
+    if(!isLinked()) { return; }
+
+    linkedModule->setParameterNames(_parameterNames);
 }
 
-void LSystemConcreteModule::setParameters(std::vector<float> _parameterValues)
+std::vector<std::string> LSystemConcreteModule::getParameterNames() const
+{
+    // If the module is not linked to an other module return nothing
+    if(!isLinked()) { return {}; }
+
+    return linkedModule->getParameterNames();
+}
+
+bool LSystemConcreteModule::getParameterName(float _parameterValue, std::string& _parameterName) const
+{
+    // If the module is not linked to an other module return nothing
+    if(!isLinked()) { return false; }
+
+    return linkedModule->getParameterName(_parameterValue, _parameterName);
+}
+
+void LSystemConcreteModule::addParameterName(std::string _parameterName)
+{
+    // If the module is not linked to an other module cancel the operation
+    if(!isLinked()) { return; }
+
+    linkedModule->addParameterName(_parameterName);
+}
+
+
+////////////////////////////////////////
+// Parameter values
+////////////////////////////////////////
+void LSystemConcreteModule::setParameterValues(std::vector<float> _parameterValues)
 {
     parameterValues = _parameterValues;
+    matchParameters();
 }
 
-void LSystemConcreteModule::setParameters(std::vector<std::string> _parameterNames)
-{
-    // We reserve the space for the entire input vector after empty it
-    parameterValues.clear();
-    parameterValues.reserve(_parameterNames.size());
-    
-    // We store the input parameters one by one to check if they are valid
-    for(std::string _parameterName : _parameterNames)
-    {
-        addParameter(_parameterName);
-    }
-}
-
-void LSystemConcreteModule::setParameters(std::string _parameterString)
+void LSystemConcreteModule::setParameterValues(std::string _parameterString)
 {
     // Enum to set the parsing parameter type
     enum ParameterType
@@ -199,11 +227,11 @@ void LSystemConcreteModule::setParameters(std::string _parameterString)
                     break;
                 
                 case ParameterType::VALUE :
-                    addParameter(_valueBuffer + (_floatingValueBuffer / pow(10, digitCount)));
+                    addParameterValue(_valueBuffer + (_floatingValueBuffer / pow(10, digitCount)));
                     break;
 
                 case ParameterType::NAME :
-                    addParameter(_nameBuffer);
+                    addParameterValue(_nameBuffer);
                     break;
             }
 
@@ -220,15 +248,123 @@ void LSystemConcreteModule::setParameters(std::string _parameterString)
             break;
         
         case ParameterType::VALUE :
-            addParameter(_valueBuffer + (_floatingValueBuffer / pow(10, digitCount)));
+            addParameterValue(_valueBuffer + (_floatingValueBuffer / pow(10, digitCount)));
             break;
 
         case ParameterType::NAME :
-            addParameter(_nameBuffer);
+            addParameterValue(_nameBuffer);
             break;
     }
     _valueBuffer = 0.0f;
     _floatingValueBuffer = 0.0f;
     _nameBuffer.clear();
     type = ParameterType::NONE;
+
+    matchParameters();
+}
+
+bool LSystemConcreteModule::getParameterValue(std::string _parameterName, float& _parameterValue) const
+{
+    // If there is no abstract module linked return false
+    if(!isLinked()) { return false; }
+
+    // Loop over all the parameter names of the linked module
+    int _parameterIndex = 0;
+    std::vector<std::string> _linkedParameterNames = linkedModule->getParameterNames();
+    for(std::string _linkedParameterName : _linkedParameterNames)
+    {
+        // If the parameter's name matches
+        if(_linkedParameterName == _parameterName)
+        {
+            // Return the parameter's value and true
+            _parameterValue = parameterValues[_parameterIndex];
+            return true;
+        }
+        _parameterIndex++;
+    }
+
+    // If there were no match return false
+    return false;
+}
+
+void LSystemConcreteModule::addParameterValue(float _parameterValue)
+{
+    parameterValues.emplace_back(_parameterValue);
+    matchParameters();
+}
+
+void LSystemConcreteModule::addParameterValue(std::string _parameterName)
+{
+    // Test if we have parameters
+    if(globalParameters == nullptr) { return; }
+    // Test if the string is empty
+    if(_parameterName.empty()) { return; }
+    // Test if the name of the parameter does contain only letters
+    for(char _character : _parameterName)
+    {
+        if(!isalpha(_character)) 
+        { 
+            return;
+        }
+    }
+    // Loop over all the given parameters to find a match
+    for(auto parametersIterator = globalParameters->begin(); parametersIterator != globalParameters->end(); parametersIterator++)
+    {
+        if(_parameterName == parametersIterator->name)
+        {
+            addParameterValue(parametersIterator->value);
+            break;
+        }
+    }
+
+    matchParameters();
+}
+
+
+////////////////////////////////////////
+// Linked module
+////////////////////////////////////////
+bool LSystemConcreteModule::setLinkedModule(LSystemAbstactModule* _module)
+{
+    // If the name matches
+    if(*this == *_module)
+    {
+        // Set the linked module
+        linkedModule = _module;
+        return true;
+    }
+    return false;
+}
+
+
+////////////////////////////////////////
+// Private Functions
+////////////////////////////////////////
+void LSystemConcreteModule::matchParameters()
+{
+    // If the module is not linked to an other module cancel the operation
+    if(!isLinked()) { return; }
+
+    // Get the difference of item count with the given module
+    int difference = parameterValues.size() - linkedModule->getParameterNames().size();
+    
+    // If there is more parameter names than parameters in the given module
+    if(difference > 0)
+    {
+        // For each items that are exeding the max lenght
+        for(int i = parameterValues.size() - difference; i >= parameterValues.size(); i++)
+        {
+            parameterValues.pop_back();
+        }
+    }
+
+    // There is not enough parameter names compared to the given module
+    if(difference < 0)
+    {
+        // For each items that should exists
+        for(int i = parameterValues.size() + difference; i >= linkedModule->getParameterNames().size(); i++)
+        {
+            addParameterValue(0.0f);
+        }
+    }
 }

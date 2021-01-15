@@ -8,17 +8,17 @@
 LSystemAbstactModule::LSystemAbstactModule(char _name, std::vector<std::string> _parameterNames, LSystemConcreteModule* _module) : 
         name(_name),
         parameterNames(_parameterNames),
-        module(_module) 
+        linkedModule(_module) 
 { 
-    updateParameterNames();
+    matchParameters();
 }
 
 LSystemAbstactModule::LSystemAbstactModule(char _name, std::string _parameterNames, LSystemConcreteModule* _module) : 
     name(_name),
-    module(_module)
+    linkedModule(_module)
 {
     setParameterNames(_parameterNames);
-    updateParameterNames();
+    matchParameters();
 }
     
 
@@ -30,13 +30,13 @@ bool LSystemAbstactModule::operator==(const LSystemAbstactModule& _other) const
     // Test if the two modules have the same name
     if(name != _other.getName()) { return false; }
     // Test if the modules are the same
-    if(*module != *(_other.getModule())) { return false; }
+    if(*linkedModule != *(_other.getLinkedModule())) { return false; }
     // Test if the two modules have as many parameters
-    if(parameterNames.size() != _other.getParameters().size()) { return false; }
+    if(parameterNames.size() != _other.getParameterNames().size()) { return false; }
     // Loop over all the parameters to compare them
     for(int i = 0; i < parameterNames.size(); i++)
     {
-        if(parameterNames[i] != (_other.getParameters())[i]) { return false; }
+        if(parameterNames[i] != (_other.getParameterNames())[i]) { return false; }
     }
     return true;
 }
@@ -46,24 +46,46 @@ bool LSystemAbstactModule::operator!=(const LSystemAbstactModule& _other) const
     // Test if the two modules have the same name
     if(name == _other.getName()) { return false; }
     // Test if the modules are the same
-    if(*module == *(_other.getModule())) { return false; }
+    if(*linkedModule == *(_other.getLinkedModule())) { return false; }
     // Test if the two modules have as many parameters
-    if(parameterNames.size() != _other.getParameters().size()) { return true; }
+    if(parameterNames.size() != _other.getParameterNames().size()) { return true; }
     // Loop over all the parameters to compare them
     for(int i = 0; i < parameterNames.size(); i++)
     {
-        if(parameterNames[i] == (_other.getParameters())[i]) { return false; }
+        if(parameterNames[i] == (_other.getParameterNames())[i]) { return false; }
     }
     return true;
 }
 
-std::ostream& operator<<(std::ostream& stream, const LSystemAbstactModule& _abstractModule)
+bool LSystemAbstactModule::operator==(const LSystemConcreteModule& _other) const
+{
+    // Test if the two modules have the same name
+    if(name != _other.getName()) { return false; }
+    // Test if the two modules have as many parameters
+    if(parameterNames.size() != _other.getParameterValues().size()) { return false; }
+
+    // If everything is ok
+    return true;
+}
+
+bool LSystemAbstactModule::operator!=(const LSystemConcreteModule& _other) const
+{
+    // Test if the two modules have the same name
+    if(name == _other.getName()) { return false; }
+    // Test if the two modules have as many parameters
+    if(parameterNames.size() == _other.getParameterValues().size()) { return false; }
+
+    // If everything is ok
+    return true;
+}
+
+std::ostream& operator<<(std::ostream& stream, const LSystemAbstactModule& _module)
 {
     // Print the name of the module
-    stream << _abstractModule.getName();
+    stream << _module.getName();
 
     // Get the parameters of the module
-    std::vector<std::string> _moduleParameters = _abstractModule.getParameters();
+    std::vector<std::string> _moduleParameters = _module.getParameterNames();
 
     // If the module doesn't have parameters only return the name
     if(_moduleParameters.empty()) { return stream; }
@@ -74,9 +96,15 @@ std::ostream& operator<<(std::ostream& stream, const LSystemAbstactModule& _abst
     for(int i = 0; i < _moduleParameters.size(); i++)
     {
         // Print the parameter's name
-        stream << _moduleParameters[i] << " = ";
-        // Print the parameters's value
-        stream << _abstractModule.getModule()->getParameters()[i];
+        stream << _moduleParameters[i];
+        
+        // If the module as a linked module
+        if(_module.isLinked())
+        {
+            // Print the parameters's value
+            stream << " = " << _module.getLinkedModule()->getParameterValues()[i];
+        }
+
         // If this is not the last parameter print a comma
         if(i != _moduleParameters.size() - 1)
         {
@@ -91,17 +119,16 @@ std::ostream& operator<<(std::ostream& stream, const LSystemAbstactModule& _abst
 
 
 ////////////////////////////////////////
-// Setters / Getters
+// Parameter names
 ////////////////////////////////////////
 void LSystemAbstactModule::setParameterNames(std::vector<std::string> _parameterNames)
 {
     parameterNames = _parameterNames;
+    matchParameters();
 }
 
 void LSystemAbstactModule::setParameterNames(std::string _parameterNames)
 {
-    // Buffer for all the parameters
-    std::vector<std::string> _namesBuffer;
     // Buffer for the parsing parameter
     std::string _nameBuffer;
 
@@ -117,8 +144,8 @@ void LSystemAbstactModule::setParameterNames(std::string _parameterNames)
         // If the character is a comma and the name buffer is not empty
         else if(_character == ',' && !_nameBuffer.empty())
         {
-            // Append the name buffer to the names buffer
-            _namesBuffer.emplace_back(_nameBuffer);
+            // Append the parameter to the parameter names
+            addParameterName(_nameBuffer);
             // Clear the name buffer
             _nameBuffer.clear();
         }
@@ -127,63 +154,102 @@ void LSystemAbstactModule::setParameterNames(std::string _parameterNames)
     // Empty the buffers one last time
     if(!_nameBuffer.empty())
     {
-        // Append the name buffer to the names buffer
-        _namesBuffer.emplace_back(_nameBuffer);
+        // Append the parameter to the parameter names
+        addParameterName(_nameBuffer);
         // Clear the name buffer
         _nameBuffer.clear();
     }
 
-    parameterNames = _namesBuffer;
-}
-
-void LSystemAbstactModule::setModule(LSystemConcreteModule* _module)
-{
-    module = _module;
-    updateParameterNames();
+    matchParameters();
 }
 
 bool LSystemAbstactModule::getParameterName(float _parameterValue, std::string& _parameterName) const
 {
+    // If there is no abstract module linked return false
+    if(!isLinked()) { return false; }
+
+    // Loop over all the parameter values of the linked module
     int _parameterIndex = 0;
-    // Loop over all the parameters
-    for(float _moduleParameter : module->getParameters())
+    std::vector<float> _linkedParameterValues = linkedModule->getParameterValues();
+    for(float _linkedParameterValue : _linkedParameterValues)
     {
-        // If the parameter's values matches
-        if(_parameterValue == _moduleParameter)
+        // If the parameter's value matches
+        if(_linkedParameterValue == _parameterValue)
         {
-            // Return the parameter's name
+            // Return the parameter's name and true
             _parameterName = parameterNames[_parameterIndex];
             return true;
         }
         _parameterIndex++;
     }
 
-    // Return false if no match found
+    // If there were no match return false
     return false;
+}
+
+void LSystemAbstactModule::addParameterName(std::string _parameterName)
+{
+    parameterNames.emplace_back(_parameterName);
+    matchParameters();
+}
+
+
+////////////////////////////////////////
+// Parameter values
+////////////////////////////////////////
+void LSystemAbstactModule::setParameterValues(std::vector<float> _parameterValues)
+{
+    // If the module is not linked to an other module cancel the operation
+    if(!isLinked()) { return; }
+
+    linkedModule->setParameterValues(_parameterValues);
+}
+
+void LSystemAbstactModule::setParameterValues(std::string _parameterValues)
+{
+    // If the module is not linked to an other module cancel the operation
+    if(!isLinked()) { return; }
+
+    linkedModule->setParameterValues(_parameterValues);
 }
 
 std::vector<float> LSystemAbstactModule::getParameterValues() const
 {
-    if(module != nullptr) { return module->getParameters(); }
-    else { return {}; }
+    // If the module is not linked to an other module return nothing
+    if(!isLinked()) { return {}; }
+
+    return linkedModule->getParameterValues();
 }
 
 bool LSystemAbstactModule::getParameterValue(std::string _parameterName, float& _parameterValue) const
 {
-    int _parameterIndex = 0;
-    // Loop over all the parameters
-    for(std::string _abstractParameterName : parameterNames)
+    // If the module is not linked to an other module return nothing
+    if(!isLinked()) { return false; }
+
+    return linkedModule->getParameterValue(_parameterName, _parameterValue);
+}
+
+void LSystemAbstactModule::addParameterValue(float _parameterValue)
+{
+    // If the module is not linked to an other module cancel the operation
+    if(!isLinked()) { return; }
+
+    linkedModule->addParameterValue(_parameterValue);
+}
+
+
+////////////////////////////////////////
+// Linked module
+////////////////////////////////////////
+bool LSystemAbstactModule::setLinkedModule(LSystemConcreteModule* _module)
+{
+    // If the name matches
+    if(*this == *_module)
     {
-        // Is the parameter's name matches
-        if(_abstractParameterName == _parameterName)
-        {
-            _parameterValue = module->getParameters()[_parameterIndex];
-            return true;
-        }
-        _parameterIndex++;
+        // Set the linked module
+        linkedModule = _module;
+        return true;
     }
-    
-    // Return false if no match found
     return false;
 }
 
@@ -191,12 +257,13 @@ bool LSystemAbstactModule::getParameterValue(std::string _parameterName, float& 
 ////////////////////////////////////////
 // Private Functions
 ////////////////////////////////////////
-void LSystemAbstactModule::updateParameterNames()
+void LSystemAbstactModule::matchParameters()
 {
-    if(module == nullptr) { return; }
+    // If the module is not linked to an other module cancel the operation
+    if(!isLinked()) { return; }
 
     // Get the difference of item count with the given module
-    int difference = parameterNames.size() - module->getParameters().size();
+    int difference = parameterNames.size() - linkedModule->getParameterValues().size();
     
     // If there is more parameter names than parameters in the given module
     if(difference > 0)
@@ -212,9 +279,9 @@ void LSystemAbstactModule::updateParameterNames()
     if(difference < 0)
     {
         // For each items that should exists
-        for(int i = parameterNames.size() + difference; i >= module->getParameters().size(); i++)
+        for(int i = parameterNames.size() + difference; i >= linkedModule->getParameterValues().size(); i++)
         {
-            parameterNames.emplace_back("\0");
+            addParameterName("\0");
         }
     }
 }
