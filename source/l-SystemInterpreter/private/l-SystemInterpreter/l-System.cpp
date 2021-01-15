@@ -9,18 +9,18 @@
 ////////////////////////////////////////
 // Constructors / desctructors
 ////////////////////////////////////////
-LSystem::LSystem(LSystemWord* _axiom) : 
+LSystem::LSystem(LSystemWord _axiom) : 
     axiom(_axiom) 
 {  
-    outputWord = new LSystemWord(*_axiom);
+    outputWord = new LSystemWord(_axiom);
 }
 
-LSystem::LSystem(LSystemWord* _axiom, std::vector<LSystemRule*> _rules) : 
+LSystem::LSystem(LSystemWord _axiom, std::vector<LSystemRule*> _rules) : 
     axiom(_axiom),
     rules(_rules)
 {  
     // Initialise the outputWord
-    outputWord = new LSystemWord(*_axiom);
+    outputWord = new LSystemWord(_axiom);
 }
 
 
@@ -125,7 +125,7 @@ void LSystem::iterate()
                 //Store the result
                 _match = true;
                 // Append the derivative word of the rule to the future outputWord
-                _newWord->appendWord(*(_rule->getDerivativeWord()));
+                _newWord->appendWord(_rule->getDerivativeWord());
                 // Stop iterating over the rules for this module
                 break;
             }

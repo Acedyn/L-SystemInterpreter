@@ -1,5 +1,7 @@
 #pragma once
 
+#include "l-SystemInterpreter/l-SystemWord.h"
+
 #include <vector>
 
 // l-system composed of an axiom and a set of rules used to output a word describing branching structure
@@ -7,13 +9,13 @@ class LSystem
 {
 public:
     // Constructors / desctructors
-    LSystem(class LSystemWord* _axiom);
-    LSystem(class LSystemWord* axiom, std::vector<class LSystemRule*> _rules);
+    LSystem(class LSystemWord _axiom);
+    LSystem(class LSystemWord axiom, std::vector<class LSystemRule*> _rules);
     ~LSystem() {  }
 
     // Setters / getters
     void appendRule(class LSystemRule* _rule);
-    class LSystemWord* getAxiom() { return axiom; }
+    class LSystemWord getAxiom() { return axiom; }
     class LSystemWord* getOutputWord() { return outputWord; }
 
     // Public functions
@@ -23,7 +25,7 @@ public:
     int seed = 0;
 
 private:
-    class LSystemWord* axiom;
+    class LSystemWord axiom;
     std::vector<class LSystemRule*> rules;
     class LSystemWord* outputWord;
 };

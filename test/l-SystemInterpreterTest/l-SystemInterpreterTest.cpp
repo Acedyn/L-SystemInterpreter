@@ -3,8 +3,8 @@
 #include "l-SystemInterpreter/l-SystemParameters.h"
 #include "l-SystemInterpreter/l-SystemWord.h"
 #include "l-SystemInterpreter/l-SystemExpression.h"
-// #include "l-SystemInterpreter/l-SystemRule.h"
-// #include "l-SystemInterpreter/l-System.h"
+#include "l-SystemInterpreter/l-SystemRule.h"
+#include "l-SystemInterpreter/l-System.h"
 
 #include <iostream>
 
@@ -35,6 +35,12 @@ int main()
         << " = " 
         << testExpression1.parseDecimalExpression()
         << std::endl;
+    LSystemRule testRule1({'B', "a, b, c"}, {"AF!(8.1, AS)T(11))", &testParameters1});
+    std::cout << "Test rule1 : " << testRule1 << std::endl;
+    LSystem testLSystem1({"PRB(1, F, 0.5)?", &testParameters1}, {&testRule1});
+    std::cout << "Test lSystem1 iteration 0 : " << *(testLSystem1.getOutputWord()) << std::endl;
+    testLSystem1.iterate();
+    std::cout << "Test lSystem1 iteration 1 : " << *(testLSystem1.getOutputWord()) << std::endl;
     
 
     std::cout << std::endl << "Classes test completed" << std::endl << std::endl << std::endl;

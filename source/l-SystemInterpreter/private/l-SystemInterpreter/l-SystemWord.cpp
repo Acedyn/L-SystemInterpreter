@@ -51,11 +51,6 @@ std::ostream& operator<<(std::ostream& stream, const LSystemWord& _word)
     {
         // Print the module
         stream << _wordModules[i];
-        // If this is not the last module print a comma
-        if(i != _wordModules.size() - 1)
-        {
-            stream << ", ";
-        }
     }
 
     return stream;

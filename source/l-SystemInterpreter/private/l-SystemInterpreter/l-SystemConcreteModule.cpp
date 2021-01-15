@@ -33,6 +33,15 @@ bool LSystemConcreteModule::operator==(const LSystemConcreteModule& _other) cons
 {
     // Test if the two modules have the same name
     if(name != _other.getName()) { return false; }
+    // Test if the linked modules are the same
+    if(isLinked() && _other.isLinked())
+    {
+        if(*linkedModule != *(_other.getLinkedModule())) { return false; }
+    }
+    else
+    {
+        if(linkedModule != _other.getLinkedModule()) { return false; }
+    }
     // Test if the two modules have as many parameters
     if(parameterValues.size() != _other.getParameterValues().size()) { return false; }
     // Loop over all the parameters to compare them
@@ -46,15 +55,24 @@ bool LSystemConcreteModule::operator==(const LSystemConcreteModule& _other) cons
 bool LSystemConcreteModule::operator!=(const LSystemConcreteModule& _other) const
 {
     // Test if the two modules have the same name
-    if(name == _other.getName()) { return false; }
+    if(name != _other.getName()) { return true; }
+    // Test if the linked modules are the same
+    if(isLinked() && _other.isLinked())
+    {
+        if(*linkedModule != *(_other.getLinkedModule())) { return true; }
+    }
+    else
+    {
+        if(linkedModule != _other.getLinkedModule()) { return true; }
+    }
     // Test if the two modules have as many parameters
     if(parameterValues.size() != _other.getParameterValues().size()) { return true; }
     // Loop over all the parameters to compare them
     for(int i = 0; i < parameterValues.size(); i++)
     {
-        if(parameterValues[i] == (_other.getParameterValues())[i]) { return false; }
+        if(parameterValues[i] != (_other.getParameterValues())[i]) { return true; }
     }
-    return true;
+    return false;
 }
 
 bool LSystemConcreteModule::operator==(const LSystemAbstractModule& _other) const

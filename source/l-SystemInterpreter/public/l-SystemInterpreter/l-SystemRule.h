@@ -1,32 +1,52 @@
 # pragma once
-#include "l-SystemInterpreter/l-SystemConcreteModule.h"
+#include "l-SystemInterpreter/l-SystemAbstractModule.h"
+#include "l-SystemInterpreter/l-SystemWord.h"
 #include "l-SystemInterpreter/l-SystemExpression.h"
 
 class LSystemRule
 {
 public:
     // Constructors / desctructors
-    LSystemRule(LSystemConcreteModule _mainModule, class LSystemWord* _derivativeWord, LSystemExpression _mainCondition = LSystemExpression(), float _probabilityFactor = -1.0f);
+    LSystemRule(
+            LSystemAbstractModule _mainModule = LSystemAbstractModule(), 
+            LSystemWord _derivativeWord = LSystemWord(), 
+            LSystemExpression _mainCondition = LSystemExpression(), 
+            float _probabilityFactor = -1.0f);
     ~LSystemRule() { }
 
-    // Setters / getters
+    // Operators
+    bool operator==(const LSystemRule& _other) const;
+    bool operator!=(const LSystemRule& _other) const;
+    friend std::ostream& operator<<(std::ostream& stream, const LSystemRule& _rule);
+
+    // Main module
+    void setMainModule(LSystemAbstractModule _mainModule);
+    LSystemAbstractModule getMainModule() const { return mainModule; }
+
+    // Derivative word
+    void setDerivativeWord(class LSystemWord _derivativeWord);
+    LSystemWord getDerivativeWord() const { return derivativeWord; }
+
+    // Main condition
     void setMainCondition(LSystemExpression _mainCondition);
+    LSystemExpression getMainCondition() const { return mainCondition; }
+
+    // Condition modules
+    void setLeftConditionModule(LSystemAbstractModule _leftConditionModule);
+    LSystemAbstractModule getLeftConditionModule() const { return leftConditionModule; }
+    void setRightConditionModule(LSystemAbstractModule _rightConditionModule);
+    LSystemAbstractModule getRightConditionModule() const { return rightConditionModule; }
+
+    // Derivative word
     void setProbabilityFactor(float _probabilityFactor);
-    void setLeftConditionModule(LSystemConcreteModule _leftConditionModule);
-    void setRightConditionModule(LSystemConcreteModule _rightConditionModule);
-    void setDerivativeWord(class LSystemWord* _derivativeWord);
-    LSystemConcreteModule getMainModule() { return mainModule; }
     float getProbabilityFactor() { return probalitityFactor; }
-    LSystemConcreteModule getLeftConditionModule() { return leftConditionModule; }
-    LSystemConcreteModule getRightConditionModule() { return rightConditionModule; }
-    LSystemWord* getDerivativeWord() { return derivativeWord; }
     
 private:
     // Private variables
-    LSystemConcreteModule mainModule;
+    LSystemAbstractModule mainModule;
+    LSystemWord derivativeWord;
     LSystemExpression mainCondition;
-    LSystemConcreteModule leftConditionModule;
-    LSystemConcreteModule rightConditionModule;
-    class LSystemWord* derivativeWord = nullptr;
+    LSystemAbstractModule leftConditionModule;
+    LSystemAbstractModule rightConditionModule;
     float probalitityFactor = -1;
 };

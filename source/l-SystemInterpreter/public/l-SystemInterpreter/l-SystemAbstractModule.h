@@ -9,14 +9,16 @@ class LSystemAbstractModule
 {
 public:
     // Constructors / Destructors
+    LSystemAbstractModule() : name('\0') { }
     LSystemAbstractModule(
-            char _name = '\0', 
+            char _name, 
             std::vector<std::string> _parameterNames = {}, 
             class LSystemConcreteModule* _module = nullptr);
     LSystemAbstractModule(
-            char _name = '\0', 
+            char _name, 
             std::string _parameterNames = "", 
             class LSystemConcreteModule* _module = nullptr);
+    ~LSystemAbstractModule() { }
 
     // Operators
     bool operator==(const LSystemAbstractModule& _other) const;

@@ -11,9 +11,9 @@ class LSystemWord
 public:
     // Constructors / desctructors
     LSystemWord(class LSystemParameters* _parameters = nullptr) : parameters(_parameters) { }
-    LSystemWord(std::string _word, class LSystemParameters* _parameters = nullptr);
     LSystemWord(std::vector<LSystemConcreteModule> _modules, class LSystemParameters* _parameters = nullptr) : 
         modules(_modules) { }
+    LSystemWord(std::string _word, class LSystemParameters* _parameters = nullptr);
     ~LSystemWord() { }
 
     // Operators

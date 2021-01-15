@@ -29,8 +29,15 @@ bool LSystemAbstractModule::operator==(const LSystemAbstractModule& _other) cons
 {
     // Test if the two modules have the same name
     if(name != _other.getName()) { return false; }
-    // Test if the modules are the same
-    if(*linkedModule != *(_other.getLinkedModule())) { return false; }
+    // Test if the linked modules are the same
+    if(isLinked() && _other.isLinked())
+    {
+        if(*linkedModule != *(_other.getLinkedModule())) { return false; }
+    }
+    else
+    {
+        if(linkedModule != _other.getLinkedModule()) { return false; }
+    }
     // Test if the two modules have as many parameters
     if(parameterNames.size() != _other.getParameterNames().size()) { return false; }
     // Loop over all the parameters to compare them
@@ -44,17 +51,24 @@ bool LSystemAbstractModule::operator==(const LSystemAbstractModule& _other) cons
 bool LSystemAbstractModule::operator!=(const LSystemAbstractModule& _other) const
 {
     // Test if the two modules have the same name
-    if(name == _other.getName()) { return false; }
-    // Test if the modules are the same
-    if(*linkedModule == *(_other.getLinkedModule())) { return false; }
+    if(name != _other.getName()) { return true; }
+    // Test if the linked modules are the same
+    if(isLinked() && _other.isLinked())
+    {
+        if(*linkedModule != *(_other.getLinkedModule())) { return true; }
+    }
+    else
+    {
+        if(linkedModule != _other.getLinkedModule()) { return true; }
+    }
     // Test if the two modules have as many parameters
     if(parameterNames.size() != _other.getParameterNames().size()) { return true; }
     // Loop over all the parameters to compare them
     for(int i = 0; i < parameterNames.size(); i++)
     {
-        if(parameterNames[i] == (_other.getParameterNames())[i]) { return false; }
+        if(parameterNames[i] != (_other.getParameterNames())[i]) { return true; }
     }
-    return true;
+    return false;
 }
 
 bool LSystemAbstractModule::operator==(const LSystemConcreteModule& _other) const
