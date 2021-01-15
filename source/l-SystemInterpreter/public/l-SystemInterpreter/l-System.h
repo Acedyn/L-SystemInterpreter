@@ -25,6 +25,7 @@ public:
     int seed = 0;
 
 private:
+    // Private variables
     class LSystemWord axiom;
     std::vector<class LSystemRule*> rules;
     class LSystemWord* outputWord;

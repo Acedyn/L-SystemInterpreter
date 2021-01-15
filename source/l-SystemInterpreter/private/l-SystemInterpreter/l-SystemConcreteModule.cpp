@@ -344,6 +344,8 @@ void LSystemConcreteModule::addParameterValue(std::string _parameterName)
 ////////////////////////////////////////
 bool LSystemConcreteModule::setLinkedModule(LSystemAbstractModule* _module)
 {
+    if(_module == nullptr) { return false; }
+
     // If the name matches
     if(*this == *_module)
     {

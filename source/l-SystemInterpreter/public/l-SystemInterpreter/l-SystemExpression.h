@@ -7,16 +7,8 @@ class LSystemExpression
 public:
     // Constructors / desctructors
     LSystemExpression() { }
-    LSystemExpression(
-            class LSystemAbstractModule* _module, 
-            class LSystemParameters* _globalParameters = nullptr) :
-        module(_module),
-        globalParameters(_globalParameters) { }
-    LSystemExpression(
-            class LSystemParameters* _globalParameters,
-            class LSystemAbstractModule* _module = nullptr) : 
-        globalParameters(_globalParameters),
-        module(_module) { }
+    LSystemExpression(std::string _expression) :
+        expression(_expression) { }
     LSystemExpression(
             std::string _expression, 
             class LSystemAbstractModule* _module, 

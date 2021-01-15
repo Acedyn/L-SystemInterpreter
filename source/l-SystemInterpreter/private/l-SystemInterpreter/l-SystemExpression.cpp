@@ -71,7 +71,7 @@ bool LSystemExpression::operator!=(const LSystemExpression& _other) const
         if(globalParameters != _other.getGlobalParameters()) { return true; }
     }
     
-    // If all the tests passes return false
+    // If all the tests passes return true
     return false;
 }
 
@@ -177,9 +177,6 @@ float LSystemExpression::parseNumber()
 // Parse variable
 float LSystemExpression::parseParameter()
 {
-    // Store the result of the parameter
-    float result = 0.0f;
-
     std::string _parsedParameter;
 
     while(isalpha(*expressionIterator))
@@ -188,33 +185,41 @@ float LSystemExpression::parseParameter()
         expressionIterator++;
     }
 
-    // Loop over all the global parameters
-    for(LSystemParameter _globalParameter : *globalParameters)
+    // If global parameters is set
+    if(globalParameters != nullptr)
     {
-        // If the name of the parameter matches the parsed Parameter's name
-        if(_parsedParameter == _globalParameter.name)
-        {
-            // Return the parameter's value
-            return _globalParameter.value;
-        }
-    }
-
-    // If the module is linked
-    if(module->isLinked())
-    {
-        // Loop over all the module's parameters
-        for(LSystemParameter _moduleParameter : module->getParameters())
+        // Loop over all the global parameters
+        for(LSystemParameter _globalParameter : *globalParameters)
         {
             // If the name of the parameter matches the parsed Parameter's name
-            if(_parsedParameter == _moduleParameter.name)
+            if(_parsedParameter == _globalParameter.name)
             {
                 // Return the parameter's value
-                return _moduleParameter.value;
+                return _globalParameter.value;
             }
         }
     }
 
-    return result;
+    // If the module is set
+    if(module != nullptr)
+    {
+        // If the module is linked
+        if(module->isLinked())
+        {
+            // Loop over all the module's parameters
+            for(LSystemParameter _moduleParameter : module->getParameters())
+            {
+                // If the name of the parameter matches the parsed Parameter's name
+                if(_parsedParameter == _moduleParameter.name)
+                {
+                    // Return the parameter's value
+                    return _moduleParameter.value;
+                }
+            }
+        }
+    }
+
+    return 0.0f;
 }
 
 // Parse unary minus (TODO)
@@ -350,6 +355,7 @@ float LSystemExpression::parseOperatorLvl6()
             expressionIterator++;
             if(*expressionIterator == '=')
             {
+                expressionIterator++;
                 // Compute the operation with the left side and the right side of the operator
                 _result = _result == parseOperatorLvl5();
             }
@@ -359,6 +365,7 @@ float LSystemExpression::parseOperatorLvl6()
             expressionIterator++;
             if(*expressionIterator == '=')
             {
+                expressionIterator++;
                 // Compute the operation with the left side and the right side of the operator
                 _result = _result != parseOperatorLvl5();
             }

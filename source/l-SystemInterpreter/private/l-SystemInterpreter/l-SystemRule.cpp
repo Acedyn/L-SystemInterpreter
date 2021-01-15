@@ -4,13 +4,21 @@
 ////////////////////////////////////////
 // Constructors / desctructors
 ////////////////////////////////////////
-LSystemRule::LSystemRule(LSystemAbstractModule _mainModule, LSystemWord _derivativeWord, LSystemExpression _mainCondition, float _probabilityFactor) :
+LSystemRule::LSystemRule(
+        LSystemAbstractModule _mainModule, 
+        LSystemWord _derivativeWord, 
+        LSystemExpression _mainCondition, 
+        LSystemParameters* _globalParameters,
+        float _probabilityFactor) :
     mainModule(_mainModule),
     derivativeWord(_derivativeWord),
     leftConditionModule(LSystemAbstractModule()),
     rightConditionModule(LSystemAbstractModule()),
     mainCondition(_mainCondition),
-    probalitityFactor(_probabilityFactor) { }
+    probalitityFactor(_probabilityFactor) 
+{
+    setGlobalParameters(_globalParameters);
+}
 
 
 ////////////////////////////////////////
@@ -55,7 +63,7 @@ std::ostream& operator<<(std::ostream& stream, const LSystemRule& _rule)
         stream << "none";
     }
     // If there is a main condition print it
-    if(_rule.getMainCondition() != LSystemExpression())
+    if(_rule.getMainCondition().getExpression() != "")
     {
         stream << " : " << _rule.getMainCondition().getExpression();
     }
@@ -69,27 +77,56 @@ std::ostream& operator<<(std::ostream& stream, const LSystemRule& _rule)
     {
         stream << " -> " << _rule.getDerivativeWord();
     }
+    // If there is a probability factor
+    if(_rule.getProbabilityFactor() > 0.0f)
+    {
+        stream << " : " << _rule.getProbabilityFactor();
+    }
 
     return stream;
 }
 
 
 ////////////////////////////////////////
-// Setters / getters
+// Main module
 ////////////////////////////////////////
-void LSystemRule::setMainCondition(LSystemExpression _mainCondition)
+void LSystemRule::setMainModule(LSystemAbstractModule _mainModule)
+{
+    mainModule = _mainModule;
+}
+void LSystemRule::linkMainModule(LSystemConcreteModule* _mainModuleLink)
+{
+    mainModule.setLinkedModule(_mainModuleLink);
+}
+
+////////////////////////////////////////
+// Derivative word
+////////////////////////////////////////
+void LSystemRule::setDerivativeWord(LSystemWord _derivativeWord)
+{
+    derivativeWord = _derivativeWord;
+}
+
+////////////////////////////////////////
+// Main condition
+////////////////////////////////////////
+void LSystemRule::setMainCondition(LSystemExpression _mainCondition, LSystemParameters* _globalParameters)
 {
     mainCondition = _mainCondition;
+    setGlobalParameters(_globalParameters);
 }
 
-void LSystemRule::setProbabilityFactor(float _probabilityFactor)
-{
-    probalitityFactor = _probabilityFactor;
-}
-
+////////////////////////////////////////
+// Condition modules
+////////////////////////////////////////
 void LSystemRule::setLeftConditionModule(LSystemAbstractModule _leftConditionModule)
 {
     leftConditionModule = _leftConditionModule;
+}
+
+void LSystemRule::linkLeftModule(LSystemConcreteModule* _leftModuleLink)
+{
+    leftConditionModule.setLinkedModule(_leftModuleLink);
 }
 
 void LSystemRule::setRightConditionModule(LSystemAbstractModule _rightConditionModule)
@@ -97,7 +134,37 @@ void LSystemRule::setRightConditionModule(LSystemAbstractModule _rightConditionM
     rightConditionModule = _rightConditionModule;
 }
 
-void LSystemRule::setDerivativeWord(LSystemWord _derivativeWord)
+void LSystemRule::linkRightModule(LSystemConcreteModule* _rightModuleLink)
 {
-    derivativeWord = _derivativeWord;
+    rightConditionModule.setLinkedModule(_rightModuleLink);
+}
+
+////////////////////////////////////////
+// Probability factor
+////////////////////////////////////////
+void LSystemRule::setProbabilityFactor(float _probabilityFactor)
+{
+    probalitityFactor = _probabilityFactor;
+}
+
+////////////////////////////////////////
+// Global parameters
+////////////////////////////////////////
+void LSystemRule::setGlobalParameters(LSystemParameters* _globalParameters)
+{
+    mainCondition.setGlobalParameters(_globalParameters);
+    mainCondition.setModule(&mainModule);
+}
+
+////////////////////////////////////////
+// Linked modules
+////////////////////////////////////////
+void LSystemRule::linkModules(
+            LSystemConcreteModule* _mainModuleLink, 
+            LSystemConcreteModule* _leftModuleLink, 
+            LSystemConcreteModule* _rightModuleLink)
+{
+    linkMainModule(_mainModuleLink);
+    linkLeftModule(_leftModuleLink);
+    linkRightModule(_rightModuleLink);
 }

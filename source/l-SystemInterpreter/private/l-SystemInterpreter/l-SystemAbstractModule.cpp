@@ -257,6 +257,8 @@ void LSystemAbstractModule::addParameterValue(float _parameterValue)
 ////////////////////////////////////////
 bool LSystemAbstractModule::setLinkedModule(LSystemConcreteModule* _module)
 {
+    if(_module == nullptr) { return false; }
+
     // If the name matches
     if(*this == *_module)
     {

@@ -81,6 +81,9 @@ void LSystem::iterate()
         // Loop over all the rules to test if it matches the current module
         for(LSystemRule* _rule : rules)
         {
+            // Link the current module to the rule
+            _rule->linkModules(&(*_wordIterator), _previousModule, _nextModule);
+
             // If the rule has a probabilityFactor
             if(_rule->getProbabilityFactor() >= 0 && _rule->getMainModule() == (*_wordIterator))
             {
@@ -89,30 +92,18 @@ void LSystem::iterate()
             }
 
             // If the current module doesnt matches the rule's main module
-            if((*_wordIterator) != _rule->getMainModule())
-            {
-                // Stop testing and go to the next rule
-                continue;
-            }
+            if((*_wordIterator) != _rule->getMainModule()) { continue; }
             // If the previous module matches the left condition module of the rule
-            else if(_previousModule != nullptr && *_previousModule == _rule->getLeftConditionModule())
-            {
-                // Stop testing and go to the next rule
-                continue;
-            }
+            else if(_previousModule != nullptr && *_previousModule == _rule->getLeftConditionModule()) { continue; }
             // If the next module matches the right condition module of the rule
-            else if(_nextModule != nullptr && *_nextModule == _rule->getRightConditionModule())
-            {
-                // Stop testing and go to the next rule
-                continue;
-            }
-            else if(_rule->getProbabilityFactor() > 0.0f && _random > _ruleProbability)
-            {
-                // Stop testing and go to the next rule
-                continue;
-            }
+            else if(_nextModule != nullptr && *_nextModule == _rule->getRightConditionModule()) { continue; }
+            // If there is a condition expression and its result is not true
+            else if(_rule->getMainCondition().getExpression() != "" &&
+                    !_rule->getMainCondition().parseBinaryExpression()) { continue; }
+            // If the probabilityFactor is higher than the _ruleProbability
+            else if(_rule->getProbabilityFactor() > 0.0f && _random > _ruleProbability) { continue; }
             // If the rule matches but derive to nothing
-            else if(_rule->getDerivativeWord() == nullptr)
+            else if(_rule->getDerivativeWord() == LSystemWord())
             {
                 // Store the result
                 _match = true;
