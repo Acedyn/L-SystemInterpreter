@@ -75,29 +75,29 @@ int main()
 
     // Rule 1
     // LSystemRule rule1(LSystemModule('F', "sto"), new LSystemWord("F(2,1,-1)F(1,2,1)"));
-    LSystemRule rule1({'F', "sto"}, {"F(AS,A,L)F(BS,B,R)", &parameters});
+    LSystemRule rule1({'F', "s,t,o"}, {"F(AS,A,L)F(BS,B,R)", &parameters});
     rule1.setMainCondition({"t==A&&o==R"}, &parameters);
 
     // Rule 2
     // LSystemRule rule2(LSystemModule('F', "sto"), new LSystemWord("F(1,2,-1)F(2,1,1)"));
-    LSystemRule rule2({'F', "sto"}, {"F(BS,B,L)F(AS,A,R)", &parameters});
+    LSystemRule rule2({'F', "s,t,o"}, {"F(BS,B,L)F(AS,A,R)", &parameters});
     rule2.setMainCondition({"t==A&&o==L"}, &parameters);
 
     // Rule 3
     // LSystemRule rule3(LSystemModule('F', "sto"), new LSystemWord("F(2,1,1)"));
-    LSystemRule rule3({'F', "sto"}, {"F(AS,A,R)", &parameters});
+    LSystemRule rule3({'F', "s,t,o"}, {"F(AS,A,R)", &parameters});
     rule3.setMainCondition({"t==B&&o==R"}, &parameters);
 
     // Rule 4
     // LSystemRule rule4(LSystemModule('F', "sto"), new LSystemWord("F(2,1,-1)"));
-    LSystemRule rule4({'F', "sto"}, {"F(AS,A,L)", &parameters});
+    LSystemRule rule4({'F', "s,t,o"}, {"F(AS,A,L)", &parameters});
     rule4.setMainCondition({"t==B&&o==L"}, &parameters);
 
     // LSystem
     LSystem anabaenaCatenulaModel(axiom, {&rule1, &rule2, &rule3, &rule4});
 
     std::cout << *(anabaenaCatenulaModel.getOutputWord()) << std::endl;
-    for(int i = 0; i < 1; i++)
+    for(int i = 0; i < 4; i++)
     {
         anabaenaCatenulaModel.iterate();
         std::cout << *(anabaenaCatenulaModel.getOutputWord()) << std::endl;
