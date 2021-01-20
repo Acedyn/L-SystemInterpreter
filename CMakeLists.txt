@@ -10,7 +10,7 @@ project(L-SystemInterpreter
     DESCRIPTION "L-System implementation for C++ project")
 
 # Include src/l-SystemInterpreter
-add_subdirectory(source/l-SystemInterpreter)
+add_subdirectory(source/l-SystemBase)
 
 # Include test/l-SystemInterpreterTest
-add_subdirectory(test/l-SystemInterpreterTest)
+add_subdirectory(sandbox/l-SystemBaseTest)

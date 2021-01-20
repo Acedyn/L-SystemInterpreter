@@ -1,7 +1,7 @@
-#include "l-SystemInterpreter/l-SystemConcreteModule.h"
+#include "l-SystemBase/l-SystemConcreteModule.h"
 
-#include "l-SystemInterpreter/l-SystemParameters.h"
-#include "l-SystemInterpreter/l-SystemAbstractModule.h"
+#include "l-SystemBase/l-SystemParameters.h"
+#include "l-SystemBase/l-SystemAbstractModule.h"
 
 #include <ctype.h>
 #include <math.h>

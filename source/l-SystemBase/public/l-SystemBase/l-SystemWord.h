@@ -1,6 +1,6 @@
 #pragma once
 
-#include "l-SystemInterpreter/l-SystemConcreteModule.h"
+#include "l-SystemConcreteModule.h"
 
 #include <string>
 #include <vector>

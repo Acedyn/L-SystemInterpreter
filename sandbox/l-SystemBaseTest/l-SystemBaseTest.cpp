@@ -1,10 +1,10 @@
-#include "l-SystemInterpreter/l-SystemConcreteModule.h"
-#include "l-SystemInterpreter/l-SystemAbstractModule.h"
-#include "l-SystemInterpreter/l-SystemParameters.h"
-#include "l-SystemInterpreter/l-SystemWord.h"
-#include "l-SystemInterpreter/l-SystemExpression.h"
-#include "l-SystemInterpreter/l-SystemRule.h"
-#include "l-SystemInterpreter/l-System.h"
+#include "l-SystemBase/l-SystemConcreteModule.h"
+#include "l-SystemBase/l-SystemAbstractModule.h"
+#include "l-SystemBase/l-SystemParameters.h"
+#include "l-SystemBase/l-SystemWord.h"
+#include "l-SystemBase/l-SystemExpression.h"
+#include "l-SystemBase/l-SystemRule.h"
+#include "l-SystemBase/l-System.h"
 
 #include <iostream>
 

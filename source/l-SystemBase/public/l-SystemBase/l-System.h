@@ -1,6 +1,6 @@
 #pragma once
 
-#include "l-SystemInterpreter/l-SystemWord.h"
+#include "l-SystemWord.h"
 
 #include <vector>
 

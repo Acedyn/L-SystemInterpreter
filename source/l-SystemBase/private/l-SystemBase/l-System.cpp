@@ -1,6 +1,6 @@
-#include "l-SystemInterpreter/l-System.h"
-#include "l-SystemInterpreter/l-SystemWord.h"
-#include "l-SystemInterpreter/l-SystemRule.h"
+#include "l-SystemBase/l-System.h"
+#include "l-SystemBase/l-SystemWord.h"
+#include "l-SystemBase/l-SystemRule.h"
 
 #include <iostream>
 #include <stdlib.h>

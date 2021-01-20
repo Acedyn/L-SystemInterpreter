@@ -1,6 +1,6 @@
-#include "l-SystemInterpreter/l-SystemWord.h"
+#include "l-SystemBase/l-SystemWord.h"
 
-#include "l-SystemInterpreter/l-SystemParameters.h"
+#include "l-SystemBase/l-SystemParameters.h"
 
 #include <iostream>
 #include "ctype.h"

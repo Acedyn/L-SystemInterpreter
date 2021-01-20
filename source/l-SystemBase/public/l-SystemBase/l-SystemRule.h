@@ -1,7 +1,7 @@
 # pragma once
-#include "l-SystemInterpreter/l-SystemAbstractModule.h"
-#include "l-SystemInterpreter/l-SystemWord.h"
-#include "l-SystemInterpreter/l-SystemExpression.h"
+#include "l-SystemAbstractModule.h"
+#include "l-SystemWord.h"
+#include "l-SystemExpression.h"
 
 class LSystemRule
 {
