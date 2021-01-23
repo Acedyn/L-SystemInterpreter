@@ -9,8 +9,17 @@ project(L-SystemInterpreter
     LANGUAGES CXX
     DESCRIPTION "L-System implementation for C++ project")
 
-# Include src/l-SystemInterpreter
+# Find Imath
+find_package(Imath REQUIRED)
+
+# Include src/l-SystemBase
 add_subdirectory(source/l-SystemBase)
 
-# Include test/l-SystemInterpreterTest
+# Include src/l-SystemDraw
+add_subdirectory(source/l-SystemDraw)
+
+# Include test/l-SystemBaseTest
 add_subdirectory(sandbox/l-SystemBaseTest)
+
+# Include test/l-SystemDrawTest
+add_subdirectory(sandbox/l-SystemDrawTest)
