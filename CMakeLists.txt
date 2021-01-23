@@ -9,8 +9,20 @@ project(L-SystemInterpreter
     LANGUAGES CXX
     DESCRIPTION "L-System implementation for C++ project")
 
+########################################
+## Dependencies
+########################################
+
 # Find Imath
 find_package(Imath REQUIRED)
+
+# Find usd
+find_package(pxr QUIET)
+
+
+########################################
+## Components
+########################################
 
 # Include src/l-SystemBase
 add_subdirectory(source/l-SystemBase)
