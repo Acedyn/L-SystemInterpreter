@@ -4,7 +4,8 @@
 #include <Imath/ImathColor.h>
 
 
-namespace LSystem {
+namespace LSystem 
+{
     class Turtle
     {
     public:
