@@ -14,21 +14,9 @@ add_executable(l-SystemDrawTest
 target_link_libraries(l-SystemDrawTest
     l-SystemDraw)
 
-if(WIN32)
+# Deifine the output directory
+if(DEFINED LSYSTEM_OUTPUT_DIR)
     set_target_properties(l-SystemDrawTest
         PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/binaries/l-SystemDrawTest/vs2019")
-endif(WIN32)
-
-if(MINGW)
-    set_target_properties(l-SystemDrawTest
-        PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/binaries/l-SystemDrawTest/mingw")
-endif(MINGW)
-
-if(UNIX)
-    set_target_properties(l-SystemDrawTest
-        PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/binaries/l-SystemDrawTest/unix")
-endif(UNIX)
-
+        RUNTIME_OUTPUT_DIRECTORY "${LSYSTEM_OUTPUT_DIR}/l-SystemDrawTest")
+endif()

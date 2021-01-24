@@ -10,6 +10,16 @@ project(L-SystemInterpreter
     DESCRIPTION "L-System implementation for C++ project")
 
 ########################################
+## Variables
+########################################
+
+# Output directory
+if(NOT DEFINED LSYSTEM_OUTPUT_DIR)
+    set(LSYSTEM_OUTPUT_DIR "${CMAKE_SOURCE_DIR}/binaries")
+endif()
+
+
+########################################
 ## Dependencies
 ########################################
 

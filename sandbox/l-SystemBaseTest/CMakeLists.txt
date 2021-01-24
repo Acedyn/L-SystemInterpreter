@@ -14,21 +14,9 @@ add_executable(l-SystemBaseTest
 target_link_libraries(l-SystemBaseTest
     l-SystemBase)
 
-if(WIN32)
+# Define the output directory
+if(DEFINED LSYSTEM_OUTPUT_DIR)
     set_target_properties(l-SystemBaseTest
         PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/binaries/l-SystemBaseTest/vs2019")
-endif(WIN32)
-
-if(MINGW)
-    set_target_properties(l-SystemBaseTest
-        PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/binaries/l-SystemBaseTest/mingw")
-endif(MINGW)
-
-if(UNIX)
-    set_target_properties(l-SystemBaseTest
-        PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/binaries/l-SystemBaseTest/unix")
-endif(UNIX)
-
+        RUNTIME_OUTPUT_DIRECTORY "${LSYSTEM_OUTPUT_DIR}/l-SystemBaseTest")
+endif()

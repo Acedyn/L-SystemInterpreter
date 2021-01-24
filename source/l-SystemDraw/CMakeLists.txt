@@ -21,21 +21,9 @@ target_link_libraries(l-SystemDraw
     Imath::Imath
     l-SystemBase)
 
-if(WIN32)
+# Define the output directory
+if(DEFINED LSYSTEM_OUTPUT_DIR)
     set_target_properties(l-SystemDraw
         PROPERTIES
-        ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/binaries/l-SystemDraw/vs2019")
-endif(WIN32)
-
-if(MINGW)
-    set_target_properties(l-SystemDraw
-        PROPERTIES
-        ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/binaries/l-SystemDraw/mingw")
-endif(MINGW)
-
-if(UNIX)
-    set_target_properties(l-SystemDraw
-        PROPERTIES
-        ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/binaries/l-SystemDraw/unix")
-endif(UNIX)
-
+        ARCHIVE_OUTPUT_DIRECTORY "${LSYSTEM_OUTPUT_DIR}/l-SystemDraw")
+endif()
