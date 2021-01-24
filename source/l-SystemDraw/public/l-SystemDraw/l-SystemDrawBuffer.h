@@ -9,8 +9,8 @@ namespace LSystem
     {
     public:
         // Constructors / Destructors
-        DrawBuffer();
-        ~DrawBuffer();
+        DrawBuffer() { }
+        ~DrawBuffer() { }
 
         // Vertices
         std::vector<Imath::V3f> getVertices() const { return vertices; }

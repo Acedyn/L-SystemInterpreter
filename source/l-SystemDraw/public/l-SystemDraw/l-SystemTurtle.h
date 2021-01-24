@@ -6,20 +6,29 @@
 
 namespace LSystem 
 {
+    // Head of the current drawing state, 
+    // it stores the current orientation, color and width of the lSystem being drawn
     class Turtle
     {
     public:
         // Constructors / Destructors
-        Turtle(Imath::M44f _transform = Imath::M44f()) : transform(_transform) { }
+        Turtle(Imath::M44f _transform = Imath::M44f()) : 
+            transform(_transform), 
+            color({1.0f, 1.0f, 1.0f, 1.0f}), 
+            width(1.0f) { std::cout << "Created\n"; }
         Turtle(
             Imath::M44f _transform, 
-            Imath::C4f _color = Imath::C4f(1.0f, 1.0f, 1.0f, 1.0f), 
+            Imath::C4f _color, 
             float _width = 1.0f);
         Turtle(
             Imath::M44f _transform,
-            float _width = 1.0f, 
+            float _width, 
             Imath::C4f _color = Imath::C4f(1.0f, 1.0f, 1.0f, 1.0f));
-        ~Turtle();
+        ~Turtle() { }
+
+        // Operators
+        bool operator==(const Turtle& _other) const;
+        bool operator!=(const Turtle& _other) const;
 
         // Getters / Setters
         Imath::M44f getTransform() const { return transform; }
@@ -84,3 +93,6 @@ namespace LSystem
         float widthStep = 0.1f;
     };
 }
+
+
+std::ostream& operator<<(std::ostream& stream, const LSystem::Turtle& _turtle);

@@ -18,6 +18,47 @@ LSystem::Turtle::Turtle(Imath::M44f _transform, float _width, Imath::C4f _color)
 
 
 ////////////////////////////////////////
+// Operators
+////////////////////////////////////////
+
+bool LSystem::Turtle::operator==(const Turtle& _other) const
+{
+    // Test if the transforms matches
+    if(transform != _other.getTransform()) { return false; }
+    // Test if the color matches
+    if(color != _other.getColor()) { return false; }
+    // Test if the width matches
+    if(width != _other.getWidth()) { return false; }
+
+    return true;
+}
+
+bool LSystem::Turtle::operator!=(const Turtle& _other) const
+{
+    // Test if the transforms matches
+    if(transform != _other.getTransform()) { return true; }
+    // Test if the color matches
+    if(color != _other.getColor()) { return true; }
+    // Test if the width matches
+    if(width != _other.getWidth()) { return true; }
+
+    return false;
+}
+
+std::ostream& operator<<(std::ostream& stream, const LSystem::Turtle& _turtle)
+{
+    // Print the transform
+    stream << "Transform : " << _turtle.getTransform() << "\n";
+    // Print the color
+    stream << "Color : " << _turtle.getColor() << "\n";
+    // Print the width
+    stream << "Width : " << _turtle.getWidth() << std::endl;
+
+    return stream;
+}
+
+
+////////////////////////////////////////
 // Movement
 ////////////////////////////////////////
 
