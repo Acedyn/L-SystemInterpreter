@@ -13,7 +13,7 @@ int main()
 
     LSystem::Turtle testTurtle1({1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0});
     testTurtle1.moveForward();
-    std::cout << "Test turtle1 : " << testTurtle1.getTransform() << std::endl;
+    std::cout << "Test turtle1 : " << testTurtle1 << std::endl;
 
     std::cout << std::endl << "Classes test COMPLETED" << std::endl << std::endl << std::endl;
 

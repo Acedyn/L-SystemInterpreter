@@ -1,37 +1,57 @@
 [
 {
-  "directory": "/data/data/com.termux/files/home/storage/document/L-SystemInterpreter/build/unix/source/l-SystemInterpreter",
-  "command": "/data/data/com.termux/files/usr/bin/c++  -I/data/data/com.termux/files/home/storage/document/L-SystemInterpreter/source/l-SystemInterpreter/public -I/data/data/com.termux/files/home/storage/document/L-SystemInterpreter/source/l-SystemInterpreter/private -g -o CMakeFiles/l-SystemInterpreter.dir/private/l-SystemInterpreter/l-System.cpp.o -c /data/data/com.termux/files/home/storage/document/L-SystemInterpreter/source/l-SystemInterpreter/private/l-SystemInterpreter/l-System.cpp",
-  "file": "/data/data/com.termux/files/home/storage/document/L-SystemInterpreter/source/l-SystemInterpreter/private/l-SystemInterpreter/l-System.cpp"
+  "directory": "D:/Simon/Mes Documents/PROJECT/2021/LIB_L-SystemInterpreter/build/mingw/source/l-SystemBase",
+  "command": "C:\\ProgramData\\chocolatey\\bin\\g++.exe  @CMakeFiles/l-SystemBase.dir/includes_CXX.rsp  -o CMakeFiles\\l-SystemBase.dir\\private\\l-SystemBase\\l-System.cpp.obj -c \"D:\\Simon\\Mes Documents\\PROJECT\\2021\\LIB_L-SystemInterpreter\\source\\l-SystemBase\\private\\l-SystemBase\\l-System.cpp\"",
+  "file": "D:/Simon/Mes Documents/PROJECT/2021/LIB_L-SystemInterpreter/source/l-SystemBase/private/l-SystemBase/l-System.cpp"
 },
 {
-  "directory": "/data/data/com.termux/files/home/storage/document/L-SystemInterpreter/build/unix/source/l-SystemInterpreter",
-  "command": "/data/data/com.termux/files/usr/bin/c++  -I/data/data/com.termux/files/home/storage/document/L-SystemInterpreter/source/l-SystemInterpreter/public -I/data/data/com.termux/files/home/storage/document/L-SystemInterpreter/source/l-SystemInterpreter/private -g -o CMakeFiles/l-SystemInterpreter.dir/private/l-SystemInterpreter/l-SystemCondition.cpp.o -c /data/data/com.termux/files/home/storage/document/L-SystemInterpreter/source/l-SystemInterpreter/private/l-SystemInterpreter/l-SystemCondition.cpp",
-  "file": "/data/data/com.termux/files/home/storage/document/L-SystemInterpreter/source/l-SystemInterpreter/private/l-SystemInterpreter/l-SystemCondition.cpp"
+  "directory": "D:/Simon/Mes Documents/PROJECT/2021/LIB_L-SystemInterpreter/build/mingw/source/l-SystemBase",
+  "command": "C:\\ProgramData\\chocolatey\\bin\\g++.exe  @CMakeFiles/l-SystemBase.dir/includes_CXX.rsp  -o CMakeFiles\\l-SystemBase.dir\\private\\l-SystemBase\\l-SystemAbstractModule.cpp.obj -c \"D:\\Simon\\Mes Documents\\PROJECT\\2021\\LIB_L-SystemInterpreter\\source\\l-SystemBase\\private\\l-SystemBase\\l-SystemAbstractModule.cpp\"",
+  "file": "D:/Simon/Mes Documents/PROJECT/2021/LIB_L-SystemInterpreter/source/l-SystemBase/private/l-SystemBase/l-SystemAbstractModule.cpp"
 },
 {
-  "directory": "/data/data/com.termux/files/home/storage/document/L-SystemInterpreter/build/unix/source/l-SystemInterpreter",
-  "command": "/data/data/com.termux/files/usr/bin/c++  -I/data/data/com.termux/files/home/storage/document/L-SystemInterpreter/source/l-SystemInterpreter/public -I/data/data/com.termux/files/home/storage/document/L-SystemInterpreter/source/l-SystemInterpreter/private -g -o CMakeFiles/l-SystemInterpreter.dir/private/l-SystemInterpreter/l-SystemModule.cpp.o -c /data/data/com.termux/files/home/storage/document/L-SystemInterpreter/source/l-SystemInterpreter/private/l-SystemInterpreter/l-SystemModule.cpp",
-  "file": "/data/data/com.termux/files/home/storage/document/L-SystemInterpreter/source/l-SystemInterpreter/private/l-SystemInterpreter/l-SystemModule.cpp"
+  "directory": "D:/Simon/Mes Documents/PROJECT/2021/LIB_L-SystemInterpreter/build/mingw/source/l-SystemBase",
+  "command": "C:\\ProgramData\\chocolatey\\bin\\g++.exe  @CMakeFiles/l-SystemBase.dir/includes_CXX.rsp  -o CMakeFiles\\l-SystemBase.dir\\private\\l-SystemBase\\l-SystemConcreteModule.cpp.obj -c \"D:\\Simon\\Mes Documents\\PROJECT\\2021\\LIB_L-SystemInterpreter\\source\\l-SystemBase\\private\\l-SystemBase\\l-SystemConcreteModule.cpp\"",
+  "file": "D:/Simon/Mes Documents/PROJECT/2021/LIB_L-SystemInterpreter/source/l-SystemBase/private/l-SystemBase/l-SystemConcreteModule.cpp"
 },
 {
-  "directory": "/data/data/com.termux/files/home/storage/document/L-SystemInterpreter/build/unix/source/l-SystemInterpreter",
-  "command": "/data/data/com.termux/files/usr/bin/c++  -I/data/data/com.termux/files/home/storage/document/L-SystemInterpreter/source/l-SystemInterpreter/public -I/data/data/com.termux/files/home/storage/document/L-SystemInterpreter/source/l-SystemInterpreter/private -g -o CMakeFiles/l-SystemInterpreter.dir/private/l-SystemInterpreter/l-SystemRule.cpp.o -c /data/data/com.termux/files/home/storage/document/L-SystemInterpreter/source/l-SystemInterpreter/private/l-SystemInterpreter/l-SystemRule.cpp",
-  "file": "/data/data/com.termux/files/home/storage/document/L-SystemInterpreter/source/l-SystemInterpreter/private/l-SystemInterpreter/l-SystemRule.cpp"
+  "directory": "D:/Simon/Mes Documents/PROJECT/2021/LIB_L-SystemInterpreter/build/mingw/source/l-SystemBase",
+  "command": "C:\\ProgramData\\chocolatey\\bin\\g++.exe  @CMakeFiles/l-SystemBase.dir/includes_CXX.rsp  -o CMakeFiles\\l-SystemBase.dir\\private\\l-SystemBase\\l-SystemExpression.cpp.obj -c \"D:\\Simon\\Mes Documents\\PROJECT\\2021\\LIB_L-SystemInterpreter\\source\\l-SystemBase\\private\\l-SystemBase\\l-SystemExpression.cpp\"",
+  "file": "D:/Simon/Mes Documents/PROJECT/2021/LIB_L-SystemInterpreter/source/l-SystemBase/private/l-SystemBase/l-SystemExpression.cpp"
 },
 {
-  "directory": "/data/data/com.termux/files/home/storage/document/L-SystemInterpreter/build/unix/source/l-SystemInterpreter",
-  "command": "/data/data/com.termux/files/usr/bin/c++  -I/data/data/com.termux/files/home/storage/document/L-SystemInterpreter/source/l-SystemInterpreter/public -I/data/data/com.termux/files/home/storage/document/L-SystemInterpreter/source/l-SystemInterpreter/private -g -o CMakeFiles/l-SystemInterpreter.dir/private/l-SystemInterpreter/l-SystemTurtle.cpp.o -c /data/data/com.termux/files/home/storage/document/L-SystemInterpreter/source/l-SystemInterpreter/private/l-SystemInterpreter/l-SystemTurtle.cpp",
-  "file": "/data/data/com.termux/files/home/storage/document/L-SystemInterpreter/source/l-SystemInterpreter/private/l-SystemInterpreter/l-SystemTurtle.cpp"
+  "directory": "D:/Simon/Mes Documents/PROJECT/2021/LIB_L-SystemInterpreter/build/mingw/source/l-SystemBase",
+  "command": "C:\\ProgramData\\chocolatey\\bin\\g++.exe  @CMakeFiles/l-SystemBase.dir/includes_CXX.rsp  -o CMakeFiles\\l-SystemBase.dir\\private\\l-SystemBase\\l-SystemParameters.cpp.obj -c \"D:\\Simon\\Mes Documents\\PROJECT\\2021\\LIB_L-SystemInterpreter\\source\\l-SystemBase\\private\\l-SystemBase\\l-SystemParameters.cpp\"",
+  "file": "D:/Simon/Mes Documents/PROJECT/2021/LIB_L-SystemInterpreter/source/l-SystemBase/private/l-SystemBase/l-SystemParameters.cpp"
 },
 {
-  "directory": "/data/data/com.termux/files/home/storage/document/L-SystemInterpreter/build/unix/source/l-SystemInterpreter",
-  "command": "/data/data/com.termux/files/usr/bin/c++  -I/data/data/com.termux/files/home/storage/document/L-SystemInterpreter/source/l-SystemInterpreter/public -I/data/data/com.termux/files/home/storage/document/L-SystemInterpreter/source/l-SystemInterpreter/private -g -o CMakeFiles/l-SystemInterpreter.dir/private/l-SystemInterpreter/l-SystemWord.cpp.o -c /data/data/com.termux/files/home/storage/document/L-SystemInterpreter/source/l-SystemInterpreter/private/l-SystemInterpreter/l-SystemWord.cpp",
-  "file": "/data/data/com.termux/files/home/storage/document/L-SystemInterpreter/source/l-SystemInterpreter/private/l-SystemInterpreter/l-SystemWord.cpp"
+  "directory": "D:/Simon/Mes Documents/PROJECT/2021/LIB_L-SystemInterpreter/build/mingw/source/l-SystemBase",
+  "command": "C:\\ProgramData\\chocolatey\\bin\\g++.exe  @CMakeFiles/l-SystemBase.dir/includes_CXX.rsp  -o CMakeFiles\\l-SystemBase.dir\\private\\l-SystemBase\\l-SystemRule.cpp.obj -c \"D:\\Simon\\Mes Documents\\PROJECT\\2021\\LIB_L-SystemInterpreter\\source\\l-SystemBase\\private\\l-SystemBase\\l-SystemRule.cpp\"",
+  "file": "D:/Simon/Mes Documents/PROJECT/2021/LIB_L-SystemInterpreter/source/l-SystemBase/private/l-SystemBase/l-SystemRule.cpp"
 },
 {
-  "directory": "/data/data/com.termux/files/home/storage/document/L-SystemInterpreter/build/unix/test/l-SystemInterpreterTest",
-  "command": "/data/data/com.termux/files/usr/bin/c++  -I/data/data/com.termux/files/home/storage/document/L-SystemInterpreter/source/l-SystemInterpreter/public -g -o CMakeFiles/l-SystemInterpreterTest.dir/l-SystemInterpreterTest.cpp.o -c /data/data/com.termux/files/home/storage/document/L-SystemInterpreter/test/l-SystemInterpreterTest/l-SystemInterpreterTest.cpp",
-  "file": "/data/data/com.termux/files/home/storage/document/L-SystemInterpreter/test/l-SystemInterpreterTest/l-SystemInterpreterTest.cpp"
+  "directory": "D:/Simon/Mes Documents/PROJECT/2021/LIB_L-SystemInterpreter/build/mingw/source/l-SystemBase",
+  "command": "C:\\ProgramData\\chocolatey\\bin\\g++.exe  @CMakeFiles/l-SystemBase.dir/includes_CXX.rsp  -o CMakeFiles\\l-SystemBase.dir\\private\\l-SystemBase\\l-SystemWord.cpp.obj -c \"D:\\Simon\\Mes Documents\\PROJECT\\2021\\LIB_L-SystemInterpreter\\source\\l-SystemBase\\private\\l-SystemBase\\l-SystemWord.cpp\"",
+  "file": "D:/Simon/Mes Documents/PROJECT/2021/LIB_L-SystemInterpreter/source/l-SystemBase/private/l-SystemBase/l-SystemWord.cpp"
+},
+{
+  "directory": "D:/Simon/Mes Documents/PROJECT/2021/LIB_L-SystemInterpreter/build/mingw/source/l-SystemDraw",
+  "command": "C:\\ProgramData\\chocolatey\\bin\\g++.exe -DIMATH_DLL @CMakeFiles/l-SystemDraw.dir/includes_CXX.rsp  -o CMakeFiles\\l-SystemDraw.dir\\private\\l-SystemDraw\\l-SystemDrawBuffer.cpp.obj -c \"D:\\Simon\\Mes Documents\\PROJECT\\2021\\LIB_L-SystemInterpreter\\source\\l-SystemDraw\\private\\l-SystemDraw\\l-SystemDrawBuffer.cpp\"",
+  "file": "D:/Simon/Mes Documents/PROJECT/2021/LIB_L-SystemInterpreter/source/l-SystemDraw/private/l-SystemDraw/l-SystemDrawBuffer.cpp"
+},
+{
+  "directory": "D:/Simon/Mes Documents/PROJECT/2021/LIB_L-SystemInterpreter/build/mingw/source/l-SystemDraw",
+  "command": "C:\\ProgramData\\chocolatey\\bin\\g++.exe -DIMATH_DLL @CMakeFiles/l-SystemDraw.dir/includes_CXX.rsp  -o CMakeFiles\\l-SystemDraw.dir\\private\\l-SystemDraw\\l-SystemTurtle.cpp.obj -c \"D:\\Simon\\Mes Documents\\PROJECT\\2021\\LIB_L-SystemInterpreter\\source\\l-SystemDraw\\private\\l-SystemDraw\\l-SystemTurtle.cpp\"",
+  "file": "D:/Simon/Mes Documents/PROJECT/2021/LIB_L-SystemInterpreter/source/l-SystemDraw/private/l-SystemDraw/l-SystemTurtle.cpp"
+},
+{
+  "directory": "D:/Simon/Mes Documents/PROJECT/2021/LIB_L-SystemInterpreter/build/mingw/sandbox/l-SystemBaseTest",
+  "command": "C:\\ProgramData\\chocolatey\\bin\\g++.exe  @CMakeFiles/l-SystemBaseTest.dir/includes_CXX.rsp  -o CMakeFiles\\l-SystemBaseTest.dir\\l-SystemBaseTest.cpp.obj -c \"D:\\Simon\\Mes Documents\\PROJECT\\2021\\LIB_L-SystemInterpreter\\sandbox\\l-SystemBaseTest\\l-SystemBaseTest.cpp\"",
+  "file": "D:/Simon/Mes Documents/PROJECT/2021/LIB_L-SystemInterpreter/sandbox/l-SystemBaseTest/l-SystemBaseTest.cpp"
+},
+{
+  "directory": "D:/Simon/Mes Documents/PROJECT/2021/LIB_L-SystemInterpreter/build/mingw/sandbox/l-SystemDrawTest",
+  "command": "C:\\ProgramData\\chocolatey\\bin\\g++.exe -DIMATH_DLL @CMakeFiles/l-SystemDrawTest.dir/includes_CXX.rsp  -o CMakeFiles\\l-SystemDrawTest.dir\\l-SystemDrawTest.cpp.obj -c \"D:\\Simon\\Mes Documents\\PROJECT\\2021\\LIB_L-SystemInterpreter\\sandbox\\l-SystemDrawTest\\l-SystemDrawTest.cpp\"",
+  "file": "D:/Simon/Mes Documents/PROJECT/2021/LIB_L-SystemInterpreter/sandbox/l-SystemDrawTest/l-SystemDrawTest.cpp"
 }
 ]

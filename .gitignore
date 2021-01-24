@@ -3,3 +3,4 @@ binaries
 build
 external
 .clangd
+compile_commands.json
