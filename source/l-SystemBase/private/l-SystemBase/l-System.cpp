@@ -53,13 +53,9 @@ void LSystem::iterate()
         bool _match = false;
 
         // Store the previous module
-        LSystemConcreteModule* _previousModule = _wordIterator-- == outputWord->begin() ? nullptr : &(*_wordIterator);
-        // Reposition the iterator
-        _wordIterator++;
+        LSystemConcreteModule* _previousModule = _wordIterator == outputWord->begin() ? nullptr : &(*_wordIterator);
         // Store the next module
-        LSystemConcreteModule* _nextModule = ++_wordIterator == outputWord->end() ? nullptr : &(*_wordIterator);
-        // Reposition the iterator
-        _wordIterator--;
+        LSystemConcreteModule* _nextModule = _wordIterator == outputWord->end()-- ? nullptr : &(*_wordIterator);
         
         // Create seed for time
         srand(time(NULL) + _iteration + seed);

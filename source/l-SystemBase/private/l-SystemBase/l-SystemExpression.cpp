@@ -132,6 +132,9 @@ float LSystemExpression::parseNumber()
     int digitCount = 0;
     bool isFloatingValue = false;
 
+    // Security check if we are at the end of the expression
+    if (expressionIterator == expression.end()) { return result; }
+
     // Cast the character to integer
     int number = static_cast<int>(*expressionIterator) - 48;
     // Loop until the character is a number or a decimal comma
@@ -169,9 +172,13 @@ float LSystemExpression::parseNumber()
             // Switch to parsing numbers after the decimal comma
             isFloatingValue = true;
         }
+
+
+        // Security check if we are at the end of the expression
+        if (expressionIterator == expression.end()) { break; }
     }
     // Return the parsed value
-    return result + (floatingValueResult / pow(10, digitCount));
+    return result + (floatingValueResult / static_cast<float>(pow(10, digitCount)));
 }
 
 // Parse variable
@@ -179,10 +186,17 @@ float LSystemExpression::parseParameter()
 {
     std::string _parsedParameter;
 
+
+    // Security check if we are at the end of the expression
+    if (expressionIterator == expression.end()) { return 0.0f; }
+
     while(isalpha(*expressionIterator))
     {
         _parsedParameter.push_back(*expressionIterator);
         expressionIterator++;
+
+        // Security check if we are at the end of the expression
+        if (expressionIterator == expression.end()) { break; }
     }
 
     // If global parameters is set
@@ -226,13 +240,15 @@ float LSystemExpression::parseParameter()
 float LSystemExpression::parseOperatorLvl1()
 {
     // Store the result of the operator, initialized with the parseNumber() or parseParameter()
-    float result;
-    
-    if(isdigit(*expressionIterator)) { result = parseNumber(); }
-    else if(isalpha(*expressionIterator)) { result = parseParameter(); }
-    else { result = 0.0f; }
+    float _result = 0.0f;
+    // Security check if we are at the end of the expression
+    if (expressionIterator == expression.end()) { return _result; }
 
-    return result;
+    
+    if(isdigit(*expressionIterator)) { _result = parseNumber(); }
+    else if(isalpha(*expressionIterator)) { _result = parseParameter(); }
+
+    return _result;
 }
 
 // Parse exponent
@@ -240,11 +256,18 @@ float LSystemExpression::parseOperatorLvl2()
 {
     // Store the result of the operator, initialized with the computed left side of the operator
     float _result = parseOperatorLvl1();
+    // Security check if we are at the end of the expression
+    if (expressionIterator == expression.end()) { return _result; }
+
     while (*expressionIterator == '^') 
     {
         expressionIterator++;
         // Compute the operation with the left side and the right side of the operator
         _result = pow(_result, parseOperatorLvl1());
+
+
+        // Security check if we are at the end of the expression
+        if (expressionIterator == expression.end()) { break; }
     }
     return _result;
 }
@@ -254,6 +277,9 @@ float LSystemExpression::parseOperatorLvl3()
 {
     // Store the result of the operator, initialized with the computed left side of the operator
     float _result = parseOperatorLvl2();
+    // Security check if we are at the end of the expression
+    if (expressionIterator == expression.end()) { return _result; }
+
     while (*expressionIterator == '*' || *expressionIterator == '/' || *expressionIterator == '%') 
     {
         if(*expressionIterator == '*')
@@ -274,6 +300,10 @@ float LSystemExpression::parseOperatorLvl3()
                 // Compute the operation with the left side and the right side of the operator
             _result = fmod(_result, parseOperatorLvl2());
         }
+
+
+        // Security check if we are at the end of the expression
+        if (expressionIterator == expression.end()) { break; }
     }
     return _result;
 }
@@ -283,6 +313,9 @@ float LSystemExpression::parseOperatorLvl4()
 {
     // Store the result of the operator, initialized with the computed left side of the operator
     float _result = parseOperatorLvl3();
+    // Security check if we are at the end of the expression
+    if (expressionIterator == expression.end()) { return _result; }
+
     // Will store the result of the operator
     while (*expressionIterator == '+' || *expressionIterator == '-') 
     {
@@ -298,6 +331,9 @@ float LSystemExpression::parseOperatorLvl4()
                 // Compute the operation with the left side and the right side of the operator
             _result = _result - parseOperatorLvl3();
         }
+
+        // Security check if we are at the end of the expression
+        if (expressionIterator == expression.end()) { break; }
     }
     return _result;
 }
@@ -307,11 +343,18 @@ float LSystemExpression::parseOperatorLvl5()
 {
     // Store the result of the operator, initialized with the computed left side of the operator
     float _result = parseOperatorLvl4();
+    // Security check if we are at the end of the expression
+    if (expressionIterator == expression.end()) { return _result; }
+
     while(*expressionIterator == '<' || *expressionIterator == '>')
     {
         if(*expressionIterator == '<')
         {
             expressionIterator++;
+
+            // Security check if we are at the end of the expression
+            if (expressionIterator == expression.end()) { break; }
+
             if(*expressionIterator == '=')
             {
                 expressionIterator++;
@@ -327,6 +370,10 @@ float LSystemExpression::parseOperatorLvl5()
         else
         {
             expressionIterator++;
+
+            // Security check if we are at the end of the expression
+            if (expressionIterator == expression.end()) { break; }
+
             if(*expressionIterator == '=')
             {
                 expressionIterator++;
@@ -339,6 +386,9 @@ float LSystemExpression::parseOperatorLvl5()
                 _result = _result > parseOperatorLvl4();
             }
         }
+
+        // Security check if we are at the end of the expression
+        if (expressionIterator == expression.end()) { break; }
     }
     return _result;
 }
@@ -348,11 +398,18 @@ float LSystemExpression::parseOperatorLvl6()
 {
     // Store the result of the operator, initialized with the computed left side of the operator
     float _result = parseOperatorLvl5();
+    // Security check if we are at the end of the expression
+    if (expressionIterator == expression.end()) { return _result; }
+
     while(*expressionIterator == '=' || *expressionIterator == '!')
     {
         if(*expressionIterator == '=')
         {
             expressionIterator++;
+
+            // Security check if we are at the end of the expression
+            if (expressionIterator == expression.end()) { break; }
+
             if(*expressionIterator == '=')
             {
                 expressionIterator++;
@@ -363,6 +420,10 @@ float LSystemExpression::parseOperatorLvl6()
         else
         {
             expressionIterator++;
+
+            // Security check if we are at the end of the expression
+            if (expressionIterator == expression.end()) { break; }
+
             if(*expressionIterator == '=')
             {
                 expressionIterator++;
@@ -370,6 +431,9 @@ float LSystemExpression::parseOperatorLvl6()
                 _result = _result != parseOperatorLvl5();
             }
         }
+
+        // Security check if we are at the end of the expression
+        if (expressionIterator == expression.end()) { break; }
     }
     return _result;
 }
@@ -379,15 +443,25 @@ float LSystemExpression::parseOperatorLvl7()
 {
     // Store the result of the operator, initialized with the computed left side of the operator
     float _result = parseOperatorLvl6();
+    // Security check if we are at the end of the expression
+    if (expressionIterator == expression.end()) { return _result; }
+
     while (*expressionIterator == '&')
     {
         expressionIterator++;
+
+        // Security check if we are at the end of the expression
+        if (expressionIterator == expression.end()) { break; }
+
         if(*expressionIterator == '&')
         {
             expressionIterator++;
             // Compute the operation with the left side and the right side of the operator
             _result = _result && parseOperatorLvl6();
         }
+
+        // Security check if we are at the end of the expression
+        if (expressionIterator == expression.end()) { break; }
     }
     return _result;
 }
@@ -397,15 +471,25 @@ float LSystemExpression::parseOperatorLvl8()
 {
     // Store the result of the operator, initialized with the computed left side of the operator
     float _result = parseOperatorLvl7();
+    // Security check if we are at the end of the expression
+    if (expressionIterator == expression.end()) { return _result; }
+
     while (*expressionIterator == '|')
     {
         expressionIterator++;
+
+        // Security check if we are at the end of the expression
+        if (expressionIterator == expression.end()) { break; }
+
         if(*expressionIterator == '|')
         {
             expressionIterator++;
             // Compute the operation with the left side and the right side of the operator
             _result = _result || parseOperatorLvl7();
         }
+
+        // Security check if we are at the end of the expression
+        if (expressionIterator == expression.end()) { break; }
     }
     return _result;
 }

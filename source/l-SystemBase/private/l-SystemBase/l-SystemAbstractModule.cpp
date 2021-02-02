@@ -291,13 +291,13 @@ void LSystemAbstractModule::matchParameters()
     if(!isLinked()) { return; }
 
     // Get the difference of item count with the given module
-    int difference = parameterNames.size() - linkedModule->getParameterValues().size();
+    int difference = static_cast<int>(parameterNames.size() - linkedModule->getParameterValues().size());
     
     // If there is more parameter names than parameters in the given module
     if(difference > 0)
     {
         // For each items that are exeding the max lenght
-        for(int i = parameterNames.size() - difference; i >= parameterNames.size(); i++)
+        for(int i = static_cast<int>(parameterNames.size()) - difference; i >= static_cast<int>(parameterNames.size()); i++)
         {
             parameterNames.pop_back();
         }
@@ -307,7 +307,7 @@ void LSystemAbstractModule::matchParameters()
     if(difference < 0)
     {
         // For each items that should exists
-        for(int i = parameterNames.size() + difference; i >= linkedModule->getParameterValues().size(); i++)
+        for(int i = static_cast<int>(parameterNames.size()) + difference; i >= static_cast<int>(linkedModule->getParameterValues().size()); i++)
         {
             addParameterName("\0");
         }

@@ -8,7 +8,7 @@
 LSystemParameters::LSystemParameters(std::vector<std::string> _parameterNames, std::vector<float> _parameterValues)
 {
     // loop the minimim item count given so each name has its value
-    int minimumSize = std::min(_parameterNames.size(), _parameterValues.size());
+    int minimumSize = std::min(static_cast<int>(_parameterNames.size()), static_cast<int>(_parameterValues.size()));
     parameters.reserve(minimumSize);
 
     // Combine the names and the values together to create parameters
@@ -78,7 +78,7 @@ void LSystemParameters::setParameters(std::vector<LSystemParameter> _parameters)
 void LSystemParameters::setNames(std::vector<std::string> _parameterNames)
 {
     // loop the minimim item count given so each name has its value
-    int minimumSize = std::min(_parameterNames.size(), parameters.size());
+    int minimumSize = std::min(static_cast<int>(_parameterNames.size()), static_cast<int>(parameters.size()));
     
     for(int i = 0; i < minimumSize; i++)
     {
@@ -92,7 +92,7 @@ void LSystemParameters::setNames(std::vector<std::string> _parameterNames)
 void LSystemParameters::setValues(std::vector<float> _parameterValues)
 {
     // loop the minimim item count given so each name has its value
-    int minimumSize = std::min(_parameterValues.size(), parameters.size());
+    int minimumSize = std::min(static_cast<int>(_parameterValues.size()), static_cast<int>(parameters.size()));
     
     for(int i = 0; i < minimumSize; i++)
     {
@@ -108,9 +108,9 @@ void LSystemParameters::removeParameter(int _index)
     // If the parameter vector is empty we cancel
     if(parameters.size() < 1) { return; }
     // If the index is under 0 we count backard from the parameter's index count
-    while(_index < 0) { _index = parameters.size() + _index; }
+    while(_index < 0) { _index = static_cast<int>(parameters.size()) + _index; }
     // If the index is higher that the parameter's index count it is equal to the max
-    if(_index >= parameters.size()) { _index = parameters.size() - 1; }
+    if(_index >= parameters.size()) { _index = static_cast<int>(parameters.size()) - 1; }
 
     // We erase the parameter at the given index
     parameters.erase(parameters.begin() + _index);
@@ -121,9 +121,9 @@ LSystemParameter LSystemParameters::getParameter(int _index) const
     // If the parameter vector is empty we cancel
     if(parameters.size() < 1) { return LSystemParameter(); }
     // If the index is under 0 we count backard from the parameter's index count
-    while(_index < 0) { _index = parameters.size() + _index; }
+    while(_index < 0) { _index = static_cast<int>(parameters.size()) + _index; }
     // If the index is higher that the parameter's index count it is equal to the max
-    if(_index >= parameters.size()) { _index = parameters.size() - 1; }
+    if(_index >= parameters.size()) { _index = static_cast<int>(parameters.size()) - 1; }
 
     // We return the parameter at the right index
     return parameters[_index];

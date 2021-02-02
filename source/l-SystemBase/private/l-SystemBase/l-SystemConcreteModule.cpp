@@ -245,7 +245,7 @@ void LSystemConcreteModule::setParameterValues(std::string _parameterString)
                     break;
                 
                 case ParameterType::VALUE :
-                    addParameterValue(_valueBuffer + (_floatingValueBuffer / pow(10, digitCount)));
+                    addParameterValue(_valueBuffer + (_floatingValueBuffer / static_cast<float>(pow(10, digitCount))));
                     break;
 
                 case ParameterType::NAME :
@@ -266,7 +266,7 @@ void LSystemConcreteModule::setParameterValues(std::string _parameterString)
             break;
         
         case ParameterType::VALUE :
-            addParameterValue(_valueBuffer + (_floatingValueBuffer / pow(10, digitCount)));
+            addParameterValue(_valueBuffer + (_floatingValueBuffer / static_cast<float>(pow(10, digitCount))));
             break;
 
         case ParameterType::NAME :
@@ -378,13 +378,13 @@ void LSystemConcreteModule::matchParameters()
     if(!isLinked()) { return; }
 
     // Get the difference of item count with the given module
-    int difference = parameterValues.size() - linkedModule->getParameterNames().size();
+    int difference = static_cast<int>(parameterValues.size()) - static_cast<int>(linkedModule->getParameterNames().size());
     
     // If there is more parameter names than parameters in the given module
     if(difference > 0)
     {
         // For each items that are exeding the max lenght
-        for(int i = parameterValues.size() - difference; i >= parameterValues.size(); i++)
+        for(int i = static_cast<int>(parameterValues.size()) - difference; i >= static_cast<int>(parameterValues.size()); i++)
         {
             parameterValues.pop_back();
         }
@@ -394,7 +394,7 @@ void LSystemConcreteModule::matchParameters()
     if(difference < 0)
     {
         // For each items that should exists
-        for(int i = parameterValues.size() + difference; i >= linkedModule->getParameterNames().size(); i++)
+        for(int i = static_cast<int>(parameterValues.size()) + difference; i >= static_cast<int>(linkedModule->getParameterNames().size()); i++)
         {
             addParameterValue(0.0f);
         }

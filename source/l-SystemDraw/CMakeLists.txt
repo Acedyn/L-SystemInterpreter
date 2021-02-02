@@ -18,7 +18,7 @@ target_include_directories(l-SystemDraw
     PRIVATE private)
 
 target_link_libraries(l-SystemDraw
-    Imath::Imath
+    Imath::Imath_static
     l-SystemBase)
 
 # Define the output directory
