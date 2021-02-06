@@ -16,6 +16,19 @@ LSystem::Turtle::Turtle(Imath::M44f _transform, float _width, Imath::C4f _color)
     width(_width),
     color(_color) { }
 
+LSystem::Turtle::Turtle(const LSystem::Turtle& _other) :
+    transform(_other.getTransform()),
+    color(_other.getColor()),
+    width(_other.getWidth()),
+    lastVertex(_other.getLastVertex()),
+    moveStep(_other.getMoveStep()),
+    turnStep(_other.getTurnStep()),
+    pitchStep(_other.getPitchStep()),
+    rollStep(_other.getRollStep()),
+    colorStep(_other.getColorStep()),
+    widthStep(_other.getWidthStep()),
+    states(_other.getStates()) { }
+
 
 ////////////////////////////////////////
 // Operators
@@ -127,12 +140,23 @@ void LSystem::Turtle::turnAround() { turnLeft(180); }
 
 void LSystem::Turtle::pushState()
 {
-
+    states.emplace_back(*this);
 }
 
 void LSystem::Turtle::popState()
 {
+    transform = states[states.size() - 1].getTransform();
+    color = states[states.size() - 1].getColor();
+    width = states[states.size() - 1].getWidth();
+    lastVertex = states[states.size() - 1].getLastVertex();
+    moveStep = states[states.size() - 1].getMoveStep();
+    turnStep = states[states.size() - 1].getTurnStep();
+    pitchStep = states[states.size() - 1].getPitchStep();
+    rollStep = states[states.size() - 1].getRollStep();
+    colorStep = states[states.size() - 1].getColorStep();
+    widthStep = states[states.size() - 1].getWidthStep();
 
+    states.pop_back();
 }
 
 

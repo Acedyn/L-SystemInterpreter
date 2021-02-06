@@ -3,6 +3,7 @@
 #include <Imath/ImathMatrix.h>
 #include <Imath/ImathColor.h>
 
+#include <vector>
 
 namespace LSystem 
 {
@@ -15,7 +16,7 @@ namespace LSystem
         Turtle(Imath::M44f _transform = Imath::M44f()) : 
             transform(_transform), 
             color({1.0f, 1.0f, 1.0f, 1.0f}), 
-            width(1.0f) { std::cout << "Created\n"; }
+            width(1.0f) { }
         Turtle(
             Imath::M44f _transform, 
             Imath::C4f _color, 
@@ -24,6 +25,7 @@ namespace LSystem
             Imath::M44f _transform,
             float _width, 
             Imath::C4f _color = Imath::C4f(1.0f, 1.0f, 1.0f, 1.0f));
+        Turtle(const Turtle& _other);
         ~Turtle() { }
 
         // Operators
@@ -37,6 +39,8 @@ namespace LSystem
         void setColor(Imath::C4f _color) { color = _color; }
         float getWidth() const { return width; }
         void setWidth(float _width) { width = _width; }
+        int getLastVertex() const { return lastVertex; }
+        std::vector<Turtle> getStates() const { return states; }
         float getMoveStep() const { return moveStep; }
         void setMoveStep(float _moveStep) { moveStep = _moveStep; }
         float getTurnStep() const { return turnStep; }
@@ -45,6 +49,10 @@ namespace LSystem
         void setPitchStep(float _pitchStep) { pitchStep = _pitchStep; }
         float getRollStep() const { return rollStep; }
         void setRollStep(float _rollStep) { rollStep = _rollStep; }
+        Imath::C4f getColorStep() const { return colorStep; }
+        void setColorStep(Imath::C4f _colorStep) { colorStep = _colorStep; }
+        float getWidthStep() const { return widthStep; }
+        void setWidthStep(float _widthStep) { widthStep = _widthStep; }
 
         // Movement
         void moveForward(float _moveStep);
@@ -83,14 +91,16 @@ namespace LSystem
         Imath::M44f transform;
         Imath::C4f color;
         float width;
+        int lastVertex;
 
         float moveStep = 1.0f;
         float turnStep = 1.0f;
         float pitchStep = 1.0f;
         float rollStep = 1.0f;
-
-        Imath::C4f colorStep;
+        Imath::C4f colorStep = Imath::C4f(1.0f, 1.0f, 1.0f, 1.0f);
         float widthStep = 0.1f;
+
+        std::vector<Turtle> states;
     };
 }
 
