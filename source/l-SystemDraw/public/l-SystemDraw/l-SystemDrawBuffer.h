@@ -19,14 +19,17 @@ namespace LSystem
         bool setVertices(std::vector<Imath::V3f> _vertices);
 
         // Indexes
-        std::vector<int> getIndexes() const { return indexes; }
-        bool appendIndex(int _index);
-        bool appendIndexes(std::vector<int> _indexes);
-        bool setIndexes(std::vector<int> _indexes);
+        std::vector<int> getIndices() const { return indices; }
+        bool appendIndice(int _indice);
+        bool appendIndices(std::vector<int> _indices);
+        bool setIndices(std::vector<int> _indices);
 
+        // Export
+        class OutputUSD exportUSD(std::string _root);
+        class OutputUSD exportUSD(std::string _root, std::string _location);
 
     private:
         std::vector<Imath::V3f> vertices;
-        std::vector<int> indexes;
+        std::vector<int> indices;
     };
 }

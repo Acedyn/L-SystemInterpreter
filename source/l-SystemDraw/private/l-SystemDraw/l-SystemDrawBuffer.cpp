@@ -1,5 +1,7 @@
 #include "l-SystemDraw/l-SystemDrawBuffer.h"
 
+#include "l-SystemDraw/l-SystemOutputUSD.h"
+
 ////////////////////////////////////////
 // Vertices
 ////////////////////////////////////////
@@ -49,31 +51,31 @@ bool LSystem::DrawBuffer::setVertices(std::vector<Imath::V3f> _vertices)
 // Indexes
 ////////////////////////////////////////
 
-bool LSystem::DrawBuffer::appendIndex(int _index)
+bool LSystem::DrawBuffer::appendIndice(int _indice)
 {
     // If the index is out of range, don't add it
-    if(_index > vertices.size() - 1) { return false; }
+    if(_indice > vertices.size() - 1) { return false; }
 
-    indexes.emplace_back(_index);
+    indices.emplace_back(_indice);
     return true;
 }
 
-bool LSystem::DrawBuffer::appendIndexes(std::vector<int> _indexes)
+bool LSystem::DrawBuffer::appendIndices(std::vector<int> _indices)
 {
     // Save current indexes buffer
-    std::vector<int> _indexesRollBack = indexes;
+    std::vector<int> _indicesRollBack = indices;
 
     // Reserve memory
-    indexes.reserve(indexes.size() + _indexes.size());
+    indices.reserve(indices.size() + _indices.size());
 
     // Add the indexes one by one to check if they are correct
-    for(int _index : _indexes)
+    for(int _index : _indices)
     {
         // If one of the index can't be added
-        if(!appendIndex(_index))
+        if(!appendIndice(_index))
         {
             // Return to the original state
-            indexes = _indexesRollBack;
+            indices = _indicesRollBack;
             return false;
         }
     }
@@ -81,11 +83,42 @@ bool LSystem::DrawBuffer::appendIndexes(std::vector<int> _indexes)
     return true;
 }
 
-bool LSystem::DrawBuffer::setIndexes(std::vector<int> _indexes)
+bool LSystem::DrawBuffer::setIndices(std::vector<int> _indices)
 {
     // Clear the index buffer
-    indexes.clear();
+    indices.clear();
 
     // Append the indexes to the cleard buffer
-    return appendIndexes(_indexes);
+    return appendIndices(_indices);
+}
+
+
+////////////////////////////////////////
+// Export
+////////////////////////////////////////
+
+LSystem::OutputUSD LSystem::DrawBuffer::exportUSD(std::string _root)
+{
+    LSystem::OutputUSD _exportUSD(_root);
+
+    // Convert std::vector vertices to pxr::VtArray vertices
+    pxr::VtArray<pxr::GfVec3f> _vertices;
+    _vertices.reserve(vertices.size());
+    for (Imath::V3f _vertex : vertices) { _vertices.emplace_back(pxr::GfVec3f(_vertex.x, _vertex.y, _vertex.z)); }
+    // Create the faces vertex count
+    pxr::VtArray<int> _faceVertexCount(indices.size() / 2, 2);
+    // Convert std::vector indices to pxr::VtArray indices
+    pxr::VtArray<int> _faceIndices(indices.begin(), indices.end());
+
+    _exportUSD.setMesh(_vertices, _faceVertexCount, _faceIndices);
+    return _exportUSD;
+}
+
+
+LSystem::OutputUSD LSystem::DrawBuffer::exportUSD(std::string _root, std::string _location)
+{
+    LSystem::OutputUSD _exportUSD = exportUSD(_root);
+    _exportUSD.writeToDisk(_location);
+
+    return _exportUSD;
 }

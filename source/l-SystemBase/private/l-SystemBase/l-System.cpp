@@ -58,7 +58,7 @@ void LSystem::iterate()
         LSystemConcreteModule* _nextModule = _wordIterator == outputWord->end()-- ? nullptr : &(*_wordIterator);
         
         // Create seed for time
-        srand(time(NULL) + _iteration + seed);
+        srand(static_cast<int>(time(NULL)) + _iteration + seed);
         // Compute random value in a range of 0 to 999
         float _random = static_cast<float>(rand() % 1000) / 1000;
 

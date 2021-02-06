@@ -19,6 +19,11 @@ target_include_directories(l-SystemDraw
 
 target_link_libraries(l-SystemDraw
     Imath::Imath_static
+    usd
+    usdGeom
+    tf
+    sdf
+    vt
     l-SystemBase)
 
 # Define the output directory
