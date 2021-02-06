@@ -34,3 +34,5 @@ namespace LSystem
 		std::string root;
 	};
 }
+
+std::ostream& operator<<(std::ostream& stream, const LSystem::OutputUSD& _outputUSD);

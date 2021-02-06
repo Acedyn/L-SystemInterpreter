@@ -12,6 +12,10 @@ namespace LSystem
         DrawBuffer() { }
         ~DrawBuffer() { }
 
+        // Operators
+        bool operator==(const DrawBuffer& _other) const;
+        bool operator!=(const DrawBuffer& _other) const;
+
         // Vertices
         std::vector<Imath::V3f> getVertices() const { return vertices; }
         bool appendVertex(Imath::V3f _vertex);
@@ -33,3 +37,6 @@ namespace LSystem
         std::vector<int> indices;
     };
 }
+
+
+std::ostream& operator<<(std::ostream& stream, const LSystem::DrawBuffer& _drawBuffer);

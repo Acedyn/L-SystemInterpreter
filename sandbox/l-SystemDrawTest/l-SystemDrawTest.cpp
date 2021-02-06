@@ -22,10 +22,10 @@ int main()
     std::cout << "########################################" << std::endl;
     std::cout << "TESTING export : " << std::endl;
 
-    LSystem::DrawBuffer buffer = LSystem::DrawBuffer();
-    buffer.setVertices({ {0.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}, {1.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 0.0f} });
-    buffer.setIndices({ 0, 3, 3, 2, 2, 1 });
-    buffer.exportUSD("LSystem", ".l-SystemDrawTest.usda");
+    LSystem::DrawBuffer buffer1 = LSystem::DrawBuffer();
+    buffer1.setVertices({ {0.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}, {1.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 0.0f} });
+    buffer1.setIndices({ 0, 3, 3, 2, 2, 1 });
+    std::cout << "Test exportUSD1: " << buffer1.exportUSD("LSystem") << std::endl;
 
     std::cout << std::endl << "Export test COMPLETED" << std::endl << std::endl << std::endl;
 

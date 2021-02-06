@@ -3,6 +3,45 @@
 #include "l-SystemDraw/l-SystemOutputUSD.h"
 
 ////////////////////////////////////////
+// Operators
+////////////////////////////////////////
+
+bool LSystem::DrawBuffer::operator==(const DrawBuffer& _other) const
+{
+    // Test if the vertices matches
+    if (vertices != _other.getVertices()) { return false; }
+    // Test if the indices matches
+    if (indices != _other.getIndices()) { return false; }
+
+    return true;
+}
+
+bool LSystem::DrawBuffer::operator!=(const DrawBuffer& _other) const
+{
+    // Test if the vertices matches
+    if (vertices != _other.getVertices()) { return true; }
+    // Test if the indices matches
+    if (indices != _other.getIndices()) { return true; }
+
+    return false;
+}
+
+std::ostream& operator<<(std::ostream& stream, const LSystem::DrawBuffer& _drawBuffer)
+{
+    // Print the Vertexes
+    stream << "Vertices : ";
+    for (Imath::V3f _vertex : _drawBuffer.getVertices()) { stream << _vertex << ", "; }
+    stream << "\n";
+    // Print the color
+    stream << "Indices : ";
+    for (int _indice : _drawBuffer.getIndices()) { stream << _indice << ", "; }
+    stream << "\n";
+
+    return stream;
+}
+
+
+////////////////////////////////////////
 // Vertices
 ////////////////////////////////////////
 
