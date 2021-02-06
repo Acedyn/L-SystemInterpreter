@@ -9,12 +9,14 @@
 LSystem::Turtle::Turtle(Imath::M44f _transform, Imath::C4f _color, float _width) :
     transform(_transform),
     color(_color),
-    width(_width) { }
+    width(_width),
+    lastVertex(-1) { }
 
 LSystem::Turtle::Turtle(Imath::M44f _transform, float _width, Imath::C4f _color) :
     transform(_transform),
     width(_width),
-    color(_color) { }
+    color(_color),
+    lastVertex(-1) { }
 
 LSystem::Turtle::Turtle(const LSystem::Turtle& _other) :
     transform(_other.getTransform()),

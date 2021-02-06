@@ -16,7 +16,8 @@ namespace LSystem
         Turtle(Imath::M44f _transform = Imath::M44f()) : 
             transform(_transform), 
             color({1.0f, 1.0f, 1.0f, 1.0f}), 
-            width(1.0f) { }
+            width(1.0f),
+            lastVertex(-1) { }
         Turtle(
             Imath::M44f _transform, 
             Imath::C4f _color, 
