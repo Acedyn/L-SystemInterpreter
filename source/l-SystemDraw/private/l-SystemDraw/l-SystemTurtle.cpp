@@ -19,6 +19,7 @@ LSystem::Turtle::Turtle(Imath::M44f _transform, float _width, Imath::C4f _color)
     lastVertex(-1) { }
 
 LSystem::Turtle::Turtle(const LSystem::Turtle& _other) :
+    buffer(_other.getDrawBuffer()),
     transform(_other.getTransform()),
     color(_other.getColor()),
     width(_other.getWidth()),
@@ -79,7 +80,14 @@ std::ostream& operator<<(std::ostream& stream, const LSystem::Turtle& _turtle)
 
 void LSystem::Turtle::moveForward(float _moveStep)
 {
+    if (lastVertex == -1 && buffer != nullptr) { lastVertex = buffer->appendVertex(transform.translation()); }
     transform.translate(Imath::V3f(0.0f, 0.0f, _moveStep));
+
+    if (buffer == nullptr) { return; }
+    int _newVertex = buffer->appendVertex(transform.translation());
+    buffer->appendIndices({ lastVertex, _newVertex });
+
+    lastVertex = _newVertex;
 }
 
 void LSystem::Turtle::moveForward() { moveForward(moveStep); }
@@ -87,6 +95,8 @@ void LSystem::Turtle::moveForward() { moveForward(moveStep); }
 void LSystem::Turtle::jumpForward(float _moveStep)
 {
     transform.translate(Imath::V3f(0.0f, 0.0f, _moveStep));
+
+    lastVertex = -1;
 }
 
 void LSystem::Turtle::jumpForward() { jumpForward(moveStep); }

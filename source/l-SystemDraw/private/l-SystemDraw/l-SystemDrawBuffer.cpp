@@ -45,12 +45,12 @@ std::ostream& operator<<(std::ostream& stream, const LSystem::DrawBuffer& _drawB
 // Vertices
 ////////////////////////////////////////
 
-bool LSystem::DrawBuffer::appendVertex(Imath::V3f _vertex)
+int LSystem::DrawBuffer::appendVertex(Imath::V3f _vertex)
 {
     vertices.emplace_back(_vertex);
 
     // Allways return true for now
-    return true;
+    return vertices.size() - 1;
 }
 
 bool LSystem::DrawBuffer::appendVertices(std::vector<Imath::V3f> _vertices)
@@ -65,7 +65,7 @@ bool LSystem::DrawBuffer::appendVertices(std::vector<Imath::V3f> _vertices)
     for(Imath::V3f _vertex : _vertices)
     {
         // If one of the vertex can't be added
-        if(!appendVertex(_vertex))
+        if(appendVertex(_vertex) == -1)
         {
             // Return to the original state
             vertices = _verticesRollBack;
@@ -90,13 +90,13 @@ bool LSystem::DrawBuffer::setVertices(std::vector<Imath::V3f> _vertices)
 // Indexes
 ////////////////////////////////////////
 
-bool LSystem::DrawBuffer::appendIndice(int _indice)
+int LSystem::DrawBuffer::appendIndice(int _indice)
 {
     // If the index is out of range, don't add it
-    if(_indice > vertices.size() - 1) { return false; }
+    if(_indice > vertices.size() - 1) { return -1; }
 
     indices.emplace_back(_indice);
-    return true;
+    return indices.size() - 1;
 }
 
 bool LSystem::DrawBuffer::appendIndices(std::vector<int> _indices)
@@ -111,7 +111,7 @@ bool LSystem::DrawBuffer::appendIndices(std::vector<int> _indices)
     for(int _index : _indices)
     {
         // If one of the index can't be added
-        if(!appendIndice(_index))
+        if(appendIndice(_index) == -1)
         {
             // Return to the original state
             indices = _indicesRollBack;
@@ -148,6 +148,8 @@ LSystem::OutputUSD LSystem::DrawBuffer::exportUSD(std::string _root)
     pxr::VtArray<int> _faceVertexCount(indices.size() / 2, 2);
     // Convert std::vector indices to pxr::VtArray indices
     pxr::VtArray<int> _faceIndices(indices.begin(), indices.end());
+
+    std::cout << std::endl;
 
     _exportUSD.setMesh(_vertices, _faceVertexCount, _faceIndices);
     return _exportUSD;

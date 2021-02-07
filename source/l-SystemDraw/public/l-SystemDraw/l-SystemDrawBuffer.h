@@ -18,13 +18,13 @@ namespace LSystem
 
         // Vertices
         std::vector<Imath::V3f> getVertices() const { return vertices; }
-        bool appendVertex(Imath::V3f _vertex);
+        int appendVertex(Imath::V3f _vertex);
         bool appendVertices(std::vector<Imath::V3f> _vertices);
         bool setVertices(std::vector<Imath::V3f> _vertices);
 
         // Indexes
         std::vector<int> getIndices() const { return indices; }
-        bool appendIndice(int _indice);
+        int appendIndice(int _indice);
         bool appendIndices(std::vector<int> _indices);
         bool setIndices(std::vector<int> _indices);
 

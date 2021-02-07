@@ -2,10 +2,12 @@
 
 
 LSystem::Reader::Reader(LSystemWord _word) :
-	word(_word) 
+	word(_word),
+	buffer(DrawBuffer()),
+	turtle(Turtle())
 {
 	wordIterator = word.begin();
-	turtle = Turtle();
+	turtle.setDrawBuffer(&buffer);
 }
 
 

@@ -15,6 +15,7 @@ namespace LSystem
 		// Getters
 		LSystemWord getWord() { return word; }
 		Turtle getTurtle() { return turtle; }
+		DrawBuffer getDrawBuffer() { return buffer; }
 
 		void parseWord();
 		void interpretModule(LSystemConcreteModule& _module);
@@ -23,5 +24,6 @@ namespace LSystem
 		LSystemWord word;
 		std::vector<LSystemConcreteModule>::iterator wordIterator;
 		Turtle turtle;
+		DrawBuffer buffer;
 	};
 }

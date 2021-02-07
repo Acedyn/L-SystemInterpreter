@@ -12,7 +12,7 @@ int main()
     ////////////////////////////////////////
 
     std::cout << "########################################" << std::endl;
-    std::cout << "TESTING classes : " << std::endl;
+    std::cout << "TESTING classes : " << std::endl << std::endl;
 
     LSystem::Turtle testTurtle1({1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0});
     testTurtle1.moveForward();
@@ -27,20 +27,18 @@ int main()
     std::cout << std::endl << "Classes test COMPLETED" << std::endl << std::endl << std::endl;
 
     std::cout << "########################################" << std::endl;
-    std::cout << "TESTING reader : " << std::endl;
+    std::cout << "TESTING reader : " << std::endl << std::endl;
 
-    LSystemWord testWord1("F-F[-F]F^F");
-    LSystem::Reader testReader1(testWord1);
+    LSystemWord testWord1("^F[\\[+F+F]F]-FF");
+    LSystem::Reader* testReader1 = new LSystem::Reader(testWord1);
+    testReader1->parseWord();
 
     std::cout << std::endl << "Reader test COMPLETED" << std::endl << std::endl << std::endl;
 
     std::cout << "########################################" << std::endl;
-    std::cout << "TESTING export : " << std::endl;
+    std::cout << "TESTING export : " << std::endl << std::endl;
 
-    LSystem::DrawBuffer buffer1 = LSystem::DrawBuffer();
-    buffer1.setVertices({ {0.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}, {1.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 0.0f} });
-    buffer1.setIndices({ 0, 3, 3, 2, 2, 1 });
-    std::cout << "Test exportUSD1: " << buffer1.exportUSD("LSystem") << std::endl;
+    std::cout << "Test exportUSD1: " << testReader1->getDrawBuffer().exportUSD("LSystem", "./l-SystemDrawTest.usda") << std::endl;
 
     std::cout << std::endl << "Export test COMPLETED" << std::endl << std::endl << std::endl;
 

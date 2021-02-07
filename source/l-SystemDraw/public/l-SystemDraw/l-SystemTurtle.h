@@ -1,5 +1,7 @@
 #pragma once
 
+#include "l-SystemDraw/l-SystemDrawBuffer.h"
+
 #include <Imath/ImathMatrix.h>
 #include <Imath/ImathColor.h>
 
@@ -42,6 +44,8 @@ namespace LSystem
         void setWidth(float _width) { width = _width; }
         int getLastVertex() const { return lastVertex; }
         std::vector<Turtle> getStates() const { return states; }
+        void setDrawBuffer(DrawBuffer* _buffer) { buffer = _buffer; }
+        DrawBuffer* getDrawBuffer() const { return buffer; }
         float getMoveStep() const { return moveStep; }
         void setMoveStep(float _moveStep) { moveStep = _moveStep; }
         float getTurnStep() const { return turnStep; }
@@ -95,13 +99,14 @@ namespace LSystem
         int lastVertex;
 
         float moveStep = 1.0f;
-        float turnStep = 1.0f;
-        float pitchStep = 1.0f;
-        float rollStep = 1.0f;
+        float turnStep = 30.0f;
+        float pitchStep = 30.0f;
+        float rollStep = 30.0f;
         Imath::C4f colorStep = Imath::C4f(1.0f, 1.0f, 1.0f, 1.0f);
         float widthStep = 0.1f;
 
         std::vector<Turtle> states;
+        DrawBuffer* buffer = nullptr;
     };
 }
 
