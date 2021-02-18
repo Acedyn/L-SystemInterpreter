@@ -70,26 +70,21 @@ int main()
     LSystemParameters parameters({"A", "B", "W", "AS", "BS", "R", "L"}, {1.0f, 2.0f, 0.5f, 2.0f, 1.0f, 1.0f, -1.0f});
 
     // Axiom
-    // LSystemWord axiom("!(0.5)F(1,2,1)");
     LSystemWord axiom("!(W)F(BS,B,R)", &parameters);
 
     // Rule 1
-    // LSystemRule rule1(LSystemModule('F', "sto"), new LSystemWord("F(2,1,-1)F(1,2,1)"));
     LSystemRule rule1({'F', "s,t,o"}, {"F(AS,A,L)F(BS,B,R)", &parameters});
     rule1.setMainCondition({"t==A&&o==R"}, &parameters);
 
     // Rule 2
-    // LSystemRule rule2(LSystemModule('F', "sto"), new LSystemWord("F(1,2,-1)F(2,1,1)"));
     LSystemRule rule2({'F', "s,t,o"}, {"F(BS,B,L)F(AS,A,R)", &parameters});
     rule2.setMainCondition({"t==A&&o==L"}, &parameters);
 
     // Rule 3
-    // LSystemRule rule3(LSystemModule('F', "sto"), new LSystemWord("F(2,1,1)"));
     LSystemRule rule3({'F', "s,t,o"}, {"F(AS,A,R)", &parameters});
     rule3.setMainCondition({"t==B&&o==R"}, &parameters);
 
     // Rule 4
-    // LSystemRule rule4(LSystemModule('F', "sto"), new LSystemWord("F(2,1,-1)"));
     LSystemRule rule4({'F', "s,t,o"}, {"F(AS,A,L)", &parameters});
     rule4.setMainCondition({"t==B&&o==L"}, &parameters);
 
@@ -104,6 +99,41 @@ int main()
     }
 
     std::cout << std::endl << "Anabaena Catenula model test COMPLETED" << std::endl << std::endl << std::endl;
+
+
+    ////////////////////////////////////////
+    // Testing Honda's tree model
+    ////////////////////////////////////////
+
+    std::cout << "########################################" << std::endl;
+    std::cout << "TESTING Honda's tree model :" << std::endl;
+
+    // Parameters
+    LSystemParameters hondaParameters({ "r1", "r2", "a0", "a2", "d", "wr" }, { 0.9f, 0.6f, 45.0f, 45.0f, 137.5f, 0.707f });
+
+    // Axiom
+    LSystemWord hondaAxiom("A(1, 10)", &hondaParameters);
+
+    // Rule 1
+    LSystemRule hondaRule1({ 'A', "s,w" }, { "!(w)F(s)[&(a0)B(s*r2,w*wr)]/(d)A(s*r1,w*wr)", &parameters });
+
+    // Rule 2
+    LSystemRule hondaRule2({ 'B', "s,w" }, { "!(w)F(s)[-(a2)@VC(s*r2,w*wr)]C(s*rl,w*wr)", &parameters });
+
+    // Rule 3
+    LSystemRule hondaRule3({ 'C', "s,w" }, { "!(w)F(s)[+(a2)@VB(s*r2,w*wr)]B(s*rl,w*wr)", &parameters });
+
+    // LSystem
+    LSystem hondaTreeModel(hondaAxiom, { &hondaRule1, &hondaRule2, &hondaRule3 });
+
+    std::cout << *(hondaTreeModel.getOutputWord()) << std::endl;
+    for (int i = 0; i < 4; i++)
+    {
+        hondaTreeModel.iterate();
+        std::cout << *(hondaTreeModel.getOutputWord()) << std::endl;
+    }
+
+    std::cout << std::endl << "Honda's tree model test COMPLETED" << std::endl << std::endl << std::endl;
 
     std::cout << "\nTEST COMPLETED" << std::endl;
     std::cin.get();
