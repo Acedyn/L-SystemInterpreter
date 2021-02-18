@@ -14,17 +14,8 @@ bool LSystemExpression::operator==(const LSystemExpression& _other) const
     // Test if the expressions matches
     if(expression != _other.getExpression()) { return false; }
 
-    // If both modules are set
-    if(module != nullptr && _other.getModule() != nullptr)
-    {
-        // Test if the modules matches
-        if(*module != *(_other.getModule())) { return false; }
-    }
-    else
-    {
-        // Test if the modules matches
-        if(module != _other.getModule()) { return false; }
-    }
+    // Test if the modules matches
+    if (moduleParameters != _other.getModuleParameters()) { return false; }
 
     // If both globalParameters are set
     if(globalParameters != nullptr && _other.getGlobalParameters() != nullptr)
@@ -47,17 +38,8 @@ bool LSystemExpression::operator!=(const LSystemExpression& _other) const
     // Test if the expressions matches
     if(expression != _other.getExpression()) { return true; }
 
-    // If both modules are set
-    if(module != nullptr && _other.getModule() != nullptr)
-    {
-        // Test if the modules matches
-        if(*module != *(_other.getModule())) { return true; }
-    }
-    else
-    {
-        // Test if the modules matches
-        if(module != _other.getModule()) { return true; }
-    }
+    // Test if the modules matches
+    if (moduleParameters != _other.getModuleParameters()) { return true; }
 
     // If both globalParameters are set
     if(globalParameters != nullptr && _other.getGlobalParameters() != nullptr)
@@ -84,9 +66,9 @@ void LSystemExpression::setExpression(std::string _expression)
     expression = _expression;
 }
 
-void LSystemExpression::setModule(LSystemAbstractModule* _module)
+void LSystemExpression::setModuleParameters(std::vector<LSystemAbstractModule*> _moduleParameters)
 {
-    module = _module;
+    moduleParameters = _moduleParameters;
 }
 
 void LSystemExpression::setGlobalParameters(LSystemParameters* _globalParameters)
@@ -214,14 +196,14 @@ float LSystemExpression::parseParameter()
         }
     }
 
-    // If the module is set
-    if(module != nullptr)
+    // Loop over all the module parameters
+    for(LSystemAbstractModule* _moduleParameter : moduleParameters)
     {
         // If the module is linked
-        if(module->isLinked())
+        if(_moduleParameter->isLinked())
         {
             // Loop over all the module's parameters
-            for(LSystemParameter _moduleParameter : module->getParameters())
+            for(LSystemParameter _moduleParameter : _moduleParameter->getParameters())
             {
                 // If the name of the parameter matches the parsed Parameter's name
                 if(_parsedParameter == _moduleParameter.name)

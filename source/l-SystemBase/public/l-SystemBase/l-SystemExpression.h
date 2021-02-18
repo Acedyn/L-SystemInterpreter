@@ -1,6 +1,10 @@
 #pragma once
 
 #include <string>
+#include <vector>
+
+class LSystemParameters;
+class LSystemAbstractModule;
 
 class LSystemExpression
 {
@@ -11,18 +15,18 @@ public:
         expression(_expression) { }
     LSystemExpression(
             std::string _expression, 
-            class LSystemAbstractModule* _module, 
-            class LSystemParameters* _globalParameters = nullptr) :
+            std::vector<LSystemAbstractModule*> _module,
+            LSystemParameters* _globalParameters = nullptr) :
         expression(_expression),
-        module(_module),
+        moduleParameters(_module),
         globalParameters(_globalParameters) { }
     LSystemExpression(
             std::string _expression, 
-            class LSystemParameters* _globalParameters,
-            class LSystemAbstractModule* _module = nullptr) :
+            LSystemParameters* _globalParameters,
+            std::vector<LSystemAbstractModule*> _module = std::vector<LSystemAbstractModule*>()) :
         expression(_expression),
         globalParameters(_globalParameters),
-        module(_module) { }
+        moduleParameters(_module) { }
     ~LSystemExpression() { }
 
     // Operators
@@ -32,10 +36,10 @@ public:
     // Getters / setters
     void setExpression(std::string _expression);
     std::string getExpression() const { return expression; }
-    void setModule(class LSystemAbstractModule* _module);
-    class LSystemAbstractModule* getModule() const { return module; }
-    void setGlobalParameters(class LSystemParameters* _globalParameters);
-    class LSystemParameters* getGlobalParameters() const { return globalParameters; }
+    void setModuleParameters(std::vector<LSystemAbstractModule*> _moduleParameters);
+    std::vector<LSystemAbstractModule*> getModuleParameters() const { return moduleParameters; }
+    void setGlobalParameters(LSystemParameters* _globalParameters);
+    LSystemParameters* getGlobalParameters() const { return globalParameters; }
 
     // Public functions
     float parseDecimalExpression();
@@ -46,8 +50,8 @@ private:
     // Private variables
     std::string expression;
     std::string::iterator expressionIterator;
-    class LSystemAbstractModule* module  = nullptr;
-    class LSystemParameters* globalParameters = nullptr;
+    std::vector<LSystemAbstractModule*> moduleParameters;
+    LSystemParameters* globalParameters = nullptr;
 
     // Parsing functions
     float parseNumber();       // parse numer

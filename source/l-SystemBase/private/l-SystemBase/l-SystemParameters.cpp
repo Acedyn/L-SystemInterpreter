@@ -52,6 +52,21 @@ bool LSystemParameters::operator!=(const LSystemParameters& _other) const
     return true;
 }
 
+LSystemParameters LSystemParameters::operator+(const LSystemParameters& _other) const
+{
+    // Create a new LSystemParameters from this
+    LSystemParameters sum(parameters);
+    // Add the parameters of _other to it
+    sum.append(_other);
+    return sum;
+}
+
+void LSystemParameters::operator+=(const LSystemParameters& _other)
+{
+    // Add the parameters of _other
+    append(_other);
+}
+
 
 ////////////////////////////////////////
 // Setters / Getters
@@ -127,4 +142,11 @@ LSystemParameter LSystemParameters::getParameter(int _index) const
 
     // We return the parameter at the right index
     return parameters[_index];
+}
+
+
+void LSystemParameters::append(const LSystemParameters& _otherParameters)
+{
+    // Append the two parameter vector using iterators
+    parameters.insert(parameters.end(), _otherParameters.getParameters().begin(), _otherParameters.getParameters().end());
 }

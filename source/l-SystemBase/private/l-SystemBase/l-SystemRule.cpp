@@ -164,7 +164,15 @@ void LSystemRule::setProbabilityFactor(float _probabilityFactor)
 void LSystemRule::setGlobalParameters(LSystemParameters* _globalParameters)
 {
     mainCondition.setGlobalParameters(_globalParameters);
-    mainCondition.setModule(&mainModule);
+    mainCondition.setModuleParameters({ &mainModule, &leftConditionModule, &rightConditionModule });
+}
+
+LSystemParameters LSystemRule::getModuleParameters() const
+{
+    LSystemParameters localParameters;
+    localParameters.append(mainModule.convertToParameters());
+    localParameters.append(leftConditionModule.convertToParameters());
+    localParameters.append(rightConditionModule.convertToParameters());
 }
 
 ////////////////////////////////////////

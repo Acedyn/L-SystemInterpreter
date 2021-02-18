@@ -34,7 +34,7 @@ int main()
     testAbstractModule1.setLinkedModule(&testConcreteModule1);
     std::cout << "Test abstractModule1 : " << testAbstractModule1 << std::endl;
     // Test expressions
-    LSystemExpression testExpression1("-7+8/2^2-er+AD", &testAbstractModule1, &testParameters1);
+    LSystemExpression testExpression1("-7+8/2^2-er+AD", { &testAbstractModule1 }, &testParameters1);
     std::cout << "Test expression1 : " 
         << testExpression1.getExpression() 
         << " = " 

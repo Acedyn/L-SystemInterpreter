@@ -18,6 +18,8 @@ public:
     // Operators
     bool operator==(const LSystemParameters& _other) const;
     bool operator!=(const LSystemParameters& _other) const;
+    LSystemParameters operator+(const LSystemParameters& _other) const;
+    void operator+=(const LSystemParameters& _other);
 
     // Setters / Getters
     void addParameter(LSystemParameter _parameter);
@@ -27,6 +29,7 @@ public:
     void removeParameter(int _index);
     std::vector<LSystemParameter> getParameters() const { return parameters; }
     LSystemParameter getParameter(int _index) const;
+    void append(const LSystemParameters& _otherParameters);
 
     // Iterator
     std::vector<LSystemParameter>::iterator begin() { return parameters.begin(); }

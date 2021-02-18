@@ -48,6 +48,7 @@ public:
 
     // GlobalParameters
     void setGlobalParameters(LSystemParameters* _globalParameters);
+    LSystemParameters getModuleParameters() const;
 
     // LinkedModule
     void linkModules(
