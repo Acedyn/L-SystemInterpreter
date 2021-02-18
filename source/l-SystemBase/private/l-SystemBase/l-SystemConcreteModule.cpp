@@ -9,17 +9,27 @@
 ////////////////////////////////////////
 // Constructors / desctructors
 ////////////////////////////////////////
-LSystemConcreteModule::LSystemConcreteModule(char _name, std::vector<float> _parameterValues, LSystemParameters* _parameters) :
+LSystemConcreteModule::LSystemConcreteModule(
+    char _name, 
+    std::vector<float> _parameterValues, 
+    LSystemParameters* _parameters,
+    std::vector<LSystemAbstractModule*> _moduleParameters) :
     name(_name),
-    globalParameters(_parameters)
+    globalParameters(_parameters),
+    moduleParameters(_moduleParameters)
 {
     setParameterValues(_parameterValues);
     matchParameters();
 }
 
-LSystemConcreteModule::LSystemConcreteModule(char _name, std::string _parameterString, LSystemParameters* _parameters) :
+LSystemConcreteModule::LSystemConcreteModule(
+    char _name, 
+    std::string _parameterString, 
+    LSystemParameters* _parameters,
+    std::vector<LSystemAbstractModule*> _moduleParameters) :
     name(_name),
-    globalParameters(_parameters)
+    globalParameters(_parameters),
+    moduleParameters(_moduleParameters)
 {
     setParameterValues(_parameterString);
     matchParameters();
@@ -325,13 +335,31 @@ void LSystemConcreteModule::addParameterValue(std::string _parameterName)
             return;
         }
     }
-    // Loop over all the given parameters to find a match
-    for(auto parametersIterator = globalParameters->begin(); parametersIterator != globalParameters->end(); parametersIterator++)
+    // Loop over all the global parameters to find a match
+    for(LSystemParameter _globalParameter : *globalParameters)
     {
-        if(_parameterName == parametersIterator->name)
+        if(_parameterName == _globalParameter.name)
         {
-            addParameterValue(parametersIterator->value);
+            addParameterValue(_globalParameter.value);
             break;
+        }
+    }
+
+    // Loop over all the module parameters
+    for (LSystemAbstractModule* _moduleParameter : moduleParameters)
+    {
+        // If the module is linked
+        if (!_moduleParameter->isLinked()) { continue; }
+
+        // Loop over all the module's parameters
+        for (LSystemParameter _moduleParameter : _moduleParameter->getParameters())
+        {
+            // If the name of the parameter matches the parsed Parameter's name
+            if (_parameterName == _moduleParameter.name)
+            {
+                addParameterValue(_moduleParameter.value);
+                break;
+            }
         }
     }
 
@@ -354,15 +382,6 @@ bool LSystemConcreteModule::setLinkedModule(LSystemAbstractModule* _module)
         return true;
     }
     return false;
-}
-
-LSystemParameters LSystemConcreteModule::convertToParameters() const
-{
-    // If the module is not linked to an other module cancel the operation
-    if (!isLinked()) { return LSystemParameters(); }
-
-    // Create an LSystemParameters from the parameter names and the parameter values of the linked module
-    return LSystemParameters(getParameterNames(), getParameterValues());
 }
 
 

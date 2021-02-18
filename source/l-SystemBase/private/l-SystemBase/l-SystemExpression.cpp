@@ -200,17 +200,16 @@ float LSystemExpression::parseParameter()
     for(LSystemAbstractModule* _moduleParameter : moduleParameters)
     {
         // If the module is linked
-        if(_moduleParameter->isLinked())
+        if (!_moduleParameter->isLinked()) { continue; }
+
+        // Loop over all the module's parameters
+        for(LSystemParameter _moduleParameter : _moduleParameter->getParameters())
         {
-            // Loop over all the module's parameters
-            for(LSystemParameter _moduleParameter : _moduleParameter->getParameters())
+            // If the name of the parameter matches the parsed Parameter's name
+            if(_parsedParameter == _moduleParameter.name)
             {
-                // If the name of the parameter matches the parsed Parameter's name
-                if(_parsedParameter == _moduleParameter.name)
-                {
-                    // Return the parameter's value
-                    return _moduleParameter.value;
-                }
+                // Return the parameter's value
+                return _moduleParameter.value;
             }
         }
     }

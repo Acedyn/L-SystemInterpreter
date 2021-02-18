@@ -170,9 +170,9 @@ void LSystemRule::setGlobalParameters(LSystemParameters* _globalParameters)
 LSystemParameters LSystemRule::getModuleParameters() const
 {
     LSystemParameters localParameters;
-    localParameters.append(mainModule.convertToParameters());
-    localParameters.append(leftConditionModule.convertToParameters());
-    localParameters.append(rightConditionModule.convertToParameters());
+    localParameters.append(mainModule.getParameters());
+    localParameters.append(leftConditionModule.getParameters());
+    localParameters.append(rightConditionModule.getParameters());
 }
 
 ////////////////////////////////////////

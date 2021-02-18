@@ -269,15 +269,6 @@ bool LSystemAbstractModule::setLinkedModule(LSystemConcreteModule* _module)
     return false;
 }
 
-LSystemParameters LSystemAbstractModule::convertToParameters() const
-{
-    // If the module is not linked to an other module cancel the operation
-    if (!isLinked()) { return LSystemParameters(); }
-
-    // Create an LSystemParameters from the parameter names and the parameter values of the linked module
-    return LSystemParameters(getParameterNames(), getParameterValues());
-}
-
 
 ////////////////////////////////////////
 // LSystemParameters

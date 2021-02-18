@@ -6,26 +6,41 @@
 #include <string>
 #include <iostream>
 
+class LSystemParameters;
+class LSystemAbstractModule;
+
 // Element composed of a name and parameters that can form words
 class LSystemConcreteModule
 {
 public:
     // Constructors / desctructors
-    LSystemConcreteModule(class LSystemParameters* _parameters = nullptr) : 
+    LSystemConcreteModule(LSystemParameters* _parameters = nullptr) : 
         name('\0'), 
         globalParameters(_parameters) { }
-    LSystemConcreteModule(char _name, class LSystemParameters* _parameters = nullptr) : 
-        name(_name), 
-        globalParameters(_parameters) { }
-    LSystemConcreteModule(char _name, std::vector<float> _parameterValues, class LSystemParameters* _parameters = nullptr);
-    LSystemConcreteModule(char _name, std::string _parameterString, class LSystemParameters* _parameters = nullptr);
+    LSystemConcreteModule(
+        char _name, 
+        LSystemParameters* _parameters = nullptr, 
+        std::vector<LSystemAbstractModule*> _moduleParameters = std::vector<LSystemAbstractModule*>()) :
+        name(_name),
+        globalParameters(_parameters),
+        moduleParameters(_moduleParameters) { }
+    LSystemConcreteModule(
+        char _name, 
+        std::vector<float> _parameterValues, 
+        LSystemParameters* _parameters = nullptr,
+        std::vector<LSystemAbstractModule*> _moduleParameters = std::vector<LSystemAbstractModule*>());
+    LSystemConcreteModule(
+        char _name, 
+        std::string _parameterString, 
+        LSystemParameters* _parameters = nullptr,
+        std::vector<LSystemAbstractModule*> _moduleParameters = std::vector<LSystemAbstractModule*>());
     ~LSystemConcreteModule() { }
     
     // Operators
     bool operator==(const LSystemConcreteModule& _other) const;
     bool operator!=(const LSystemConcreteModule& _other) const;
-    bool operator==(const class LSystemAbstractModule& _other) const;
-    bool operator!=(const class LSystemAbstractModule& _other) const;
+    bool operator==(const LSystemAbstractModule& _other) const;
+    bool operator!=(const LSystemAbstractModule& _other) const;
     friend std::ostream& operator<<(std::ostream& stream, const LSystemConcreteModule& _module);
 
     // Module's name
@@ -45,20 +60,25 @@ public:
     void addParameterValue(float _parameterValue);
     void addParameterValue(std::string _parameterValue);
     // Linked module
-    bool setLinkedModule(class LSystemAbstractModule* _module);
+    bool setLinkedModule(LSystemAbstractModule* _module);
     class LSystemAbstractModule* getLinkedModule() const { return linkedModule; }
     bool isLinked() const { return linkedModule != nullptr; }
-    LSystemParameters convertToParameters() const;
     // LSystemParameters
     LSystemParameters getParameters() const;
-
+    // Global parameters
+    LSystemParameters* getGlobalParameters() const { return globalParameters; }
+    void setGlobalParameters(LSystemParameters* _globalParameters) { globalParameters = _globalParameters; }
+    // Module parameters
+    void setModuleParameters(std::vector<LSystemAbstractModule*> _moduleParameters) { moduleParameters = _moduleParameters; };
+    std::vector<LSystemAbstractModule*> getModuleParameters() const { return moduleParameters; }
 
 private:
     // Private variables
     char name;
     std::vector<float> parameterValues;
-    class LSystemParameters* globalParameters = nullptr;
-    class LSystemAbstractModule* linkedModule = nullptr;
+    std::vector<LSystemAbstractModule*> moduleParameters;
+    LSystemParameters* globalParameters = nullptr;
+    LSystemAbstractModule* linkedModule = nullptr;
 
     // Matches the parameters with the linked module
     void matchParameters();
