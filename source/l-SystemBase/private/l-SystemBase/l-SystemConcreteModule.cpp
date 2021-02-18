@@ -2,6 +2,7 @@
 
 #include "l-SystemBase/l-SystemParameters.h"
 #include "l-SystemBase/l-SystemAbstractModule.h"
+#include "l-SystemBase/l-SystemExpression.h"
 
 #include <ctype.h>
 #include <math.h>
@@ -201,94 +202,32 @@ void LSystemConcreteModule::setParameterValues(std::vector<float> _parameterValu
 
 void LSystemConcreteModule::setParameterValues(std::string _parameterString)
 {
-    // Enum to set the parsing parameter type
-    enum class ParameterType
-    {
-        NONE,
-        VALUE,
-        NAME
-    };
-
     // Initialize buffers to store the parsing data
-    bool isFloatingValue = false;
-    int digitCount = 0;
-    float _valueBuffer = 0.0f;
-    float _floatingValueBuffer = 0.0f;
-    std::string _nameBuffer;
-    ParameterType type = ParameterType::NONE;
+    std::string _expressionBuffer;
 
     // Loop over each characters to parse them
     for(char _character : _parameterString)
     {
         // If the character is a space, ignore it
         if (_character == ' ') { continue; }
-        // If the character is a comma we store the content of the buffer en empty them
+        // If the character is a comma we store the content of the buffer and clear it
         else if(_character == ',')
         {
-            switch(type)
-            {
-                case ParameterType::NONE :
-                    break;
-                
-                case ParameterType::VALUE :
-                    addParameterValue(_valueBuffer + (_floatingValueBuffer / static_cast<float>(pow(10, digitCount))));
-                    break;
-
-                case ParameterType::NAME :
-                    addParameterValue(_nameBuffer);
-                    break;
-            }
-
-            _valueBuffer = 0.0f;
-            _floatingValueBuffer = 0.0f;
-            _nameBuffer.clear();
-            type = ParameterType::NONE;
+            LSystemExpression _expression(_expressionBuffer, globalParameters, moduleParameters);
+            addParameterValue(_expression.parseDecimalExpression());
+            _expressionBuffer.clear();
         }
-        // If the character is a number we append it to the value buffer
-        else if (isdigit(_character) && type != ParameterType::NAME)
+        // else, we just add the character to the expression
+        else
         {
-            if (!isFloatingValue)
-            {
-                _valueBuffer = _valueBuffer * 10 + (static_cast<int>(_character) - 48);
-            }
-            else
-            {
-                _floatingValueBuffer = _floatingValueBuffer * 10 + (static_cast<int>(_character) - 48);
-                digitCount++;
-            }
-
-            type = ParameterType::VALUE;
-        }
-        // If the character is a point we switch the value to floating value mode
-        else if (_character == '.' && type == ParameterType::VALUE)
-        {
-        isFloatingValue = true;
-        }
-        // If the character is a letter we append it to the name buffer
-        else if ((isalpha(_character) && type != ParameterType::VALUE) || type == ParameterType::NAME)
-        {
-        _nameBuffer.push_back(_character);
-        type = ParameterType::NAME;
+            _expressionBuffer.push_back(_character);
         }
     }
-    // Store the content of the buffer one last time
-    switch(type)
-    {
-        case ParameterType::NONE :
-            break;
-        
-        case ParameterType::VALUE :
-            addParameterValue(_valueBuffer + (_floatingValueBuffer / static_cast<float>(pow(10, digitCount))));
-            break;
 
-        case ParameterType::NAME :
-            addParameterValue(_nameBuffer);
-            break;
-    }
-    _valueBuffer = 0.0f;
-    _floatingValueBuffer = 0.0f;
-    _nameBuffer.clear();
-    type = ParameterType::NONE;
+    // We store the content of the buffer one last time
+    LSystemExpression _expression(_expressionBuffer, globalParameters, moduleParameters);
+    addParameterValue(_expression.parseDecimalExpression());
+    _expressionBuffer.clear();
 
     matchParameters();
 }

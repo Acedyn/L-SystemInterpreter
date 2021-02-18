@@ -132,6 +132,8 @@ float LSystemExpression::parseNumber()
                 result = result * 10 + (static_cast<int>(*expressionIterator) - 48);
                 // Increment the iterator
                 expressionIterator++;
+                // Security check if we are at the end of the expression
+                if (expressionIterator == expression.end()) { break; }
                 // Cast the character to integer
                 number = static_cast<int>(*expressionIterator) - 48;
             }
@@ -144,6 +146,8 @@ float LSystemExpression::parseNumber()
                 digitCount++;
                 // Increment the iterator
                 expressionIterator++;
+                // Security check if we are at the end of the expression
+                if (expressionIterator == expression.end()) { break; }
                 // Cast the character to integer
                 number = static_cast<int>(*expressionIterator) - 48;
             }
@@ -153,11 +157,13 @@ float LSystemExpression::parseNumber()
         {
             // Switch to parsing numbers after the decimal comma
             isFloatingValue = true;
+            // Increment the iterator
+            expressionIterator++;
+            // Security check if we are at the end of the expression
+            if (expressionIterator == expression.end()) { break; }
+            // Cast the character to integer
+            number = static_cast<int>(*expressionIterator) - 48;
         }
-
-
-        // Security check if we are at the end of the expression
-        if (expressionIterator == expression.end()) { break; }
     }
     // Return the parsed value
     return result + (floatingValueResult / static_cast<float>(pow(10, digitCount)));
@@ -172,7 +178,7 @@ float LSystemExpression::parseParameter()
     // Security check if we are at the end of the expression
     if (expressionIterator == expression.end()) { return 0.0f; }
 
-    while(isalpha(*expressionIterator))
+    while(isalpha(*expressionIterator) || isdigit(*expressionIterator))
     {
         _parsedParameter.push_back(*expressionIterator);
         expressionIterator++;
