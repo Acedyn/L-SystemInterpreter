@@ -220,34 +220,8 @@ void LSystemConcreteModule::setParameterValues(std::string _parameterString)
     // Loop over each characters to parse them
     for(char _character : _parameterString)
     {
-        // If the character is a number we append it to the value buffer
-        if(isdigit(_character) && type != ParameterType::NAME)
-        {
-            if(!isFloatingValue)
-            {
-                _valueBuffer = _valueBuffer * 10 + (static_cast<int>(_character) - 48);
-            }
-            else
-            {
-                _floatingValueBuffer = _floatingValueBuffer * 10 + (static_cast<int>(_character) - 48);
-                digitCount++;
-            }
-            
-            type = ParameterType::VALUE;
-        }
-        // If the character is a point we switch the value to floating value mode
-        else if(_character == '.')
-        {
-            isFloatingValue = true;
-        }
-        // If the character is a letter we append it to the name buffer
-        else if(isalpha(_character) && type != ParameterType::VALUE)
-        {
-            _nameBuffer.push_back(_character);
-            type = ParameterType::NAME;
-        }
         // If the character is a comma we store the content of the buffer en empty them
-        else if(_character == ',')
+        if(_character == ',')
         {
             switch(type)
             {
@@ -267,6 +241,32 @@ void LSystemConcreteModule::setParameterValues(std::string _parameterString)
             _floatingValueBuffer = 0.0f;
             _nameBuffer.clear();
             type = ParameterType::NONE;
+        }
+        // If the character is a number we append it to the value buffer
+        else if (isdigit(_character) && type != ParameterType::NAME)
+        {
+            if (!isFloatingValue)
+            {
+                _valueBuffer = _valueBuffer * 10 + (static_cast<int>(_character) - 48);
+            }
+            else
+            {
+                _floatingValueBuffer = _floatingValueBuffer * 10 + (static_cast<int>(_character) - 48);
+                digitCount++;
+            }
+
+            type = ParameterType::VALUE;
+        }
+        // If the character is a point we switch the value to floating value mode
+        else if (_character == '.' && type == ParameterType::VALUE)
+        {
+        isFloatingValue = true;
+        }
+        // If the character is a letter we append it to the name buffer
+        else if ((isalpha(_character) && type != ParameterType::VALUE) || type == ParameterType::NAME)
+        {
+        _nameBuffer.push_back(_character);
+        type = ParameterType::NAME;
         }
     }
     // Store the content of the buffer one last time
@@ -327,14 +327,6 @@ void LSystemConcreteModule::addParameterValue(std::string _parameterName)
     if(globalParameters == nullptr) { return; }
     // Test if the string is empty
     if(_parameterName.empty()) { return; }
-    // Test if the name of the parameter does contain only letters
-    for(char _character : _parameterName)
-    {
-        if(!isalpha(_character)) 
-        { 
-            return;
-        }
-    }
     // Loop over all the global parameters to find a match
     for(LSystemParameter _globalParameter : *globalParameters)
     {
