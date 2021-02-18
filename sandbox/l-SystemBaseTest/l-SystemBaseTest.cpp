@@ -115,13 +115,13 @@ int main()
     LSystemWord hondaAxiom("A(1, 10)", &hondaParameters);
 
     // Rule 1
-    LSystemRule hondaRule1({ 'A', "s,w" }, { "!(w)F(s)[&(a0)B(s*r2,w*wr)]/(d)A(s*r1,w*wr)", &parameters });
+    LSystemRule hondaRule1({ 'A', "s,w" }, { "!(w)F(s)[&(a0)B(s*r2,w*wr)]/(d)A(s*r1,w*wr)", &hondaParameters });
 
     // Rule 2
-    LSystemRule hondaRule2({ 'B', "s,w" }, { "!(w)F(s)[-(a2)@VC(s*r2,w*wr)]C(s*rl,w*wr)", &parameters });
+    LSystemRule hondaRule2({ 'B', "s,w" }, { "!(w)F(s)[-(a2)@VC(s*r2,w*wr)]C(s*rl,w*wr)", &hondaParameters });
 
     // Rule 3
-    LSystemRule hondaRule3({ 'C', "s,w" }, { "!(w)F(s)[+(a2)@VB(s*r2,w*wr)]B(s*rl,w*wr)", &parameters });
+    LSystemRule hondaRule3({ 'C', "s,w" }, { "!(w)F(s)[+(a2)@VB(s*r2,w*wr)]B(s*rl,w*wr)", &hondaParameters });
 
     // LSystem
     LSystem hondaTreeModel(hondaAxiom, { &hondaRule1, &hondaRule2, &hondaRule3 });

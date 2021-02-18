@@ -202,7 +202,7 @@ void LSystemConcreteModule::setParameterValues(std::vector<float> _parameterValu
 void LSystemConcreteModule::setParameterValues(std::string _parameterString)
 {
     // Enum to set the parsing parameter type
-    enum ParameterType
+    enum class ParameterType
     {
         NONE,
         VALUE,
@@ -221,7 +221,7 @@ void LSystemConcreteModule::setParameterValues(std::string _parameterString)
     for(char _character : _parameterString)
     {
         // If the character is a number we append it to the value buffer
-        if(isdigit(_character))
+        if(isdigit(_character) && type != ParameterType::NAME)
         {
             if(!isFloatingValue)
             {
@@ -241,7 +241,7 @@ void LSystemConcreteModule::setParameterValues(std::string _parameterString)
             isFloatingValue = true;
         }
         // If the character is a letter we append it to the name buffer
-        else if(isalpha(_character))
+        else if(isalpha(_character) && type != ParameterType::VALUE)
         {
             _nameBuffer.push_back(_character);
             type = ParameterType::NAME;

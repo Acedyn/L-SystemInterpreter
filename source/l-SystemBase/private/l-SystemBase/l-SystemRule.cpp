@@ -18,6 +18,7 @@ LSystemRule::LSystemRule(
     probalitityFactor(_probabilityFactor) 
 {
     setGlobalParameters(_globalParameters);
+    derivativeWord.setModuleParameters({ &mainModule, &leftConditionModule, &rightConditionModule });
 }
 
 
@@ -111,7 +112,7 @@ void LSystemRule::setDerivativeWord(LSystemWord _derivativeWord)
 
 void LSystemRule::updateDerivativeWord()
 {
-    
+    derivativeWord.reParseWord();
 }
 
 ////////////////////////////////////////
@@ -169,10 +170,12 @@ void LSystemRule::setGlobalParameters(LSystemParameters* _globalParameters)
 
 LSystemParameters LSystemRule::getModuleParameters() const
 {
-    LSystemParameters localParameters;
-    localParameters.append(mainModule.getParameters());
-    localParameters.append(leftConditionModule.getParameters());
-    localParameters.append(rightConditionModule.getParameters());
+    LSystemParameters _localParameters;
+    _localParameters.append(mainModule.getParameters());
+    _localParameters.append(leftConditionModule.getParameters());
+    _localParameters.append(rightConditionModule.getParameters());
+
+    return _localParameters;
 }
 
 ////////////////////////////////////////

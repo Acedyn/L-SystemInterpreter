@@ -8,9 +8,13 @@
 ////////////////////////////////////////
 // Constructors / desctructors
 ////////////////////////////////////////
-LSystemWord::LSystemWord(std::string _word, LSystemParameters* _parameters) :
+LSystemWord::LSystemWord(
+    std::string _word, 
+    LSystemParameters* _parameters,
+    std::vector<LSystemAbstractModule*> _moduleParameters) :
+    originalString(_word),
     parameters(_parameters),
-    originalString(_word)
+    moduleParameters(_moduleParameters)
 {
     // We parse the input string into modules of commands
     parseWord();
@@ -105,7 +109,7 @@ void LSystemWord::parseWord()
         else if(_character != '(' && isParsingParameter == false)
         {
             // Append the module with only a name
-            appendModule(LSystemConcreteModule(_nameBuffer, parameters));
+            appendModule(LSystemConcreteModule(_nameBuffer, parameters, moduleParameters));
             // Clear the buffers and initialize the name buffer
             _nameBuffer = _character;
             _parametersBuffer.clear();
@@ -127,7 +131,7 @@ void LSystemWord::parseWord()
         else if(_character == ')' && isParsingParameter == true)
         {
             // Append the module with the name and the parameters
-            appendModule(LSystemConcreteModule(_nameBuffer, _parametersBuffer, parameters));
+            appendModule(LSystemConcreteModule(_nameBuffer, _parametersBuffer, parameters, moduleParameters));
             // Clear the buffers
             _nameBuffer = '\0';
             _parametersBuffer.clear();

@@ -111,6 +111,8 @@ void LSystem::iterate()
             {
                 //Store the result
                 _match = true;
+                // Update the derivative word to get the right module parameters
+                _rule->updateDerivativeWord();
                 // Append the derivative word of the rule to the future outputWord
                 _newWord->appendWord(_rule->getDerivativeWord());
                 // Stop iterating over the rules for this module
