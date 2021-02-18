@@ -99,8 +99,10 @@ void LSystemWord::parseWord()
     // Loop over all the characters of the word
     for(char _character : originalString)
     {
+        // If the character is a space, ignore it
+        if (_character == ' ') { continue; }
         // If no name is set and we are not parsing parameters
-        if(_nameBuffer == '\0' && isParsingParameter == false)
+        else if(_nameBuffer == '\0' && isParsingParameter == false)
         {
             // Store the current character as the name
             _nameBuffer = _character;

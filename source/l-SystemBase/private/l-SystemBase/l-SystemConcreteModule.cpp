@@ -220,8 +220,10 @@ void LSystemConcreteModule::setParameterValues(std::string _parameterString)
     // Loop over each characters to parse them
     for(char _character : _parameterString)
     {
+        // If the character is a space, ignore it
+        if (_character == ' ') { continue; }
         // If the character is a comma we store the content of the buffer en empty them
-        if(_character == ',')
+        else if(_character == ',')
         {
             switch(type)
             {

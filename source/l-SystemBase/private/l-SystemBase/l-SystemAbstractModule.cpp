@@ -149,12 +149,8 @@ void LSystemAbstractModule::setParameterNames(std::string _parameterNames)
     // Loop over all the character of the string
     for(char _character : _parameterNames)
     {
-        // If the character is a letter
-        if(isalpha(_character))
-        {
-            // Append it to the name buffer
-            _nameBuffer.push_back(_character);
-        }
+        // If the character is a space, ignore it
+        if (_character == ' ') { continue; }
         // If the character is a comma and the name buffer is not empty
         else if(_character == ',' && !_nameBuffer.empty())
         {
@@ -162,6 +158,11 @@ void LSystemAbstractModule::setParameterNames(std::string _parameterNames)
             addParameterName(_nameBuffer);
             // Clear the name buffer
             _nameBuffer.clear();
+        }
+        else
+        {
+            // Append it to the name buffer
+            _nameBuffer.push_back(_character);
         }
     }
 
