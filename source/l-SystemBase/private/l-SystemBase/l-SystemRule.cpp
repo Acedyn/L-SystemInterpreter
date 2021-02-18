@@ -96,7 +96,9 @@ void LSystemRule::setMainModule(LSystemAbstractModule _mainModule)
 }
 void LSystemRule::linkMainModule(LSystemConcreteModule* _mainModuleLink)
 {
+    if (_mainModuleLink == nullptr) { return; }
     mainModule.setLinkedModule(_mainModuleLink);
+    _mainModuleLink->setLinkedModule(&mainModule);
 }
 
 ////////////////////////////////////////
@@ -105,6 +107,11 @@ void LSystemRule::linkMainModule(LSystemConcreteModule* _mainModuleLink)
 void LSystemRule::setDerivativeWord(LSystemWord _derivativeWord)
 {
     derivativeWord = _derivativeWord;
+}
+
+void LSystemRule::updateDerivativeWord()
+{
+    
 }
 
 ////////////////////////////////////////
@@ -126,7 +133,9 @@ void LSystemRule::setLeftConditionModule(LSystemAbstractModule _leftConditionMod
 
 void LSystemRule::linkLeftModule(LSystemConcreteModule* _leftModuleLink)
 {
+    if (_leftModuleLink == nullptr) { return; }
     leftConditionModule.setLinkedModule(_leftModuleLink);
+    _leftModuleLink->setLinkedModule(&leftConditionModule);
 }
 
 void LSystemRule::setRightConditionModule(LSystemAbstractModule _rightConditionModule)
@@ -136,7 +145,9 @@ void LSystemRule::setRightConditionModule(LSystemAbstractModule _rightConditionM
 
 void LSystemRule::linkRightModule(LSystemConcreteModule* _rightModuleLink)
 {
+    if (_rightModuleLink == nullptr) { return; }
     rightConditionModule.setLinkedModule(_rightModuleLink);
+    _rightModuleLink->setLinkedModule(&rightConditionModule);
 }
 
 ////////////////////////////////////////

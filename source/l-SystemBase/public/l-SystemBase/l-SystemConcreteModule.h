@@ -48,6 +48,7 @@ public:
     bool setLinkedModule(class LSystemAbstractModule* _module);
     class LSystemAbstractModule* getLinkedModule() const { return linkedModule; }
     bool isLinked() const { return linkedModule != nullptr; }
+    LSystemParameters convertToParameters();
     // LSystemParameters
     LSystemParameters getParameters() const;
 

@@ -9,10 +9,21 @@
 // Constructors / desctructors
 ////////////////////////////////////////
 LSystemWord::LSystemWord(std::string _word, LSystemParameters* _parameters) :
-    parameters(_parameters)
+    parameters(_parameters),
+    originalString(_word)
 {
     // We parse the input string into modules of commands
-    parseWord(_word);
+    parseWord();
+}
+
+void LSystemWord::reParseWord()
+{
+    // Clear the already parsed word to start from scratch
+    modules.clear();
+
+    // reparse the input string into modules of commands 
+    // (usefull if the parameters has been updated)
+    parseWord();
 }
 
 
@@ -74,7 +85,7 @@ void LSystemWord::appendWord(LSystemWord _word)
 ////////////////////////////////////////
 // Private functions
 ////////////////////////////////////////
-void LSystemWord::parseWord(std::string _word)
+void LSystemWord::parseWord()
 {
     // Initialize buffers to store the parsing data
     char _nameBuffer = '\0';
@@ -82,7 +93,7 @@ void LSystemWord::parseWord(std::string _word)
     bool isParsingParameter = false;
 
     // Loop over all the characters of the word
-    for(char _character : _word)
+    for(char _character : originalString)
     {
         // If no name is set and we are not parsing parameters
         if(_nameBuffer == '\0' && isParsingParameter == false)

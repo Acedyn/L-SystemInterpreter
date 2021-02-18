@@ -16,6 +16,8 @@ public:
     LSystemWord(std::string _word, class LSystemParameters* _parameters = nullptr);
     ~LSystemWord() { }
 
+    void reParseWord();
+
     // Operators
     bool operator==(const LSystemWord& _other) const;
     bool operator!=(const LSystemWord& _other) const;
@@ -25,6 +27,8 @@ public:
     void appendModule(LSystemConcreteModule _module);
     void appendWord(LSystemWord _word);
     std::vector<LSystemConcreteModule> getModules() const { return modules; }
+    LSystemParameters* getParameters() const { return parameters; }
+    void setParameters(LSystemParameters* _parameters) { parameters = _parameters; }
 
     // Iterator
     std::vector<LSystemConcreteModule>::iterator begin() { return modules.begin(); }
@@ -32,9 +36,10 @@ public:
 
 private:
     // Private functions
-    void parseWord(std::string _word);
+    void parseWord();
 
     // Private variables
     std::vector<LSystemConcreteModule> modules;
     class LSystemParameters* parameters = nullptr;
+    std::string originalString;
 };

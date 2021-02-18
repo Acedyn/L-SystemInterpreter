@@ -46,6 +46,7 @@ public:
     bool setLinkedModule(class LSystemConcreteModule* _module);
     class LSystemConcreteModule* getLinkedModule() const { return linkedModule; }
     bool isLinked() const { return linkedModule != nullptr; }
+    LSystemParameters convertToParameters();
     // LSystemParameters
     LSystemParameters getParameters() const;
 

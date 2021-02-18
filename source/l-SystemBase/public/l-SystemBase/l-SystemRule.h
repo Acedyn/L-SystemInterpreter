@@ -28,6 +28,7 @@ public:
     // Derivative word
     void setDerivativeWord(class LSystemWord _derivativeWord);
     LSystemWord getDerivativeWord() const { return derivativeWord; }
+    void updateDerivativeWord();
 
     // Main condition
     void setMainCondition(LSystemExpression _mainCondition, LSystemParameters* _globalParameters = nullptr);
