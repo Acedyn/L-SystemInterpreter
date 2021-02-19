@@ -85,12 +85,12 @@ bool LSystemAbstractModule::operator==(const LSystemConcreteModule& _other) cons
 bool LSystemAbstractModule::operator!=(const LSystemConcreteModule& _other) const
 {
     // Test if the two modules have the same name
-    if(name == _other.getName()) { return false; }
+    if (name != _other.getName()) { return true; }
     // Test if the two modules have as many parameters
-    if(parameterNames.size() == _other.getParameterValues().size()) { return false; }
+    if (parameterNames.size() != _other.getParameterValues().size()) { return true; }
 
     // If everything is ok
-    return true;
+    return false;
 }
 
 std::ostream& operator<<(std::ostream& stream, const LSystemAbstractModule& _module)
