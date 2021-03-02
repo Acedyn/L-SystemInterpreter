@@ -1,7 +1,10 @@
 #include "l-SystemDraw/l-SystemTurtle.h"
 #include "l-SystemDraw/l-SystemDrawBuffer.h"
-#include "l-SystemDraw/l-SystemOutputUSD.h"
 #include "l-SystemDraw/l-SystemReader.h"
+
+#ifdef pxr_FOUND
+    #include "l-SystemDraw/l-SystemOutputUSD.h"
+#endif
 
 #include <iostream>
 
@@ -38,7 +41,11 @@ int main()
     std::cout << "########################################" << std::endl;
     std::cout << "TESTING export : " << std::endl << std::endl;
 
-    std::cout << "Test exportUSD1: " << testReader1->getDrawBuffer().exportUSD("LSystem", "./l-SystemDrawTest.usda") << std::endl;
+    #ifdef pxr_FOUND
+        std::cout << "Test exportUSD1: " << testReader1->getDrawBuffer().exportUSD("LSystem", "./l-SystemDrawTest.usda") << std::endl;
+    #else
+        std::cout << "USD not found" << std::endl;
+    #endif
 
     std::cout << std::endl << "Export test COMPLETED" << std::endl << std::endl << std::endl;
 

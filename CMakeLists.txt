@@ -28,6 +28,9 @@ find_package(Imath REQUIRED)
 
 # Find usd
 find_package(pxr QUIET)
+if(${pxr_FOUND})
+    add_definitions(-Dpxr_FOUND)
+endif()
 
 
 ########################################

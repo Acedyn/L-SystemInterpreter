@@ -29,8 +29,10 @@ namespace LSystem
         bool setIndices(std::vector<int> _indices);
 
         // Export
-        class OutputUSD exportUSD(std::string _root);
-        class OutputUSD exportUSD(std::string _root, std::string _location);
+        #ifdef pxr_FOUND
+            class OutputUSD exportUSD(std::string _root);
+            class OutputUSD exportUSD(std::string _root, std::string _location);
+        #endif
 
     private:
         std::vector<Imath::V3f> vertices;

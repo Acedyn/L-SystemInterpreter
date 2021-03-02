@@ -1,6 +1,8 @@
 #include "l-SystemDraw/l-SystemDrawBuffer.h"
 
-#include "l-SystemDraw/l-SystemOutputUSD.h"
+#ifdef pxr_FOUND
+    #include "l-SystemDraw/l-SystemOutputUSD.h"
+#endif
 
 ////////////////////////////////////////
 // Operators
@@ -136,30 +138,32 @@ bool LSystem::DrawBuffer::setIndices(std::vector<int> _indices)
 // Export
 ////////////////////////////////////////
 
-LSystem::OutputUSD LSystem::DrawBuffer::exportUSD(std::string _root)
-{
-    LSystem::OutputUSD _exportUSD(_root);
+#ifdef pxr_FOUND
+    LSystem::OutputUSD LSystem::DrawBuffer::exportUSD(std::string _root)
+    {
+        LSystem::OutputUSD _exportUSD(_root);
 
-    // Convert std::vector vertices to pxr::VtArray vertices
-    pxr::VtArray<pxr::GfVec3f> _vertices;
-    _vertices.reserve(vertices.size());
-    for (Imath::V3f _vertex : vertices) { _vertices.emplace_back(pxr::GfVec3f(_vertex.x, _vertex.y, _vertex.z)); }
-    // Create the faces vertex count
-    pxr::VtArray<int> _faceVertexCount(indices.size() / 2, 2);
-    // Convert std::vector indices to pxr::VtArray indices
-    pxr::VtArray<int> _faceIndices(indices.begin(), indices.end());
+        // Convert std::vector vertices to pxr::VtArray vertices
+        pxr::VtArray<pxr::GfVec3f> _vertices;
+        _vertices.reserve(vertices.size());
+        for (Imath::V3f _vertex : vertices) { _vertices.emplace_back(pxr::GfVec3f(_vertex.x, _vertex.y, _vertex.z)); }
+        // Create the faces vertex count
+        pxr::VtArray<int> _faceVertexCount(indices.size() / 2, 2);
+        // Convert std::vector indices to pxr::VtArray indices
+        pxr::VtArray<int> _faceIndices(indices.begin(), indices.end());
 
-    std::cout << std::endl;
+        std::cout << std::endl;
 
-    _exportUSD.setMesh(_vertices, _faceVertexCount, _faceIndices);
-    return _exportUSD;
-}
+        _exportUSD.setMesh(_vertices, _faceVertexCount, _faceIndices);
+        return _exportUSD;
+    }
 
 
-LSystem::OutputUSD LSystem::DrawBuffer::exportUSD(std::string _root, std::string _location)
-{
-    LSystem::OutputUSD _exportUSD = exportUSD(_root);
-    _exportUSD.writeToDisk(_location);
+    LSystem::OutputUSD LSystem::DrawBuffer::exportUSD(std::string _root, std::string _location)
+    {
+        LSystem::OutputUSD _exportUSD = exportUSD(_root);
+        _exportUSD.writeToDisk(_location);
 
-    return _exportUSD;
-}
+        return _exportUSD;
+    }
+#endif
